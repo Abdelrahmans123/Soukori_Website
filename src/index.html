@@ -31,7 +31,7 @@
 							<a class="nav-link" href="index.html">Home</a>
 						</li>
 						<li class="nav-item me-4">
-							<a class="nav-link" href="shop.html">Shop</a>
+							<a class="nav-link" href="/src/pages/Product/product.html">Shop</a>
 						</li>
 						<li class="nav-item me-4">
 							<a class="nav-link" href="categories.html">Categories</a>
@@ -70,13 +70,17 @@
 					</a>
 
 					<!-- Auth Section -->
-					<div class="authButtons d-none d-lg-flex">
-						<button type="button" class="btn btn-outline-primary">
+					<div class="authButtons d-none ">
+						<a href="pages/Auth/login.html">
+						<button type="button" class="btn btn-outline-dark">
 							<i class="fas fa-sign-in-alt me-1"></i> Login
 						</button>
-						<button type="button" class="btn btn-outline-success">
+						</a>
+						<a href="pages/Auth/register.html">
+                        <button type="button" class="btn btn-outline-dark">
 							<i class="fas fa-user-plus me-1"></i> Register
 						</button>
+						</a>
 					</div>
 
 					<!-- Dropdown User  -->
@@ -743,5 +747,6 @@
 		</footer>
 		<script src="javascripts/Bootstrap/bootstrap.bundle.min.js"></script>
 		<script src="javascripts/General/main.js" type="module"></script>
+	    <script src="javascripts/Auth/auth.js" type="module"></script>
 	</body>
 </html>

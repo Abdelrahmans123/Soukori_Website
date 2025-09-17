@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>SOUKORI - Product Details</title>
+		<!-- Favicon -->
+		<link rel="icon" type="image/x-icon" href="../assets/image/icon.ico" />
+		<link rel="stylesheet" href="../styles/Bootstrap/bootstrap.min.css" />
+		<link rel="stylesheet" href="../styles/Font Awesome/all.min.css" />
+		<link rel="stylesheet" href="../styles/General/general.css" />
+		<link rel="stylesheet" href="../styles/General/discountAlert.css" />
+		<link rel="stylesheet" href="../styles/General/navBar.css" />
+		<link rel="stylesheet" href="../styles/General/breadcrump.css" />
+		<link
+			rel="stylesheet"
+			href="../styles/ProductDetails/imagesContainer.css"
+		/>
+		<link rel="stylesheet" href="../styles/ProductDetails/productDetails.css" />
+		<link rel="stylesheet" href="../styles/ProductDetails/colors.css" />
+		<link rel="stylesheet" href="../styles/ProductDetails/size.css" />
+		<link
+			rel="stylesheet"
+			href="../styles/ProductDetails/purchaseOptions.css"
+		/>
+		<link rel="stylesheet" href="../styles/ProductDetails/tabs.css" />
+		<link rel="stylesheet" href="../styles/ProductDetails/featuresList.css" />
+		<link rel="stylesheet" href="../styles/ProductDetails/review.css" />
+		<link rel="stylesheet" href="../styles/ProductDetails/filter.css" />
+		<link rel="stylesheet" href="../styles/ProductDetails/mightLike.css" />
+		<link rel="stylesheet" href="../styles/General/newsletter.css" />
+		<link rel="stylesheet" href="../styles/General/footer.css" />
+		<link rel="stylesheet" href="../styles/ProductDetails/mediaQuery.css" />
+		<link rel="stylesheet" href="../styles/style.css" />
+	</head>
+	<body>
+		<!-- End Discount Alert -->
+		<!-- Start Nav Bar -->
+		<nav class="navbar navbar-expand-lg navbar-light bg-white">
+			<div class="container flex-nowrap position-relative">
+				<button
+					class="navbar-toggler border-0"
+					type="button"
+					data-bs-toggle="collapse"
+					data-bs-target="#navbarNav"
+				>
+					<i class="fas fa-bars"></i>
+				</button>
+				<a class="navbar-brand" href="index.html">SOUKORI</a>
+
+				<div class="collapse navbar-collapse" id="navbarNav">
+					<ul class="navbar-nav m-auto">
+						<li class="nav-item me-4">
+							<a class="nav-link" href="index.html">Home</a>
+						</li>
+						<li class="nav-item me-4">
+							<a class="nav-link" href="shop.html">Shop</a>
+						</li>
+						<li class="nav-item me-4">
+							<a class="nav-link" href="categories.html">Categories</a>
+						</li>
+						<li class="nav-item me-4">
+							<a class="nav-link" href="deals.html">Deals</a>
+						</li>
+					</ul>
+				</div>
+
+				<!-- Icons section -->
+				<div class="nav-icons d-flex justify-content-around align-items-center">
+					<!-- Search Desktop -->
+					<form class="searchInput d-none d-lg-flex me-3">
+						<input
+							class="form-control"
+							type="search"
+							placeholder="Search for products..."
+							aria-label="Search"
+						/>
+						<i class="fas fa-search searchIcon"></i>
+					</form>
+
+					<!-- Search Mobile -->
+					<div class="mobile-icons d-lg-none">
+						<i class="fas fa-search icon"></i>
+					</div>
+
+					<!-- Cart -->
+					<a href="#" class="text-dark position-relative mx-3 d-none">
+						<i class="fas fa-shopping-cart"></i>
+						<span
+							class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+							>3</span
+						>
+					</a>
+
+					<!-- Auth Section -->
+					<div class="authButtons d-none d-lg-flex">
+						<button type="button" class="btn btn-outline-primary">
+							<i class="fas fa-sign-in-alt me-1"></i> Login
+						</button>
+						<button type="button" class="btn btn-outline-success">
+							<i class="fas fa-user-plus me-1"></i> Register
+						</button>
+					</div>
+
+					<!-- Dropdown User  -->
+					<div class="dropdown user-dropdown d-none">
+						<a
+							class="dropdown-toggle text-dark"
+							href="#"
+							role="button"
+							id="userDropdown"
+							data-bs-toggle="dropdown"
+							aria-expanded="false"
+						>
+							<i class="fas fa-user-check"></i>
+						</a>
+						<ul
+							class="dropdown-menu dropdown-menu-end"
+							aria-labelledby="userDropdown"
+						>
+							<li>
+								<a class="dropdown-item" href="#">Profile</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="#">Orders</a>
+							</li>
+							<li>
+								<hr class="dropdown-divider" />
+							</li>
+							<li>
+								<a class="dropdown-item" href="#" id="logoutBtn">Logout</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</nav>
+		<!-- End Nav Bar -->
+
+		<!-- Start Main Content -->
+		<main class="container my-5">
+			<div class="breadcrumbContainer">
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item">
+							<a href="#">Home</a>
+							<i class="fa-solid fa-chevron-right"></i>
+						</li>
+						<li class="breadcrumb-item">
+							<a href="#">Shop</a>
+							<i class="fa-solid fa-chevron-right"></i>
+						</li>
+						<li class="breadcrumb-item">
+							<a href="#">Men</a>
+							<i class="fa-solid fa-chevron-right"></i>
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">T-Shirts</li>
+					</ol>
+				</nav>
+			</div>
+			<div class="row">
+				<div class="col-lg-6 col-md-12">
+					<div class="imagesContainer d-flex">
+						<div class="subImages">
+							<img
+								src="../assets/image/products/brownT-ShirtFirst.png"
+								alt="Product Image"
+								class="active"
+							/>
+							<img
+								src="../assets/image/products/brownT-ShirtSecond.png"
+								alt="Product Image"
+							/>
+							<img
+								src="../assets/image/products/brownT-ShirtThird.png"
+								alt="Product Image"
+							/>
+						</div>
+						<div class="mainImage">
+							<img
+								src="../assets/image/products/brownT-ShirtMain.png"
+								alt="Product Image"
+							/>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6 col-md-12">
+					<div class="productDetails">
+						<h2>One Life Graphic T-shirt</h2>
+						<div class="rate">
+							<i class="fa-solid fa-star rate_star"></i>
+							<i class="fa-solid fa-star rate_star"></i>
+							<i class="fa-solid fa-star rate_star"></i>
+							<i class="fa-solid fa-star rate_star"></i>
+							<i class="fa-regular fa-star rate_star inactive"></i>
+							<span>(4.0)</span>
+						</div>
+						<div class="price">
+							<span class="currentPrice">$260</span>
+							<span class="oldPrice">$300</span>
+							<span class="discount">-13%</span>
+						</div>
+						<div class="description">
+							<p>
+								This graphic t-shirt which is perfect for any occasion. Crafted
+								from a soft and breathable fabric, it offers superior comfort
+								and style.
+							</p>
+						</div>
+						<div class="colors">
+							<h6>Select Colors</h6>
+							<div class="colorOptions">
+								<div class="colorOption darkBrown">
+									<i class="fa-solid fa-check checkIcon"></i>
+								</div>
+								<div class="colorOption darkGreen"></div>
+								<div class="colorOption darkPurple"></div>
+							</div>
+						</div>
+						<div class="size">
+							<h6>Select Size</h6>
+							<div class="sizeOptions">
+								<div class="sizeOption">
+									<p>Small</p>
+								</div>
+								<div class="sizeOption">
+									<p>Medium</p>
+								</div>
+								<div class="sizeOption active">
+									<p>Large</p>
+								</div>
+								<div class="sizeOption">
+									<p>Extra Large</p>
+								</div>
+							</div>
+						</div>
+						<div class="purchaseOptions">
+							<div class="quantity">
+								<div class="counter">
+									<div class="removeIcon">
+										<i class="fa-solid fa-minus"></i>
+									</div>
+									<div class="number">1</div>
+									<div class="addIcon">
+										<i class="fa-solid fa-plus"></i>
+									</div>
+								</div>
+							</div>
+							<button class="btn addToCartBtn">
+								<i class="fa-solid fa-cart-plus me-2"></i> Add to Cart
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<ul class="nav nav-pills my-3" id="pills-tab" role="tablist">
+				<li class="nav-item" role="presentation">
+					<button
+						class="nav-link tabLink"
+						id="pills-product-details-tab"
+						data-bs-toggle="pill"
+						data-bs-target="#pills-product-details"
+						type="button"
+						role="tab"
+						aria-controls="pills-product-details"
+						aria-selected="true"
+					>
+						Product Details
+					</button>
+				</li>
+				<li class="nav-item" role="presentation">
+					<button
+						class="nav-link tabLink active"
+						id="pills-rating-tab"
+						data-bs-toggle="pill"
+						data-bs-target="#pills-rating"
+						type="button"
+						role="tab"
+						aria-controls="pills-rating"
+						aria-selected="false"
+					>
+						Rating & Reviews
+					</button>
+				</li>
+				<li class="nav-item" role="presentation">
+					<button
+						class="nav-link tabLink"
+						id="pills-faq-tab"
+						data-bs-toggle="pill"
+						data-bs-target="#pills-faq"
+						type="button"
+						role="tab"
+						aria-controls="pills-faq"
+						aria-selected="false"
+					>
+						FAQs
+					</button>
+				</li>
+			</ul>
+			<div class="tab-content" id="pills-tabContent">
+				<div
+					class="tab-pane fade"
+					id="pills-product-details"
+					role="tabpanel"
+					aria-labelledby="pills-product-details-tab"
+					tabindex="0"
+				>
+					<div class="features-list">
+						<h4><i class="fas fa-star me-2"></i>Key Features</h4>
+						<ul>
+							<li>
+								<strong>Premium 100% Cotton Fabric</strong> - Soft, breathable,
+								and naturally hypoallergenic
+							</li>
+							<li>
+								<strong>Modern Graphic Design</strong> - Eye-catching "One Life"
+								print with fade-resistant inks
+							</li>
+							<li>
+								<strong>Relaxed Comfort Fit</strong> - Perfect balance of style
+								and comfort for everyday wear
+							</li>
+							<li>
+								<strong>Pre-Shrunk Construction</strong> - Maintains shape and
+								size wash after wash
+							</li>
+							<li>
+								<strong>Reinforced Seams</strong> - Double-stitched for enhanced
+								durability and longevity
+							</li>
+							<li>
+								<strong>Multiple Color Options</strong> - Available in Brown,
+								Forest Green, and Deep Purple
+							</li>
+							<li>
+								<strong>Size Range</strong> - Small to Extra Large for the
+								perfect fit
+							</li>
+							<li>
+								<strong>Machine Washable</strong> - Easy care for busy
+								lifestyles
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div
+					class="tab-pane fade show active"
+					id="pills-rating"
+					role="tabpanel"
+					aria-labelledby="pills-rating-tab"
+					tabindex="0"
+				>
+					<div class="reviewTop row align-items-center mb-3">
+						<div class="col-12 col-md-6">
+							<h3 class="reviewHeader">All Reviews <span>(451)</span></h3>
+						</div>
+						<div class="col-12 col-md-6 mt-2 mt-md-0">
+							<div
+								class="filter d-flex flex-wrap justify-content-md-end justify-content-start gap-2"
+							>
+								<div
+									class="slider d-flex align-items-center justify-content-center"
+								>
+									<i class="fa-solid fa-sliders"></i>
+								</div>
+								<div
+									class="latest d-flex justify-content-between align-items-center"
+								>
+									<p class="mb-0">Latest</p>
+									<i class="fa-solid fa-caret-down ms-2"></i>
+								</div>
+								<div class="writeBtn">
+									<button class="btn w-100">
+										<i class="fa-solid fa-pencil"></i> Write a Review
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Reviews -->
+					<div class="row row-cols-1 row-cols-md-2 g-4 reviewsContainer">
+						<div class="col">
+							<div class="card">
+								<div class="card-body">
+									<div
+										class="topCard d-flex justify-content-between align-items-center"
+									>
+										<div class="stars">
+											<i class="fa-solid fa-star starIcon"></i>
+											<i class="fa-solid fa-star starIcon"></i>
+											<i class="fa-solid fa-star starIcon"></i>
+											<i class="fa-solid fa-star starIcon"></i>
+											<i class="fa-solid fa-star starIcon"></i>
+										</div>
+										<div class="review_dots">
+											<i class="fa-solid fa-ellipsis dots"></i>
+										</div>
+									</div>
+									<div class="cardTitle d-flex align-items-center">
+										<h5 class="card-title">Abdelrahman Salah</h5>
+										<i
+											class="fa-solid fa-circle-check fs-5 ms-1 checkCircle"
+										></i>
+									</div>
+									<p class="card-text">
+										"I absolutely love this t-shirt! The design is unique and
+										the fabric feels so comfortable. As a fellow designer, I
+										appreciate the attention to detail. It's become my favorite
+										go-to shirt."
+									</p>
+									<p class="postDate">Posted on August 14, 2025</p>
+								</div>
+							</div>
+						</div>
+						<div class="col">
+							<div class="card">
+								<div class="card-body">
+									<div
+										class="topCard d-flex justify-content-between align-items-center"
+									>
+										<div class="stars">
+											<i class="fa-solid fa-star starIcon"></i>
+											<i class="fa-solid fa-star starIcon"></i>
+											<i class="fa-solid fa-star starIcon"></i>
+											<i class="fa-solid fa-star starIcon"></i>
+											<i class="fa-solid fa-star starIcon"></i>
+										</div>
+										<div class="review_dots">
+											<i class="fa-solid fa-ellipsis dots"></i>
+										</div>
+									</div>
+									<div class="cardTitle d-flex align-items-center">
+										<h5 class="card-title">Abdelrahman Salah</h5>
+										<i
+											class="fa-solid fa-circle-check fs-5 ms-1 checkCircle"
+										></i>
+									</div>
+									<p class="card-text">
+										"I absolutely love this t-shirt! The design is unique and
+										the fabric feels so comfortable. As a fellow designer, I
+										appreciate the attention to detail. It's become my favorite
+										go-to shirt."
+									</p>
+									<p class="postDate">Posted on August 14, 2025</p>
+								</div>
+							</div>
+						</div>
+						<div class="col">
+							<div class="card">
+								<div class="card-body">
+									<div
+										class="topCard d-flex justify-content-between align-items-center"
+									>
+										<div class="stars">
+											<i class="fa-solid fa-star starIcon"></i>
+											<i class="fa-solid fa-star starIcon"></i>
+											<i class="fa-solid fa-star starIcon"></i>
+											<i class="fa-solid fa-star starIcon"></i>
+											<i class="fa-solid fa-star starIcon"></i>
+										</div>
+										<div class="review_dots">
+											<i class="fa-solid fa-ellipsis dots"></i>
+										</div>
+									</div>
+									<div class="cardTitle d-flex align-items-center">
+										<h5 class="card-title">Abdelrahman Salah</h5>
+										<i
+											class="fa-solid fa-circle-check fs-5 ms-1 checkCircle"
+										></i>
+									</div>
+									<p class="card-text">
+										"I absolutely love this t-shirt! The design is unique and
+										the fabric feels so comfortable. As a fellow designer, I
+										appreciate the attention to detail. It's become my favorite
+										go-to shirt."
+									</p>
+									<p class="postDate">Posted on August 14, 2025</p>
+								</div>
+							</div>
+						</div>
+						<div class="col">
+							<div class="card">
+								<div class="card-body">
+									<div
+										class="topCard d-flex justify-content-between align-items-center"
+									>
+										<div class="stars">
+											<i class="fa-solid fa-star starIcon"></i>
+											<i class="fa-solid fa-star starIcon"></i>
+											<i class="fa-solid fa-star starIcon"></i>
+											<i class="fa-solid fa-star starIcon"></i>
+											<i class="fa-solid fa-star starIcon"></i>
+										</div>
+										<div class="review_dots">
+											<i class="fa-solid fa-ellipsis dots"></i>
+										</div>
+									</div>
+									<div class="cardTitle d-flex align-items-center">
+										<h5 class="card-title">Abdelrahman Salah</h5>
+										<i
+											class="fa-solid fa-circle-check fs-5 ms-1 checkCircle"
+										></i>
+									</div>
+									<p class="card-text">
+										"I absolutely love this t-shirt! The design is unique and
+										the fabric feels so comfortable. As a fellow designer, I
+										appreciate the attention to detail. It's become my favorite
+										go-to shirt."
+									</p>
+									<p class="postDate">Posted on August 14, 2025</p>
+								</div>
+							</div>
+						</div>
+						<div class="col">
+							<div class="card">
+								<div class="card-body">
+									<div
+										class="topCard d-flex justify-content-between align-items-center"
+									>
+										<div class="stars">
+											<i class="fa-solid fa-star starIcon"></i>
+											<i class="fa-solid fa-star starIcon"></i>
+											<i class="fa-solid fa-star starIcon"></i>
+											<i class="fa-solid fa-star starIcon"></i>
+											<i class="fa-solid fa-star starIcon"></i>
+										</div>
+										<div class="review_dots">
+											<i class="fa-solid fa-ellipsis dots"></i>
+										</div>
+									</div>
+									<div class="cardTitle d-flex align-items-center">
+										<h5 class="card-title">Abdelrahman Salah</h5>
+										<i
+											class="fa-solid fa-circle-check fs-5 ms-1 checkCircle"
+										></i>
+									</div>
+									<p class="card-text">
+										"I absolutely love this t-shirt! The design is unique and
+										the fabric feels so comfortable. As a fellow designer, I
+										appreciate the attention to detail. It's become my favorite
+										go-to shirt."
+									</p>
+									<p class="postDate">Posted on August 14, 2025</p>
+								</div>
+							</div>
+						</div>
+						<div class="col">
+							<div class="card">
+								<div class="card-body">
+									<div
+										class="topCard d-flex justify-content-between align-items-center"
+									>
+										<div class="stars">
+											<i class="fa-solid fa-star starIcon"></i>
+											<i class="fa-solid fa-star starIcon"></i>
+											<i class="fa-solid fa-star starIcon"></i>
+											<i class="fa-solid fa-star starIcon"></i>
+											<i class="fa-solid fa-star starIcon"></i>
+										</div>
+										<div class="review_dots">
+											<i class="fa-solid fa-ellipsis dots"></i>
+										</div>
+									</div>
+									<div class="cardTitle d-flex align-items-center">
+										<h5 class="card-title">Abdelrahman Salah</h5>
+										<i
+											class="fa-solid fa-circle-check fs-5 ms-1 checkCircle"
+										></i>
+									</div>
+									<p class="card-text">
+										"I absolutely love this t-shirt! The design is unique and
+										the fabric feels so comfortable. As a fellow designer, I
+										appreciate the attention to detail. It's become my favorite
+										go-to shirt."
+									</p>
+									<p class="postDate">Posted on August 14, 2025</p>
+								</div>
+							</div>
+						</div>
+						<button class="btn loadBtn mx-auto">Load More Reviews</button>
+					</div>
+				</div>
+				<div
+					class="tab-pane fade"
+					id="pills-faq"
+					role="tabpanel"
+					aria-labelledby="pills-faq-tab"
+					tabindex="0"
+				>
+					<div class="accordion" id="faqAccordion">
+						<div class="accordion-item">
+							<h2 class="accordion-header" id="faqOneHeading">
+								<button
+									class="accordion-button"
+									type="button"
+									data-bs-toggle="collapse"
+									data-bs-target="#faqOne"
+									aria-expanded="true"
+									aria-controls="faqOne"
+								>
+									What is your return policy?
+								</button>
+							</h2>
+							<div
+								id="faqOne"
+								class="accordion-collapse collapse show"
+								aria-labelledby="faqOneHeading"
+								data-bs-parent="#faqAccordion"
+							>
+								<div class="accordion-body">
+									You can return any unused product within 14 days of purchase
+									for a full refund, provided it is in its original packaging.
+								</div>
+							</div>
+						</div>
+
+						<div class="accordion-item">
+							<h2 class="accordion-header" id="faqTwoHeading">
+								<button
+									class="accordion-button collapsed"
+									type="button"
+									data-bs-toggle="collapse"
+									data-bs-target="#faqTwo"
+									aria-expanded="false"
+									aria-controls="faqTwo"
+								>
+									Do you offer international shipping?
+								</button>
+							</h2>
+							<div
+								id="faqTwo"
+								class="accordion-collapse collapse"
+								aria-labelledby="faqTwoHeading"
+								data-bs-parent="#faqAccordion"
+							>
+								<div class="accordion-body">
+									Yes, we ship worldwide. Delivery times and costs may vary
+									depending on your location.
+								</div>
+							</div>
+						</div>
+
+						<div class="accordion-item">
+							<h2 class="accordion-header" id="faqThreeHeading">
+								<button
+									class="accordion-button collapsed"
+									type="button"
+									data-bs-toggle="collapse"
+									data-bs-target="#faqThree"
+									aria-expanded="false"
+									aria-controls="faqThree"
+								>
+									How can I track my order?
+								</button>
+							</h2>
+							<div
+								id="faqThree"
+								class="accordion-collapse collapse"
+								aria-labelledby="faqThreeHeading"
+								data-bs-parent="#faqAccordion"
+							>
+								<div class="accordion-body">
+									Once your order has been shipped, you will receive an email
+									with a tracking number to monitor your delivery status.
+								</div>
+							</div>
+						</div>
+
+						<div class="accordion-item">
+							<h2 class="accordion-header" id="faqFourHeading">
+								<button
+									class="accordion-button collapsed"
+									type="button"
+									data-bs-toggle="collapse"
+									data-bs-target="#faqFour"
+									aria-expanded="false"
+									aria-controls="faqFour"
+								>
+									What payment methods do you accept?
+								</button>
+							</h2>
+							<div
+								id="faqFour"
+								class="accordion-collapse collapse"
+								aria-labelledby="faqFourHeading"
+								data-bs-parent="#faqAccordion"
+							>
+								<div class="accordion-body">
+									We accept credit cards, debit cards, PayPal, and bank
+									transfers. All transactions are secure and encrypted.
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<section class="mightLike">
+				<h2>You might also like</h2>
+				<div class="row row-cols-1 row-cols-md-4 g-4">
+					<div class="col">
+						<div class="card">
+							<img
+								src="../assets/image/products/polo_t-shirt.png"
+								class="card-img-top"
+								alt="Product Image"
+							/>
+							<div class="card-body">
+								<h5 class="card-title">Polo with Contrast Trims</h5>
+								<div class="rate mb-2">
+									<i class="fa-solid fa-star rate_star"></i>
+									<i class="fa-solid fa-star rate_star"></i>
+									<i class="fa-solid fa-star rate_star"></i>
+									<i class="fa-solid fa-star rate_star"></i>
+									<i class="fa-regular fa-star rate_star inactive"></i>
+									<span>(4.0)</span>
+								</div>
+								<div class="price">
+									<span class="currentPrice">$180</span>
+									<span class="oldPrice">$200</span>
+									<span class="discount">-10%</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col">
+						<div class="card">
+							<img
+								src="../assets/image/products/pink_round.png"
+								class="card-img-top"
+								alt="Product Image"
+							/>
+							<div class="card-body">
+								<h5 class="card-title">Gradient Graphic T-shirt</h5>
+								<div class="rate mb-2">
+									<i class="fa-solid fa-star rate_star"></i>
+									<i class="fa-solid fa-star rate_star"></i>
+									<i class="fa-solid fa-star rate_star"></i>
+									<i class="fa-solid fa-star rate_star"></i>
+									<i class="fa-regular fa-star rate_star inactive"></i>
+									<span>(4.0)</span>
+								</div>
+								<div class="price">
+									<span class="currentPrice">$145</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col">
+						<div class="card">
+							<img
+								src="../assets/image/products/light_red_polo.png"
+								class="card-img-top"
+								alt="Product Image"
+							/>
+							<div class="card-body">
+								<h5 class="card-title">Polo with Tipping Details</h5>
+								<div class="rate mb-2">
+									<i class="fa-solid fa-star rate_star"></i>
+									<i class="fa-solid fa-star rate_star"></i>
+									<i class="fa-solid fa-star rate_star"></i>
+									<i class="fa-solid fa-star rate_star"></i>
+									<i class="fa-regular fa-star rate_star inactive"></i>
+									<span>(4.0)</span>
+								</div>
+								<div class="price">
+									<span class="currentPrice">$180</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col">
+						<div class="card">
+							<img
+								src="../assets/image/products/black_striped_polo_t-shirt.png"
+								class="card-img-top"
+								alt="Product Image"
+							/>
+							<div class="card-body">
+								<h5 class="card-title">Black Striped T-shirt</h5>
+								<div class="rate mb-2">
+									<i class="fa-solid fa-star rate_star"></i>
+									<i class="fa-solid fa-star rate_star"></i>
+									<i class="fa-solid fa-star rate_star"></i>
+									<i class="fa-solid fa-star rate_star"></i>
+									<i class="fa-regular fa-star rate_star inactive"></i>
+									<span>(4.0)</span>
+								</div>
+								<div class="price">
+									<span class="currentPrice">$120</span>
+									<span class="oldPrice">$150</span>
+									<span class="discount">-30%</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section class="newsletter">
+				<div class="row">
+					<div
+						class="col-lg-6 col-md-10 col-sm-12 mx-auto d-flex justify-content-center align-items-center"
+					>
+						<div class="newsletter_content">
+							<h2>STAY UPTO DATE ABOUT OUR LATEST OFFERS</h2>
+						</div>
+					</div>
+					<div
+						class="col-lg-6 col-md-10 col-sm-12 mx-auto d-flex justify-content-center align-items-center"
+					>
+						<div class="newsletter_form">
+							<div class="newsletter_inputWrapper">
+								<i class="fa-solid fa-envelope emailIcon"></i>
+								<input
+									type="email"
+									class="form-control newsletterInput"
+									name="newsletter"
+									placeholder="Enter your email address"
+								/>
+							</div>
+							<button class="btn subscribeBtn">Subscribe to Newsletter</button>
+						</div>
+					</div>
+				</div>
+			</section>
+		</main>
+		<!-- End Main Content -->
+		<footer>
+			<div class="container">
+				<div class="row mt-3 footer_content">
+					<div class="col-lg-3 col-md-6 col-sm-12 mb-4 firstFooterContent">
+						<h2>SOUKORI</h2>
+						<p>
+							We have clothes that suits your style and which you’re proud to
+							wear. From women to men.
+						</p>
+						<div class="socialIcons d-flex flex-wrap">
+							<div class="socialIcon facebook me-2 mb-2">
+								<i class="fa-brands fa-facebook-f"></i>
+							</div>
+							<div class="socialIcon twitter me-2 mb-2">
+								<i class="fa-brands fa-twitter"></i>
+							</div>
+							<div class="socialIcon instagram me-2 mb-2">
+								<i class="fa-brands fa-instagram"></i>
+							</div>
+							<div class="socialIcon linkedIn me-2 mb-2">
+								<i class="fa-brands fa-linkedin-in"></i>
+							</div>
+							<div class="socialIcon pinterest me-2 mb-2">
+								<i class="fa-brands fa-pinterest-p"></i>
+							</div>
+						</div>
+					</div>
+					<div
+						class="col-lg-2 col-md-6 col-sm-6 col-12 mb-4 secondFooterContent"
+					>
+						<h2>COMPANY</h2>
+						<ul class="list-unstyled">
+							<li><a href="#">About Us</a></li>
+							<li><a href="#">Features</a></li>
+							<li><a href="#">Works</a></li>
+							<li><a href="#">Career</a></li>
+						</ul>
+					</div>
+
+					<div
+						class="col-lg-2 col-md-6 col-sm-6 col-12 mb-4 secondFooterContent"
+					>
+						<h2>HELP</h2>
+						<ul class="list-unstyled">
+							<li><a href="#">Customer Support</a></li>
+							<li><a href="#">FAQ</a></li>
+							<li><a href="#">Return Policy</a></li>
+							<li><a href="#">Shipping Information</a></li>
+						</ul>
+					</div>
+
+					<div
+						class="col-lg-2 col-md-6 col-sm-6 col-12 mb-4 secondFooterContent"
+					>
+						<h2>FAQ</h2>
+						<ul class="list-unstyled">
+							<li><a href="#">Account</a></li>
+							<li><a href="#">Manage Delivery</a></li>
+							<li><a href="#">Orders</a></li>
+							<li><a href="#">Payments</a></li>
+						</ul>
+					</div>
+
+					<div
+						class="col-lg-3 col-md-6 col-sm-6 col-12 mb-4 secondFooterContent"
+					>
+						<h2>RESOURCES</h2>
+						<ul class="list-unstyled">
+							<li><a href="#">Blog</a></li>
+							<li><a href="#">Guides</a></li>
+							<li><a href="#">Tutorials</a></li>
+							<li><a href="#">Documentation</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="row justify-content-between align-items-center">
+					<div class="col-md-6 col-12 text-center text-md-start">
+						<p class="mb-0 py-3">© 2025 SOUKORI All rights reserved.</p>
+					</div>
+					<div class="col-md-6 col-12 text-center text-md-end">
+						<div
+							class="payment_method d-flex flex-wrap justify-content-center justify-content-md-end align-items-center"
+						>
+							<div class="payment_image mx-2 my-1">
+								<img src="../assets/image/footer/Visa.png" alt="Visa" />
+							</div>
+							<div class="payment_image mx-2 my-1">
+								<img
+									src="../assets/image/footer/masterCard.png"
+									alt="MasterCard"
+								/>
+							</div>
+							<div class="payment_image mx-2 my-1">
+								<img src="../assets/image/footer/PayPal.png" alt="PayPal" />
+							</div>
+							<div class="payment_image mx-2 my-1">
+								<img
+									src="../assets/image/footer/applePay.png"
+									alt="Apple Pay"
+								/>
+							</div>
+							<div class="payment_image mx-2 my-1">
+								<img
+									src="../assets/image/footer/googlePay.png"
+									alt="Google Pay"
+								/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
+		<script src="../javascripts/Bootstrap/bootstrap.bundle.min.js"></script>
+		<script src="../javascripts/General/main.js" type="module"></script>
+		<script src="../javascripts/Product Details/main.js" type="module"></script>
+	</body>
+</html>

@@ -1,0 +1,22 @@
+.tabLink {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333 !important;
+    border-bottom: 1px solid #0000001a !important;
+    transition: color 0.3s;
+}
+.tabLink.active {
+    color: #000 !important;
+    border-bottom: 2px solid #000 !important;
+    background: transparent !important;
+}
+.nav-pills {
+    justify-content: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+.nav-pills .nav-link {
+    border: none;
+    padding: 10px 165px;
+    border-radius: 0;
+}

@@ -1,0 +1,44 @@
+.filter .slider,
+.filter .latest,
+.filter .writeBtn button {
+	text-align: center;
+	background: #f0f0f0;
+	border-radius: 60px;
+}
+.filter .slider {
+	width: 48px;
+	height: 48px;
+	padding: 13px;
+}
+.filter .slider i {
+	font-size: 16px;
+	color: #333;
+	cursor: pointer;
+	transition: color 0.3s;
+	transform: rotate(-90deg);
+}
+.filter .slider:hover i,
+.filter .latest:hover i {
+	color: #007bff;
+}
+.filter .latest {
+	width: 120px;
+	height: 48px;
+	padding: 13px;
+}
+.filter .latest i {
+	font-size: 16px;
+	color: #333;
+	transition: color 0.3s;
+}
+.filter .writeBtn button {
+	width: 160px;
+	height: 48px;
+	background: #000;
+	color: #fff;
+	border-radius: 25px;
+	transition: background 0.3s;
+}
+.filter .writeBtn button:hover {
+	background: #333;
+}

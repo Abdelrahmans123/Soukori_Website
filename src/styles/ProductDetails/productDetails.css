@@ -1,0 +1,57 @@
+.productDetails h2 {
+	font-size: 32px;
+	font-weight: 700;
+	margin-bottom: 15px;
+	color: #000;
+}
+.productDetails .rate {
+	display: flex;
+	align-items: center;
+	margin-bottom: 15px;
+}
+.productDetails .rate .rate_star {
+	color: #ffcc00;
+	font-size: 18px;
+	margin-right: 2px;
+}
+.productDetails .rate .rate_star.inactive {
+	color: #ccc;
+}
+.productDetails .rate span {
+	margin-left: 8px;
+	color: #666;
+}
+.productDetails .price {
+	display: flex;
+	align-items: center;
+	margin-bottom: 20px;
+}
+.productDetails .price .currentPrice {
+	font-size: 28px;
+	font-weight: 700;
+	color: #000;
+}
+.productDetails .price .oldPrice {
+	font-size: 24px;
+	font-weight: 500;
+	color: #888;
+	margin-left: 12px;
+	text-decoration: line-through;
+}
+.productDetails .price .discount {
+	font-size: 16px;
+	font-weight: 600;
+	color: #ff4444;
+	margin-left: 12px;
+	padding: 4px 8px;
+	background: rgba(255, 68, 68, 0.1);
+	border-radius: 12px;
+}
+.productDetails .description {
+	font-size: 16px;
+	color: #666;
+	line-height: 1.6;
+	margin-bottom: 25px;
+	padding-bottom: 25px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}

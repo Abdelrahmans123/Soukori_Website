@@ -1,0 +1,79 @@
+.newsletter {
+    background: #000;
+    color: #fff;
+    text-align: center;
+    padding: 35px 20px;
+    border-radius: 20px;
+    margin: 50px 0 -75px;
+    position: relative;
+}
+
+.newsletter .newsletter_form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.newsletter .newsletter_inputWrapper {
+    position: relative;
+    flex: 1;
+    min-width: 250px;
+    max-width: 350px;
+}
+
+.newsletter .newsletterInput {
+    width: 100%;
+    padding: 10px 40px 10px 45px; /* space for icon */
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+}
+
+.newsletter .emailIcon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #666;
+    pointer-events: none;
+}
+
+.newsletter .subscribeBtn {
+    background: #fff;
+    color: #000;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background 0.3s;
+    cursor: pointer;
+}
+
+.newsletter .subscribeBtn:hover {
+    background: #f1f1f1;
+}
+
+/* Mobile adjustments */
+@media (max-width: 599px) {
+    .newsletter {
+        padding: 25px 15px;
+        margin: 30px 0 -50px;
+    }
+    .newsletter .newsletter_form {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .newsletter .subscribeBtn {
+        width: 100%;
+        padding: 10px;
+    }
+}

@@ -1,0 +1,112 @@
+.products {
+    width: 100%;
+    border-bottom: 1px solid #0000001a;
+    padding-bottom: 30px;
+    margin-bottom: 30px;
+}
+.topProduct h2 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 0;
+}
+.topProduct .showNumbers p {
+    font-size: 16px;
+    font-weight: 400;
+    color: #00000099;
+    margin-bottom: 0;
+    margin-right: 20px;
+}
+.topProduct .sort p {
+    font-size: 16px;
+    font-weight: 500;
+    color: #00000099;
+    margin-bottom: 0;
+    margin-right: 0;
+}
+.sortSelection {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    position: relative;
+}
+.sortSelection .sortDropdown {
+    position: absolute;
+    top: 30px;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 0.1);
+    flex-direction: column;
+    z-index: 1000;
+}
+
+.sortSelection .sortDropdown ul {
+    list-style: none;
+    margin: 0;
+    padding: 10px 0;
+    width: 150px;
+}
+.sortSelection .sortDropdown ul li {
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.sortSelection .sortDropdown ul li:hover {
+    background-color: #f5f5f5;
+}
+.sortSelection p {
+    margin: 0; /* remove extra spacing */
+}
+.topProduct .sort .sortSelection p {
+    font-size: 16px;
+    font-weight: 500;
+    color: #000000;
+    margin-bottom: 0;
+    margin-right: 0;
+}
+.products .card {
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 0.1);
+    transition: box-shadow 0.3s, transform 0.3s;
+}
+.products .card:hover {
+    box-shadow: 0 4px 12px rgb(0 0 0 / 0.2);
+    transform: translateY(-5px);
+    cursor: pointer;
+    border: none;
+}
+.products .card h5 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 10px 0 5px 0;
+}
+.products .rate .rate_star {
+    color: #f5c518;
+}
+.products .rate .rate_star.inactive {
+    color: #ddd;
+}
+.products .price .currentPrice {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000;
+}
+.products .price .oldPrice {
+    font-size: 24px;
+    font-weight: 700;
+    color: #00000099;
+    text-decoration: line-through;
+    margin-left: 10px;
+}
+.products .price .discount {
+    font-size: 12px;
+    font-weight: 500;
+    color: #f50606;
+    background: #ff33331a;
+    padding: 2px 6px;
+    border-radius: 5px;
+    margin-left: 10px;
+}

@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>SOUKORI - Products</title>
+		<!-- Favicon -->
+		<link rel="icon" type="image/x-icon" href="../assets/image/icon.ico" />
+		<link rel="stylesheet" href="../styles/Bootstrap/bootstrap.min.css" />
+		<link rel="stylesheet" href="../styles/Font Awesome/all.min.css" />
+		<link rel="stylesheet" href="../styles/General/general.css" />
+		<link rel="stylesheet" href="../styles/General/discountAlert.css" />
+		<link rel="stylesheet" href="../styles/General/breadcrump.css" />
+		<link rel="stylesheet" href="../styles/Product/filter.css" />
+		<link rel="stylesheet" href="../styles/Product/productCards.css" />
+		<link rel="stylesheet" href="../styles/Product/pagination.css" />
+		<link rel="stylesheet" href="../styles/General/newsletter.css" />
+		<link rel="stylesheet" href="../styles/General/footer.css" />
+		<link rel="stylesheet" href="../styles/Product/mediaQuery.css" />
+		<link rel="stylesheet" href="../styles/style.css" />
+	</head>
+	<body>
+		<!-- Start Nav Bar -->
+		<nav class="navbar navbar-expand-lg navbar-light bg-white">
+			<div class="container flex-nowrap position-relative">
+				<button
+					class="navbar-toggler border-0"
+					type="button"
+					data-bs-toggle="collapse"
+					data-bs-target="#navbarNav"
+				>
+					<i class="fas fa-bars"></i>
+				</button>
+				<a class="navbar-brand" href="index.html">SOUKORI</a>
+
+				<div class="collapse navbar-collapse" id="navbarNav">
+					<ul class="navbar-nav m-auto">
+						<li class="nav-item me-4">
+							<a class="nav-link" href="index.html">Home</a>
+						</li>
+						<li class="nav-item me-4">
+							<a class="nav-link" href="shop.html">Shop</a>
+						</li>
+						<li class="nav-item me-4">
+							<a class="nav-link" href="categories.html">Categories</a>
+						</li>
+						<li class="nav-item me-4">
+							<a class="nav-link" href="deals.html">Deals</a>
+						</li>
+					</ul>
+				</div>
+
+				<!-- Icons section -->
+				<div class="nav-icons d-flex justify-content-around align-items-center">
+					<!-- Search Desktop -->
+					<form class="searchInput d-none d-md-flex me-3">
+						<input
+							class="form-control"
+							type="search"
+							placeholder="Search for products..."
+							aria-label="Search"
+						/>
+						<i class="fas fa-search searchIcon"></i>
+					</form>
+
+					<!-- Search Mobile -->
+					<div class="mobile-icons d-lg-none">
+						<i class="fas fa-search icon"></i>
+					</div>
+
+					<!-- Cart -->
+					<a href="#" class="text-dark position-relative mx-3 d-none">
+						<i class="fas fa-shopping-cart"></i>
+						<span
+							class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+							>3</span
+						>
+					</a>
+
+					<!-- Auth Section -->
+					<div class="authButtons d-none d-lg-flex">
+						<button type="button" class="btn btn-outline-primary">
+							<i class="fas fa-sign-in-alt me-1"></i> Login
+						</button>
+						<button type="button" class="btn btn-outline-success">
+							<i class="fas fa-user-plus me-1"></i> Register
+						</button>
+					</div>
+
+					<!-- Dropdown User  -->
+					<div class="dropdown user-dropdown d-none">
+						<a
+							class="dropdown-toggle text-dark"
+							href="#"
+							role="button"
+							id="userDropdown"
+							data-bs-toggle="dropdown"
+							aria-expanded="false"
+						>
+							<i class="fas fa-user-check"></i>
+						</a>
+						<ul
+							class="dropdown-menu dropdown-menu-end"
+							aria-labelledby="userDropdown"
+						>
+							<li>
+								<a class="dropdown-item" href="#">Profile</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="#">Orders</a>
+							</li>
+							<li>
+								<hr class="dropdown-divider" />
+							</li>
+							<li>
+								<a class="dropdown-item" href="#" id="logoutBtn">Logout</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</nav>
+		<!-- End Nav Bar -->
+		<main class="container my-5">
+			<div class="breadcrumbContainer">
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item">
+							<a href="#">Home</a>
+							<i class="fa-solid fa-chevron-right"></i>
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">Casual</li>
+					</ol>
+				</nav>
+			</div>
+			<div class="row">
+				<!-- Filters column -->
+				<div class="col-lg-3 col-md-4 d-none d-lg-block filter_containers">
+					<section class="filters">
+						<div class="col filter_container">
+							<div class="card py-3">
+								<div
+									class="topCard d-flex align-items-center justify-content-between"
+								>
+									<h2>Filters</h2>
+									<i class="fa-solid fa-sliders sliderIcon"></i>
+								</div>
+								<div class="filters_content px-3">
+									<div
+										class="category_filter d-flex justify-content-between align-items-center mt-2"
+									>
+										<div class="category_contenet">
+											<p class="mb-0">T-Shirt</p>
+										</div>
+										<div class="form-check">
+											<input
+												class="form-check-input"
+												type="radio"
+												name="radioDefault"
+												id="radioDefault1"
+											/>
+										</div>
+									</div>
+									<div
+										class="category_filter d-flex justify-content-between align-items-center mt-2"
+									>
+										<div class="category_contenet">
+											<p class="mb-0">Shorts</p>
+										</div>
+										<div class="form-check">
+											<input
+												class="form-check-input"
+												type="radio"
+												name="radioDefault"
+												id="radioDefault1"
+											/>
+										</div>
+									</div>
+									<div
+										class="category_filter d-flex justify-content-between align-items-center mt-2"
+									>
+										<div class="category_contenet">
+											<p class="mb-0">Shirts</p>
+										</div>
+										<div class="form-check">
+											<input
+												class="form-check-input"
+												type="radio"
+												name="radioDefault"
+												id="radioDefault1"
+											/>
+										</div>
+									</div>
+									<div
+										class="category_filter d-flex justify-content-between align-items-center mt-2"
+									>
+										<div class="category_contenet">
+											<p class="mb-0">Hoodie</p>
+										</div>
+										<div class="form-check">
+											<input
+												class="form-check-input"
+												type="radio"
+												name="radioDefault"
+												id="radioDefault1"
+											/>
+										</div>
+									</div>
+									<div
+										class="category_filter d-flex justify-content-between align-items-center mt-2"
+									>
+										<div class="category_contenet">
+											<p class="mb-0">Jeans</p>
+										</div>
+										<div class="form-check">
+											<input
+												class="form-check-input"
+												type="radio"
+												name="radioDefault"
+												id="radioDefault1"
+											/>
+										</div>
+									</div>
+								</div>
+								<div class="price_range mt-3">
+									<div
+										class="topContent d-flex justify-content-between align-items-center px-3"
+									>
+										<h3>Price</h3>
+										<i class="fa-solid fa-chevron-up arrowUpIcon"></i>
+										<i
+											class="fa-solid fa-chevron-down d-none arrowDownIcon"
+										></i>
+									</div>
+									<div class="range-container">
+										<div class="slider-track"></div>
+										<div class="slider-range" id="slider-range"></div>
+										<input
+											type="range"
+											id="range-min"
+											min="0"
+											max="500"
+											value="50"
+										/>
+										<input
+											type="range"
+											id="range-max"
+											min="0"
+											max="500"
+											value="300"
+										/>
+
+										<span class="value-label" id="min-label">$50</span>
+										<span class="value-label" id="max-label">$200</span>
+									</div>
+								</div>
+								<div class="colors_filter">
+									<div
+										class="topContent d-flex justify-content-between align-items-center px-3 my-3"
+									>
+										<h3>Colors</h3>
+										<i class="fa-solid fa-chevron-up arrowUpIcon"></i>
+										<i
+											class="fa-solid fa-chevron-down d-none arrowDownIcon"
+										></i>
+									</div>
+									<div
+										class="colors_content d-flex flex-wrap justify-content-center mt-3 px-3"
+									>
+										<div class="colorOptions">
+											<div class="colorOption green"></div>
+											<div class="colorOption red"></div>
+											<div class="colorOption yellow"></div>
+											<div class="colorOption orange"></div>
+											<div class="colorOption aqua"></div>
+											<div class="colorOption blue">
+												<i class="fa-solid fa-check checkIcon"></i>
+											</div>
+											<div class="colorOption puple"></div>
+											<div class="colorOption pink"></div>
+											<div class="colorOption white"></div>
+											<div class="colorOption black"></div>
+										</div>
+									</div>
+								</div>
+								<div class="size_filter">
+									<div
+										class="topContent d-flex justify-content-between align-items-center px-3 my-3"
+									>
+										<h3>Size</h3>
+										<i class="fa-solid fa-chevron-up arrowUpIcon"></i>
+										<i
+											class="fa-solid fa-chevron-down d-none arrowDownIcon"
+										></i>
+									</div>
+									<div class="size_content">
+										<div class="d-flex flex-wrap gap-3 px-3 mb-3 sizeOptions">
+											<div class="sizeOption">
+												<p>XX-Small</p>
+											</div>
+											<div class="sizeOption">
+												<p>X-Small</p>
+											</div>
+											<div class="sizeOption">
+												<p>Small</p>
+											</div>
+											<div class="sizeOption">
+												<p>Medium</p>
+											</div>
+											<div class="sizeOption active">
+												<p>Large</p>
+											</div>
+											<div class="sizeOption">
+												<p>X-Large</p>
+											</div>
+											<div class="sizeOption">
+												<p>XX-Large</p>
+											</div>
+											<div class="sizeOption">
+												<p>3X-Large</p>
+											</div>
+											<div class="sizeOption">
+												<p>4X-Large</p>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="dressCode_Filter">
+									<div
+										class="topContent d-flex justify-content-between align-items-center px-3 my-3"
+									>
+										<h3>Dress Code</h3>
+										<i class="fa-solid fa-chevron-up arrowUpIcon"></i>
+										<i
+											class="fa-solid fa-chevron-down d-none arrowDownIcon"
+										></i>
+									</div>
+									<div class="filters_content px-3">
+										<div
+											class="category_filter d-flex justify-content-between align-items-center mt-2"
+										>
+											<div class="category_contenet">
+												<p class="mb-0">Casual</p>
+											</div>
+											<div class="form-check">
+												<input
+													class="form-check-input"
+													type="radio"
+													name="radioDefault"
+													id="radioDefault1"
+												/>
+											</div>
+										</div>
+										<div
+											class="category_filter d-flex justify-content-between align-items-center mt-2"
+										>
+											<div class="category_contenet">
+												<p class="mb-0">Formal</p>
+											</div>
+											<div class="form-check">
+												<input
+													class="form-check-input"
+													type="radio"
+													name="radioDefault"
+													id="radioDefault1"
+												/>
+											</div>
+										</div>
+										<div
+											class="category_filter d-flex justify-content-between align-items-center mt-2"
+										>
+											<div class="category_contenet">
+												<p class="mb-0">Party</p>
+											</div>
+											<div class="form-check">
+												<input
+													class="form-check-input"
+													type="radio"
+													name="radioDefault"
+													id="radioDefault1"
+												/>
+											</div>
+										</div>
+										<div
+											class="category_filter d-flex justify-content-between align-items-center mt-2"
+										>
+											<div class="category_contenet">
+												<p class="mb-0">Gym</p>
+											</div>
+											<div class="form-check">
+												<input
+													class="form-check-input"
+													type="radio"
+													name="radioDefault"
+													id="radioDefault1"
+												/>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="applyFilterBtn">
+									<button class="btn">Apply Filters</button>
+								</div>
+							</div>
+						</div>
+					</section>
+				</div>
+				<!-- Products column -->
+				<div class="col-lg-9 col-md-12">
+					<section class="products">
+						<!-- Top header (outside of the grid) -->
+						<div
+							class="topProduct d-flex align-items-center justify-content-between mb-3"
+						>
+							<h2>Casual</h2>
+							<div class="d-flex align-items-center">
+								<div class="showNumbers d-none d-lg-block">
+									<p>Showing 1-12 of 120 results</p>
+								</div>
+								<div class="sort d-flex align-items-center ms-3">
+									<p class="me-2 mb-0 d-none d-md-block">Sort by:</p>
+									<div
+										class="sortSelection d-md-flex align-items-center d-none"
+									>
+										<p>Most Popular</p>
+										<i class="fa-solid fa-chevron-down arrowUp"></i>
+										<i class="fa-solid fa-chevron-up d-none arrowDown"></i>
+										<div class="sortDropdown d-none">
+											<ul>
+												<li>Most Popular</li>
+												<li>Best Rating</li>
+												<li>Newest</li>
+												<li>Price: Low to High</li>
+												<li>Price: High to Low</li>
+											</ul>
+										</div>
+									</div>
+									<div
+										class="filterSlider d-block d-lg-none ms-3"
+										data-bs-toggle="offcanvas"
+										data-bs-target="#filtersOffcanvas"
+										aria-controls="filtersOffcanvas"
+									>
+										<i class="fa-solid fa-sliders"></i>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Products grid -->
+						<div class="row g-4">
+							<div class="col-12 col-md-6 col-lg-4">
+								<div class="card h-100">
+									<img
+										src="../assets/image/products/pink_round.png"
+										class="card-img-top"
+										alt="Product Image"
+									/>
+									<div class="card-body">
+										<h5 class="card-title">Gradient Graphic T-shirt</h5>
+										<div class="rate mb-2">
+											<i class="fa-solid fa-star rate_star"></i>
+											<i class="fa-solid fa-star rate_star"></i>
+											<i class="fa-solid fa-star rate_star"></i>
+											<i class="fa-solid fa-star rate_star"></i>
+											<i class="fa-regular fa-star rate_star inactive"></i>
+											<span>(4.0)</span>
+										</div>
+										<div class="price">
+											<span class="currentPrice">$145</span>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-12 col-md-6 col-lg-4">
+								<div class="card h-100">
+									<img
+										src="../assets/image/products/light_red_polo.png"
+										class="card-img-top"
+										alt="Product Image"
+									/>
+									<div class="card-body">
+										<h5 class="card-title">Polo with Tipping Details</h5>
+										<div class="rate mb-2">
+											<i class="fa-solid fa-star rate_star"></i>
+											<i class="fa-solid fa-star rate_star"></i>
+											<i class="fa-solid fa-star rate_star"></i>
+											<i class="fa-solid fa-star rate_star"></i>
+											<i class="fa-regular fa-star rate_star inactive"></i>
+											<span>(4.0)</span>
+										</div>
+										<div class="price">
+											<span class="currentPrice">$180</span>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-12 col-md-6 col-lg-4">
+								<div class="card h-100">
+									<img
+										src="../assets/image/products/black_striped_polo_t-shirt.png"
+										class="card-img-top"
+										alt="Product Image"
+									/>
+									<div class="card-body">
+										<h5 class="card-title">Black Striped T-shirt</h5>
+										<div class="rate mb-2">
+											<i class="fa-solid fa-star rate_star"></i>
+											<i class="fa-solid fa-star rate_star"></i>
+											<i class="fa-solid fa-star rate_star"></i>
+											<i class="fa-solid fa-star rate_star"></i>
+											<i class="fa-regular fa-star rate_star inactive"></i>
+											<span>(4.0)</span>
+										</div>
+										<div class="price">
+											<span class="currentPrice">$120</span>
+											<span class="oldPrice">$150</span>
+											<span class="discount">-30%</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-12 col-md-6 col-lg-4">
+								<div class="card h-100">
+									<img
+										src="../assets/image/products/jeans.png"
+										class="card-img-top"
+										alt="Product Image"
+									/>
+									<div class="card-body">
+										<h5 class="card-title">Skinny Fit Jeans</h5>
+										<div class="rate mb-2">
+											<i class="fa-solid fa-star rate_star"></i>
+											<i class="fa-solid fa-star rate_star"></i>
+											<i class="fa-solid fa-star rate_star"></i>
+											<i class="fa-regular fa-star rate_star inactive"></i>
+											<i class="fa-regular fa-star rate_star inactive"></i>
+											<span>(3.0)</span>
+										</div>
+										<div class="price">
+											<span class="currentPrice">$240</span>
+											<span class="oldPrice">$260</span>
+											<span class="discount">-20%</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-12 col-md-6 col-lg-4">
+								<div class="card h-100">
+									<img
+										src="../assets/image/products/CHECKEREDSHIRT.png"
+										class="card-img-top"
+										alt="Product Image"
+									/>
+									<div class="card-body">
+										<h5 class="card-title">Checkered Shirt</h5>
+										<div class="rate mb-2">
+											<i class="fa-solid fa-star rate_star"></i>
+											<i class="fa-solid fa-star rate_star"></i>
+											<i class="fa-solid fa-star rate_star"></i>
+											<i class="fa-solid fa-star rate_star"></i>
+											<i class="fa-regular fa-star rate_star inactive"></i>
+											<span>(4.0)</span>
+										</div>
+										<div class="price">
+											<span class="currentPrice">$120</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-12 col-md-6 col-lg-4">
+								<div class="card h-100">
+									<img
+										src="../assets/image/products/SleeveStripe.png"
+										class="card-img-top"
+										alt="Product Image"
+									/>
+									<div class="card-body">
+										<h5 class="card-title">Sleeve Stripe T-shirt</h5>
+										<div class="rate mb-2">
+											<i class="fa-solid fa-star rate_star"></i>
+											<i class="fa-solid fa-star rate_star"></i>
+											<i class="fa-solid fa-star rate_star"></i>
+											<i class="fa-solid fa-star rate_star"></i>
+											<i class="fa-regular fa-star rate_star inactive"></i>
+											<span>(4.0)</span>
+										</div>
+										<div class="price">
+											<span class="currentPrice">$130</span>
+											<span class="oldPrice">$160</span>
+											<span class="discount">-30%</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-12 col-md-6 col-lg-4">
+								<div class="card h-100">
+									<img
+										src="../assets/image/products/VerticalShirt.png"
+										class="card-img-top"
+										alt="Product Image"
+									/>
+									<div class="card-body">
+										<h5 class="card-title">Vertical Striped Shirt</h5>
+										<div class="rate mb-2">
+											<i class="fa-solid fa-star rate_star"></i>
+											<i class="fa-solid fa-star rate_star"></i>
+											<i class="fa-solid fa-star rate_star"></i>
+											<i class="fa-solid fa-star rate_star"></i>
+											<i class="fa-solid fa-star rate_star"></i>
+											<span>(5.0)</span>
+										</div>
+										<div class="price">
+											<span class="currentPrice">$212</span>
+											<span class="oldPrice">$232</span>
+											<span class="discount">-20%</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-12 col-md-6 col-lg-4">
+								<div class="card h-100">
+									<img
+										src="../assets/image/products/CourageGraphic.png"
+										class="card-img-top"
+										alt="Product Image"
+									/>
+									<div class="card-body">
+										<h5 class="card-title">Courage Graphic T-shirt</h5>
+										<div class="rate mb-2">
+											<i class="fa-solid fa-star rate_star"></i>
+											<i class="fa-solid fa-star rate_star"></i>
+											<i class="fa-solid fa-star rate_star"></i>
+											<i class="fa-solid fa-star rate_star"></i>
+											<i class="fa-regular fa-star rate_star inactive"></i>
+											<span>(4.0)</span>
+										</div>
+										<div class="price">
+											<span class="currentPrice">$145</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-12 col-md-6 col-lg-4">
+								<div class="card h-100">
+									<img
+										src="../assets/image/products/BaramudaJeans.png"
+										class="card-img-top"
+										alt="Product Image"
+									/>
+									<div class="card-body">
+										<h5 class="card-title">Loose Fit Baramuda Shorts</h5>
+										<div class="rate mb-2">
+											<i class="fa-solid fa-star rate_star"></i>
+											<i class="fa-solid fa-star rate_star"></i>
+											<i class="fa-solid fa-star rate_star"></i>
+											<i class="fa-regular fa-star rate_star inactive"></i>
+											<i class="fa-regular fa-star rate_star inactive"></i>
+											<span>(3.0)</span>
+										</div>
+										<div class="price">
+											<span class="currentPrice">$80</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- End Products grid -->
+					</section>
+					<div
+						class="pagination d-flex justify-content-between align-items-center mt-4"
+					>
+						<div class="previous">
+							<button class="btn">
+								<i class="fa-solid fa-arrow-left me-1"></i>
+								Previous
+							</button>
+						</div>
+						<ul class="pages d-flex">
+							<li class="page active">1</li>
+							<li class="page">2</li>
+							<li class="page">3</li>
+							<li class="page">...</li>
+							<li class="page">8</li>
+							<li class="page">9</li>
+							<li class="page">10</li>
+						</ul>
+						<div class="next">
+							<button class="btn">
+								Next
+								<i class="fa-solid fa-arrow-right ms-1"></i>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<section class="newsletter">
+				<div class="row">
+					<div
+						class="col-lg-6 col-md-10 col-sm-12 mx-auto d-flex justify-content-center align-items-center"
+					>
+						<div class="newsletter_content">
+							<h2>STAY UPTO DATE ABOUT OUR LATEST OFFERS</h2>
+						</div>
+					</div>
+					<div
+						class="col-lg-6 col-md-10 col-sm-12 mx-auto d-flex justify-content-center align-items-center"
+					>
+						<div class="newsletter_form">
+							<div class="newsletter_inputWrapper">
+								<i class="fa-solid fa-envelope emailIcon"></i>
+								<input
+									type="email"
+									class="form-control newsletterInput"
+									name="newsletter"
+									placeholder="Enter your email address"
+								/>
+							</div>
+							<button class="btn subscribeBtn">Subscribe to Newsletter</button>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- End Main Content -->
+		</main>
+		<footer>
+			<div class="container">
+				<div class="row mt-3 footer_content">
+					<div class="col-lg-3 col-md-6 col-sm-12 mb-4 firstFooterContent">
+						<h2>SOUKORI</h2>
+						<p>
+							We have clothes that suits your style and which you’re proud to
+							wear. From women to men.
+						</p>
+						<div class="socialIcons d-flex flex-wrap">
+							<div class="socialIcon facebook me-2 mb-2">
+								<i class="fa-brands fa-facebook-f"></i>
+							</div>
+							<div class="socialIcon twitter me-2 mb-2">
+								<i class="fa-brands fa-twitter"></i>
+							</div>
+							<div class="socialIcon instagram me-2 mb-2">
+								<i class="fa-brands fa-instagram"></i>
+							</div>
+							<div class="socialIcon linkedIn me-2 mb-2">
+								<i class="fa-brands fa-linkedin-in"></i>
+							</div>
+							<div class="socialIcon pinterest me-2 mb-2">
+								<i class="fa-brands fa-pinterest-p"></i>
+							</div>
+						</div>
+					</div>
+					<div
+						class="col-lg-2 col-md-6 col-sm-6 col-12 mb-4 secondFooterContent"
+					>
+						<h2>COMPANY</h2>
+						<ul class="list-unstyled">
+							<li><a href="#">About Us</a></li>
+							<li><a href="#">Features</a></li>
+							<li><a href="#">Works</a></li>
+							<li><a href="#">Career</a></li>
+						</ul>
+					</div>
+
+					<div
+						class="col-lg-2 col-md-6 col-sm-6 col-12 mb-4 secondFooterContent"
+					>
+						<h2>HELP</h2>
+						<ul class="list-unstyled">
+							<li><a href="#">Customer Support</a></li>
+							<li><a href="#">FAQ</a></li>
+							<li><a href="#">Return Policy</a></li>
+							<li><a href="#">Shipping Information</a></li>
+						</ul>
+					</div>
+
+					<div
+						class="col-lg-2 col-md-6 col-sm-6 col-12 mb-4 secondFooterContent"
+					>
+						<h2>FAQ</h2>
+						<ul class="list-unstyled">
+							<li><a href="#">Account</a></li>
+							<li><a href="#">Manage Delivery</a></li>
+							<li><a href="#">Orders</a></li>
+							<li><a href="#">Payments</a></li>
+						</ul>
+					</div>
+
+					<div
+						class="col-lg-3 col-md-6 col-sm-6 col-12 mb-4 secondFooterContent"
+					>
+						<h2>RESOURCES</h2>
+						<ul class="list-unstyled">
+							<li><a href="#">Blog</a></li>
+							<li><a href="#">Guides</a></li>
+							<li><a href="#">Tutorials</a></li>
+							<li><a href="#">Documentation</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="row justify-content-between align-items-center">
+					<div class="col-md-6 col-12 text-center text-md-start">
+						<p class="mb-0 py-3">© 2025 SOUKORI All rights reserved.</p>
+					</div>
+					<div class="col-md-6 col-12 text-center text-md-end">
+						<div
+							class="payment_method d-flex flex-wrap justify-content-center justify-content-md-end align-items-center"
+						>
+							<div class="payment_image mx-2 my-1">
+								<img src="../assets/image/footer/Visa.png" alt="Visa" />
+							</div>
+							<div class="payment_image mx-2 my-1">
+								<img
+									src="../assets/image/footer/masterCard.png"
+									alt="MasterCard"
+								/>
+							</div>
+							<div class="payment_image mx-2 my-1">
+								<img src="../assets/image/footer/PayPal.png" alt="PayPal" />
+							</div>
+							<div class="payment_image mx-2 my-1">
+								<img
+									src="../assets/image/footer/applePay.png"
+									alt="Apple Pay"
+								/>
+							</div>
+							<div class="payment_image mx-2 my-1">
+								<img
+									src="../assets/image/footer/googlePay.png"
+									alt="Google Pay"
+								/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
+		<!-- Offcanvas Filters (mobile only) -->
+		<div
+			class="offcanvas offcanvas-bottom"
+			tabindex="-1"
+			id="filtersOffcanvas"
+			aria-labelledby="filtersOffcanvasLabel"
+		>
+			<div class="offcanvas-header">
+				<h5 class="offcanvas-title" id="filtersOffcanvasLabel">Filters</h5>
+				<button
+					type="button"
+					class="btn-close"
+					data-bs-dismiss="offcanvas"
+					aria-label="Close"
+				></button>
+			</div>
+			<div class="offcanvas-body">
+				<!-- Put your filters markup here (copy the sidebar filters) -->
+				<div class="col filter_container">
+					<div class="py-3">
+						<div class="filters_content px-3">
+							<div
+								class="category_filter d-flex justify-content-between align-items-center mt-2"
+							>
+								<div class="category_contenet">
+									<p class="mb-0">T-Shirt</p>
+								</div>
+								<div class="form-check">
+									<input
+										class="form-check-input"
+										type="radio"
+										name="radioDefault"
+										id="radioDefault1"
+									/>
+								</div>
+							</div>
+							<div
+								class="category_filter d-flex justify-content-between align-items-center mt-2"
+							>
+								<div class="category_contenet">
+									<p class="mb-0">Shorts</p>
+								</div>
+								<div class="form-check">
+									<input
+										class="form-check-input"
+										type="radio"
+										name="radioDefault"
+										id="radioDefault1"
+									/>
+								</div>
+							</div>
+							<div
+								class="category_filter d-flex justify-content-between align-items-center mt-2"
+							>
+								<div class="category_contenet">
+									<p class="mb-0">Shirts</p>
+								</div>
+								<div class="form-check">
+									<input
+										class="form-check-input"
+										type="radio"
+										name="radioDefault"
+										id="radioDefault1"
+									/>
+								</div>
+							</div>
+							<div
+								class="category_filter d-flex justify-content-between align-items-center mt-2"
+							>
+								<div class="category_contenet">
+									<p class="mb-0">Hoodie</p>
+								</div>
+								<div class="form-check">
+									<input
+										class="form-check-input"
+										type="radio"
+										name="radioDefault"
+										id="radioDefault1"
+									/>
+								</div>
+							</div>
+							<div
+								class="category_filter d-flex justify-content-between align-items-center mt-2"
+							>
+								<div class="category_contenet">
+									<p class="mb-0">Jeans</p>
+								</div>
+								<div class="form-check">
+									<input
+										class="form-check-input"
+										type="radio"
+										name="radioDefault"
+										id="radioDefault1"
+									/>
+								</div>
+							</div>
+						</div>
+						<!-- Add this to your offcanvas body, replacing the existing price range section -->
+						<div class="price_range mt-3">
+							<div
+								class="topContent d-flex justify-content-between align-items-center px-3"
+							>
+								<h3>Price</h3>
+								<i class="fa-solid fa-chevron-up"></i>
+								<i class="fa-solid fa-chevron-down d-none"></i>
+							</div>
+							<div class="range-container">
+								<div class="slider-track"></div>
+								<div class="slider-range" id="slider-range-mobile"></div>
+								<input
+									type="range"
+									id="range-min-mobile"
+									min="0"
+									max="500"
+									value="50"
+								/>
+								<input
+									type="range"
+									id="range-max-mobile"
+									min="0"
+									max="500"
+									value="300"
+								/>
+								<span class="value-label" id="min-label-mobile">$50</span>
+								<span class="value-label" id="max-label-mobile">$300</span>
+							</div>
+						</div>
+						<div class="colors_filter">
+							<div
+								class="topContent d-flex justify-content-between align-items-center px-3 my-3"
+							>
+								<h3>Colors</h3>
+								<i class="fa-solid fa-chevron-up"></i>
+								<i class="fa-solid fa-chevron-down d-none"></i>
+							</div>
+							<div
+								class="colors_content d-flex flex-wrap justify-content-center mt-3 px-3"
+							>
+								<div class="colorOptions">
+									<div class="colorOption green"></div>
+									<div class="colorOption red"></div>
+									<div class="colorOption yellow"></div>
+									<div class="colorOption orange"></div>
+									<div class="colorOption aqua"></div>
+									<div class="colorOption blue">
+										<i class="fa-solid fa-check checkIcon"></i>
+									</div>
+									<div class="colorOption puple"></div>
+									<div class="colorOption pink"></div>
+									<div class="colorOption white"></div>
+									<div class="colorOption black"></div>
+								</div>
+							</div>
+						</div>
+						<div class="size_filter">
+							<div
+								class="topContent d-flex justify-content-between align-items-center px-3 my-3"
+							>
+								<h3>Size</h3>
+								<i class="fa-solid fa-chevron-up"></i>
+								<i class="fa-solid fa-chevron-down d-none"></i>
+							</div>
+							<div class="size_content">
+								<div class="d-flex flex-wrap gap-3 px-3 mb-3">
+									<div class="sizeOption">
+										<p>XX-Small</p>
+									</div>
+									<div class="sizeOption"><p>X-Small</p></div>
+									<div class="sizeOption"><p>Small</p></div>
+									<div class="sizeOption"><p>Medium</p></div>
+									<div class="sizeOption selected">
+										<p>Large</p>
+									</div>
+									<div class="sizeOption"><p>X-Large</p></div>
+									<div class="sizeOption">
+										<p>XX-Large</p>
+									</div>
+									<div class="sizeOption">
+										<p>3X-Large</p>
+									</div>
+									<div class="sizeOption">
+										<p>4X-Large</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="dressCode_Filter">
+							<div
+								class="topContent d-flex justify-content-between align-items-center px-3 my-3"
+							>
+								<h3>Dress Code</h3>
+								<i class="fa-solid fa-chevron-up"></i>
+								<i class="fa-solid fa-chevron-down d-none"></i>
+							</div>
+							<div class="filters_content px-3">
+								<div
+									class="category_filter d-flex justify-content-between align-items-center mt-2"
+								>
+									<div class="category_contenet">
+										<p class="mb-0">Casual</p>
+									</div>
+									<div class="form-check">
+										<input
+											class="form-check-input"
+											type="radio"
+											name="radioDefault"
+											id="radioDefault1"
+										/>
+									</div>
+								</div>
+								<div
+									class="category_filter d-flex justify-content-between align-items-center mt-2"
+								>
+									<div class="category_contenet">
+										<p class="mb-0">Formal</p>
+									</div>
+									<div class="form-check">
+										<input
+											class="form-check-input"
+											type="radio"
+											name="radioDefault"
+											id="radioDefault1"
+										/>
+									</div>
+								</div>
+								<div
+									class="category_filter d-flex justify-content-between align-items-center mt-2"
+								>
+									<div class="category_contenet">
+										<p class="mb-0">Party</p>
+									</div>
+									<div class="form-check">
+										<input
+											class="form-check-input"
+											type="radio"
+											name="radioDefault"
+											id="radioDefault1"
+										/>
+									</div>
+								</div>
+								<div
+									class="category_filter d-flex justify-content-between align-items-center mt-2"
+								>
+									<div class="category_contenet">
+										<p class="mb-0">Gym</p>
+									</div>
+									<div class="form-check">
+										<input
+											class="form-check-input"
+											type="radio"
+											name="radioDefault"
+											id="radioDefault1"
+										/>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="applyFilterBtn">
+							<button class="btn">Apply Filters</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="../javascripts/Bootstrap/bootstrap.bundle.min.js"></script>
+		<script src="../javascripts/General/main.js" type="module"></script>
+		<script src="../javascripts/Products/main.js" type="module"></script>
+	</body>
+</html>

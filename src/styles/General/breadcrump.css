@@ -1,0 +1,27 @@
+.breadcrumbContainer {
+	margin-bottom: 20px;
+}
+.breadcrumbContainer .breadcrumb {
+	background: none;
+	padding: 0;
+	margin: 0;
+}
+.breadcrumbContainer .breadcrumb .breadcrumb-item.active {
+	color: #000;
+	font-weight: 600;
+}
+.breadcrumbContainer .breadcrumb .breadcrumb-item a {
+	color: #00000099;
+	text-decoration: none;
+}
+.breadcrumbContainer .breadcrumb .breadcrumb-item a:hover {
+	color: #007bff;
+}
+.breadcrumbContainer .breadcrumb .breadcrumb-item i {
+	margin: 0 5px;
+	color: #666;
+	font-size: 12px;
+}
+.breadcrumb-item + .breadcrumb-item::before {
+	display: none;
+}

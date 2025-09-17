@@ -1,0 +1,34 @@
+/* Small screens (≤576px) */
+@media (max-width: 576px) {
+    /* Pagination */
+    .pagination .pages .page {
+        display: none;
+    }
+    .pagination .pages .page.active {
+        display: flex;
+    }
+
+    /* Range Slider */
+    .range-container {
+        padding: 40px 10px 60px;
+    }
+    .slider-track,
+    input[type="range"] {
+        width: calc(100% - 20px);
+        left: 10px;
+    }
+    .value-label {
+        font-size: 12px;
+        padding: 3px 6px;
+    }
+}
+
+/* Medium to large screens (992px–1399px) */
+@media (min-width: 992px) and (max-width: 1399px) {
+    .filter_containers {
+        display: none !important;
+    }
+    .filterSlider {
+        display: block !important;
+    }
+}

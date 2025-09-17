@@ -1,0 +1,89 @@
+footer {
+    background: #f0f0f0;
+    padding: 40px 0;
+}
+footer .footer_content {
+    border-bottom: 1px solid #e6e6e6;
+}
+footer .firstFooterContent {
+    padding: 0 15px;
+}
+footer .firstFooterContent h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 15px;
+}
+footer .firstFooterContent p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #666;
+    margin-bottom: 20px;
+}
+footer .firstFooterContent .socialIcons .socialIcon {
+    font-size: 15px;
+    color: #333; 
+    margin-right: 15px;
+    padding: 8px;
+    border: 1px solid currentColor; 
+    border-radius: 50%;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.25s, border-color 0.25s, background 0.25s,
+        transform 0.15s;
+}
+
+/* make sure icon inherits the parent's color */
+footer .firstFooterContent .socialIcons .socialIcon i {
+    color: inherit;
+}
+
+/* Brand hover states */
+footer .firstFooterContent .socialIcons .socialIcon.facebook:hover {
+    color: #3b5998; /* Facebook */
+}
+footer .firstFooterContent .socialIcons .socialIcon.twitter:hover {
+    color: #1da1f2; /* Twitter */
+}
+footer .firstFooterContent .socialIcons .socialIcon.linkedIn:hover {
+    color: #0077b5; /* LinkedIn */
+}
+footer .firstFooterContent .socialIcons .socialIcon.pinterest:hover {
+    color: #bd081c; /* Pinterest */
+}
+
+/* Instagram: nicer to use filled gradient with white icon */
+footer .firstFooterContent .socialIcons .socialIcon.instagram:hover {
+    color: #e1306c;
+}
+footer .secondFooterContent {
+    padding: 0 15px;
+}
+footer .secondFooterContent h2 {
+    font-size: 24px;
+    font-weight: 300;
+    letter-spacing: 3px;
+    color: #000;
+    margin-bottom: 15px;
+}
+footer .secondFooterContent ul {
+    list-style: none;
+    padding: 0;
+}
+footer .secondFooterContent ul li {
+    margin-bottom: 20px;
+}
+footer .secondFooterContent ul li a {
+    color: #333;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+footer .secondFooterContent ul li a:hover {
+    color: #007bff;
+}
+.payment_image img {
+    max-height: 50px;
+    object-fit: contain;
+}

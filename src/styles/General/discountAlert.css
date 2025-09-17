@@ -1,0 +1,29 @@
+.discountAlert {
+	width: 100%;
+	background-color: #000;
+	color: #fff;
+	font-size: 14px;
+	position: relative;
+	padding: 6px 10px; /* more breathing room */
+	text-align: center;
+}
+.discountAlert p {
+	margin: 0;
+	word-wrap: break-word; /* text won’t overflow */
+}
+.discountAlert a {
+	font-weight: 600;
+	color: #ffcc00;
+	text-decoration: none;
+}
+.discountAlert a:hover {
+	text-decoration: underline;
+}
+.discountAlert .closeIcon {
+	cursor: pointer;
+	font-size: 16px;
+	transition: color 0.3s;
+}
+.discountAlert .closeIcon:hover {
+	color: #ff4444;
+}

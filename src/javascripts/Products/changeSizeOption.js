@@ -2,8 +2,6 @@ const changeSizeOption = () => {
     const sizeOptions = document.querySelectorAll(".sizeOptions .sizeOption");
     sizeOptions.forEach((option) => {
         option.addEventListener("click", (e) => {
-            console.log("Hello");
-
             sizeOptions.forEach((opt) => opt.classList.remove("active"));
             e.target.classList.add("active");
         });

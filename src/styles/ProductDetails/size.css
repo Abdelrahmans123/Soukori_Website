@@ -1,0 +1,36 @@
+.productDetails .size {
+	margin-bottom: 30px;
+	padding-bottom: 25px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.productDetails .size h6 {
+	font-size: 16px;
+	font-weight: 600;
+	margin-bottom: 15px;
+	color: #000;
+}
+.productDetails .sizeOptions {
+	display: flex;
+	gap: 12px;
+}
+.productDetails .sizeOption {
+	padding: 10px 16px;
+	border-radius: 25px;
+	background: #f0f0f0;
+	cursor: pointer;
+	transition: all 0.3s;
+}
+.productDetails .sizeOption p {
+	font-size: 14px;
+	color: #333;
+	margin: 0;
+}
+.productDetails .sizeOption:hover,
+.productDetails .sizeOption.active {
+	background: #000;
+	color: #fff;
+}
+.productDetails .sizeOption:hover p,
+.productDetails .sizeOption.active p {
+	color: #fff;
+}

@@ -1,0 +1,40 @@
+.reviewHeader {
+	font-weight: 600;
+	color: #000;
+}
+.reviewHeader span {
+	font-size: 16px;
+	font-weight: 400;
+	color: #00000099;
+}
+.stars {
+	color: #ffcc00;
+	margin-right: 8px;
+	padding: 10px 0;
+}
+.reviewsContainer .card {
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+	transition: box-shadow 0.3s;
+}
+.reviewsContainer .card .review_dots .dots {
+	font-size: 20px;
+	color: #00000066;
+}
+.reviewsContainer .card .checkCircle {
+	color: #01ab31;
+}
+.reviewsContainer .card .postDate {
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 22px;
+	color: #00000099;
+}
+.reviewsContainer .loadBtn {
+	width: 255px;
+	height: 52px;
+	font-size: 16px;
+	font-weight: 500;
+	padding: 13px;
+	border: 1px solid #0000001a;
+	border-radius: 20px;
+}

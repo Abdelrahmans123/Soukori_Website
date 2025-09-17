@@ -1,0 +1,53 @@
+.mightLike {
+    margin-top: 50px;
+    text-align: center;
+}
+.mightLike h2 {
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    color: #000;
+}
+.mightLike .card {
+    border: none;
+    transition: all 0.3s ease;
+}
+.mightLike .card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+}
+.mightLike .card .card-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #000;
+}
+.mightLike .card .rate .rate_star {
+    font-size: 16px;
+    color: #ffcc00;
+    margin-right: 2px;
+}
+.mightLike .card .rate .rate_star.inactive {
+    color: #ccc;
+}
+.mightLike .card .price {
+    font-size: 20px;
+    font-weight: 700;
+    color: #000;
+    margin-top: 10px;
+}
+.mightLike .card .oldPrice {
+    font-size: 18px;
+    font-weight: 500;
+    color: #888;
+    margin-left: 12px;
+    text-decoration: line-through;
+}
+.mightLike .card .discount {
+    font-size: 16px;
+    font-weight: 600;
+    color: #ff4444;
+    margin-left: 12px;
+    padding: 4px 8px;
+    background: rgba(255, 68, 68, 0.1);
+    border-radius: 12px;
+}

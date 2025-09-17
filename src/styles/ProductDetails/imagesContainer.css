@@ -1,0 +1,32 @@
+.imagesContainer {
+	margin-bottom: 30px;
+	display: flex;
+	gap: 20px;
+}
+.imagesContainer .subImages {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+}
+.imagesContainer .subImages img {
+	width: 100%;
+	height: 125px;
+	border-radius: 8px;
+	object-fit: cover;
+	cursor: pointer;
+	border: 2px solid transparent;
+	transition: border-color 0.3s;
+}
+.imagesContainer .subImages img:hover,
+.imagesContainer .subImages img.active {
+	border-color: #000;
+}
+.imagesContainer .mainImage {
+	flex: 1;
+}
+.imagesContainer .mainImage img {
+	width: 100%;
+	height: 400px;
+	object-fit: cover;
+	border-radius: 10px;
+}

@@ -41,6 +41,7 @@ const userDropdownEl = document.querySelector(".user-dropdown");
 
 function showAuth() {
   authEl.classList.remove("d-none");
+  authEl.classList.add("d-lg-flex");
   userDropdownEl.classList.add("d-none");
 }
 

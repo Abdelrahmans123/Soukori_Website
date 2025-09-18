@@ -70,9 +70,6 @@
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
 }
 /* Dropdown */
-.user-dropdown {
-    display: none;
-}
 
 .dropdown-toggle::after {
     display: none;

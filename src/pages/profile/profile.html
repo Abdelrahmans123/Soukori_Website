@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../../assets/image/icon.ico" />
+    <link rel="stylesheet" href="../../styles/Bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../styles/Font Awesome/all.min.css" />
+    <link rel="stylesheet" href="../../styles/style.css" />
+    <link rel="stylesheet" href="../../styles/General/breadcrump.css" />
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-white">
+        <div class="container flex-nowrap position-relative">
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="fas fa-bars"></i>
+            </button>
+            <a class="navbar-brand" href="../../index.html">SOUKORI</a>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav m-auto">
+                    <li class="nav-item me-4">
+                        <a class="nav-link" href="../../index.html">Home</a>
+                    </li>
+                    <li class="nav-item me-4">
+                        <a class="nav-link" href="/src/pages/Product/product.html">Shop</a>
+                    </li>
+                    <li class="nav-item me-4">
+                        <a class="nav-link" href="categories.html">Categories</a>
+                    </li>
+                    <li class="nav-item me-4">
+                        <a class="nav-link" href="deals.html">Deals</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Icons section -->
+            <div class="nav-icons d-flex justify-content-around align-items-center">
+                <!-- Search Desktop -->
+                <form class="searchInput d-none d-lg-flex me-3">
+                    <input class="form-control" type="search" placeholder="Search for products..."
+                        aria-label="Search" />
+                    <i class="fas fa-search searchIcon"></i>
+                </form>
+
+                <!-- Search Mobile -->
+                <div class="mobile-icons d-lg-none">
+                    <i class="fas fa-search icon"></i>
+                </div>
+
+                <!-- Cart -->
+                <a href="#" class="text-dark position-relative mx-3 d-none">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span
+                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">3</span>
+                </a>
+
+                <!-- Auth Section -->
+                <div class="authButtons d-none">
+                    <a href="../Auth/login.html">
+                        <button type="button" class="btn btn-outline-dark">
+                            <i class="fas fa-sign-in-alt me-1"></i> Login
+                        </button>
+                    </a>
+                    <a href="../Auth/register.html">
+                        <button type="button" class="btn btn-outline-dark">
+                            <i class="fas fa-user-plus me-1"></i> Register
+                        </button>
+                    </a>
+                </div>
+
+                <!-- Dropdown User  -->
+                <div class="dropdown user-dropdown">
+                    <a class="dropdown-toggle text-dark" href="#" role="button" id="userDropdown"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user-check"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li>
+                            <a class="dropdown-item" href="../profile/profile.html">Profile</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#">Orders</a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider" />
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#" id="logoutBtn">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container my-5">
+        <div class="breadcrumbContainer">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="../../index.html">Home</a>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        Profile
+                    </li>
+                </ol>
+            </nav>
+        </div>
+
+        <div class="profileData">
+            <!-- 
+            Column div with input fields for each of the following with values retrived from the users collection 
+            profile image (retrieved using avatar and (if avatar is none, diplay a profile image from fontawesome))
+            avatar input field for uploading images
+            Name
+            Email
+            Phone Number
+            Gender
+            Email verified status
+            -->
+        </div>
+
+    </main>
+
+    <!-- End Nav Bar -->
+
+    <script src="../../javascripts/Bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="../../javascripts/General/main.js" type="module"></script>
+    <script src="../../javascripts/Auth/auth.js" type="module"></script>
+    <script src="../../javascripts/profile/profile.js" type="module"></script>
+
+</body>
+
+</html>

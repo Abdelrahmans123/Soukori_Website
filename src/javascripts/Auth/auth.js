@@ -15,15 +15,18 @@ import {
 const provider = new GoogleAuthProvider();
 const authEl = document.querySelector(".authButtons");
 const userDropdownEl = document.querySelector(".user-dropdown");
+const cartBtn = document.querySelector('.cartBtn');
 
 function showAuth() {
   authEl.classList.remove("d-none");
   authEl.classList.add("d-lg-flex");
   userDropdownEl.classList.add("d-none");
+  cartBtn.classList.add("d-none");
 }
 
 function showUserDropdown() {
   authEl.classList.add("d-none");
+  cartBtn.classList.remove("d-none");
   userDropdownEl.classList.remove("d-none");
 }
 

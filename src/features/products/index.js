@@ -1,9 +1,12 @@
-// In your main products file (products/main.js)
 import {
 	initializeProducts,
 	loadPage,
 	nextPage,
 	previousPage,
+	getPaginationState,
 } from "./productUI.js";
 
-// The system will automatically initialize when DOM loads
+document.addEventListener("DOMContentLoaded", () => {
+	initializeProducts();
+
+});

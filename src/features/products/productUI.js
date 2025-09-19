@@ -1,106 +1,15 @@
-// Simplified initialization for your main.js
-import {
-	collection,
-	query,
-	orderBy,
-	limit,
-	getDocs,
-	getCountFromServer,
-} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
-import db from "../../config/firebase.js"; // Your Firebase config
+import { productPagination } from "./firebase.js";
 
-// Simple pagination state
-let currentPage = 1;
-let totalPages = 0;
-let totalProducts = 0;
 const pageSize = 6;
-let lastVisible = null;
-let firstVisible = null;
-
-// Get total count of products
-async function getTotalProductCount() {
-	try {
-		const productsRef = collection(db, "products");
-		const snapshot = await getCountFromServer(productsRef);
-		totalProducts = snapshot.data().count;
-		totalPages = Math.ceil(totalProducts / pageSize);
-		return totalProducts;
-	} catch (error) {
-		console.error("Error getting total count:", error);
-		return 0;
-	}
-}
-
-// Get products for current page
-async function getProducts(page = 1) {
-	try {
-		const productsRef = collection(db, "products");
-		let q;
-
-		if (page === 1) {
-			// First page
-			q = query(productsRef, orderBy("createdAt", "desc"), limit(pageSize));
-		} else {
-			// For simplicity, let's use offset-based pagination for jumping to specific pages
-			// This is less efficient but more reliable for now
-			const offset = (page - 1) * pageSize;
-			q = query(
-				productsRef,
-				orderBy("createdAt", "desc"),
-				limit(offset + pageSize)
-			);
-		}
-
-		const querySnapshot = await getDocs(q);
-		const allDocs = querySnapshot.docs;
-
-		let products = [];
-
-		if (page === 1) {
-			// First page - take all results
-			products = allDocs.map((doc) => ({ id: doc.id, ...doc.data() }));
-			if (allDocs.length > 0) {
-				firstVisible = allDocs[0];
-				lastVisible = allDocs[allDocs.length - 1];
-			}
-		} else {
-			// Other pages - slice the results
-			const offset = (page - 1) * pageSize;
-			const pageProducts = allDocs.slice(offset, offset + pageSize);
-			products = pageProducts.map((doc) => ({ id: doc.id, ...doc.data() }));
-
-			if (pageProducts.length > 0) {
-				firstVisible = pageProducts[0];
-				lastVisible = pageProducts[pageProducts.length - 1];
-			}
-		}
-
-		currentPage = page;
-
-		return {
-			products,
-			currentPage,
-			totalPages,
-			totalProducts,
-			hasNext: currentPage < totalPages,
-			hasPrev: currentPage > 1,
-		};
-	} catch (error) {
-		console.error("Error getting products:", error);
-		throw error;
-	}
-}
-
-// Initialize and load first page
 export async function initializeProducts() {
 	try {
 		showLoadingState();
 
-		// Get total count first
-		await getTotalProductCount();
+		// Ensure total count is fetched
+		await productPagination.getTotalCount();
 
 		// Load first page
-		const result = await getProducts(1);
+		const result = await productPagination.getFirstPage();
 
 		renderProducts(result.products);
 		updatePaginationUI(result);
@@ -113,26 +22,10 @@ export async function initializeProducts() {
 	}
 }
 
-// Load specific page
 export async function loadPage(pageNumber) {
-	if (pageNumber < 1) {
-		throw new Error("Page number must be at least 1");
-	}
-
-	// If we don't have total count yet, get it
-	if (totalPages === 0) {
-		await getTotalProductCount();
-	}
-
-	if (pageNumber > totalPages) {
-		throw new Error(
-			`Page ${pageNumber} does not exist. Maximum page is ${totalPages}`
-		);
-	}
-
 	try {
 		showLoadingState();
-		const result = await getProducts(pageNumber);
+		const result = await productPagination.goToPage(pageNumber);
 		renderProducts(result.products);
 		updatePaginationUI(result);
 		return result;
@@ -143,31 +36,32 @@ export async function loadPage(pageNumber) {
 	}
 }
 
-// Navigation functions
 export async function nextPage() {
-	if (currentPage < totalPages) {
-		return await loadPage(currentPage + 1);
+	try {
+		const result = await productPagination.getNextPage();
+		renderProducts(result.products);
+		updatePaginationUI(result);
+		return result;
+	} catch (error) {
+		console.error(error.message);
 	}
 }
 
 export async function previousPage() {
-	if (currentPage > 1) {
-		return await loadPage(currentPage - 1);
+	try {
+		const result = await productPagination.getPreviousPage();
+		renderProducts(result.products);
+		updatePaginationUI(result);
+		return result;
+	} catch (error) {
+		console.error(error.message);
 	}
 }
 
-// Get current pagination state
 export function getPaginationState() {
-	return {
-		currentPage,
-		totalPages,
-		totalProducts,
-		hasNext: currentPage < totalPages,
-		hasPrev: currentPage > 1,
-	};
+	return productPagination.getPaginationInfo();
 }
 
-// Utility functions (keep your existing ones)
 function showLoadingState() {
 	const productsContainer = document.getElementById("productsContainer");
 	productsContainer.innerHTML = `
@@ -257,7 +151,9 @@ function renderProducts(products) {
                         <button class="actionBtn wishlistBtn" title="Add to Wishlist">
                             <i class="far fa-heart"></i>
                         </button>
-                        <button class="actionBtn quickViewBtn" title="Quick View">
+                        <button class="actionBtn quickViewBtn" title="Quick View" data-product-id="${
+													product.id
+												}">
                             <i class="far fa-eye"></i>
                         </button>
                     </div>
@@ -409,9 +305,16 @@ function addProductEventListeners() {
 			}
 		});
 	});
+	document.querySelectorAll(".quickViewBtn").forEach((btn) => {
+		btn.addEventListener("click", function (e) {
+			e.preventDefault();
+			const productId = this.dataset.productId;
+			// go to product details page
+			window.location.href = `/src/pages/Product/productDetails.html?id=${productId}`;
+		});
+	});
 }
 
-// Initialize pagination event listeners
 function initializePaginationEvents() {
 	const prevBtn = document.querySelector(".pagination .previous button");
 	if (prevBtn) {
@@ -440,7 +343,6 @@ function initializePaginationEvents() {
 	}
 }
 
-// Initialize when DOM is ready
 document.addEventListener("DOMContentLoaded", () => {
 	initializePaginationEvents();
 	initializeProducts();

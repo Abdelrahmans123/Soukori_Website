@@ -16,7 +16,10 @@
 			rel="stylesheet"
 			href="../../styles/ProductDetails/imagesContainer.css"
 		/>
-		<link rel="stylesheet" href="../../styles/ProductDetails/productDetails.css" />
+		<link
+			rel="stylesheet"
+			href="../../styles/ProductDetails/productDetails.css"
+		/>
 		<link rel="stylesheet" href="../../styles/ProductDetails/colors.css" />
 		<link rel="stylesheet" href="../../styles/ProductDetails/size.css" />
 		<link
@@ -24,7 +27,10 @@
 			href="../../styles/ProductDetails/purchaseOptions.css"
 		/>
 		<link rel="stylesheet" href="../../styles/ProductDetails/tabs.css" />
-		<link rel="stylesheet" href="../../styles/ProductDetails/featuresList.css" />
+		<link
+			rel="stylesheet"
+			href="../../styles/ProductDetails/featuresList.css"
+		/>
 		<link rel="stylesheet" href="../../styles/ProductDetails/review.css" />
 		<link rel="stylesheet" href="../../styles/ProductDetails/filter.css" />
 		<link rel="stylesheet" href="../../styles/ProductDetails/mightLike.css" />
@@ -139,690 +145,394 @@
 
 		<!-- Start Main Content -->
 		<main class="container my-5">
-			<div class="breadcrumbContainer">
-				<nav aria-label="breadcrumb">
-					<ol class="breadcrumb">
-						<li class="breadcrumb-item">
-							<a href="#">Home</a>
-							<i class="fa-solid fa-chevron-right"></i>
-						</li>
-						<li class="breadcrumb-item">
-							<a href="#">Shop</a>
-							<i class="fa-solid fa-chevron-right"></i>
-						</li>
-						<li class="breadcrumb-item">
-							<a href="#">Men</a>
-							<i class="fa-solid fa-chevron-right"></i>
-						</li>
-						<li class="breadcrumb-item active" aria-current="page">T-Shirts</li>
-					</ol>
-				</nav>
-			</div>
-			<div class="row">
-				<div class="col-lg-6 col-md-12">
-					<div class="imagesContainer d-flex">
-						<div class="subImages">
-							<img
-								src="../../assets/image/products/brownT-ShirtFirst.png"
-								alt="Product Image"
-								class="active"
-							/>
-							<img
-								src="../../assets/image/products/brownT-ShirtSecond.png"
-								alt="Product Image"
-							/>
-							<img
-								src="../../assets/image/products/brownT-ShirtThird.png"
-								alt="Product Image"
-							/>
-						</div>
-						<div class="mainImage">
-							<img
-								src="../../assets/image/products/brownT-ShirtMain.png"
-								alt="Product Image"
-							/>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-6 col-md-12">
-					<div class="productDetails">
-						<h2>One Life Graphic T-shirt</h2>
-						<div class="rate">
-							<i class="fa-solid fa-star rate_star"></i>
-							<i class="fa-solid fa-star rate_star"></i>
-							<i class="fa-solid fa-star rate_star"></i>
-							<i class="fa-solid fa-star rate_star"></i>
-							<i class="fa-regular fa-star rate_star inactive"></i>
-							<span>(4.0)</span>
-						</div>
-						<div class="price">
-							<span class="currentPrice">$260</span>
-							<span class="oldPrice">$300</span>
-							<span class="discount">-13%</span>
-						</div>
-						<div class="description">
-							<p>
-								This graphic t-shirt which is perfect for any occasion. Crafted
-								from a soft and breathable fabric, it offers superior comfort
-								and style.
-							</p>
-						</div>
-						<div class="colors">
-							<h6>Select Colors</h6>
-							<div class="colorOptions">
-								<div class="colorOption darkBrown">
-									<i class="fa-solid fa-check checkIcon"></i>
-								</div>
-								<div class="colorOption darkGreen"></div>
-								<div class="colorOption darkPurple"></div>
-							</div>
-						</div>
-						<div class="size">
-							<h6>Select Size</h6>
-							<div class="sizeOptions">
-								<div class="sizeOption">
-									<p>Small</p>
-								</div>
-								<div class="sizeOption">
-									<p>Medium</p>
-								</div>
-								<div class="sizeOption active">
-									<p>Large</p>
-								</div>
-								<div class="sizeOption">
-									<p>Extra Large</p>
-								</div>
-							</div>
-						</div>
-						<div class="purchaseOptions">
-							<div class="quantity">
-								<div class="counter">
-									<div class="removeIcon">
-										<i class="fa-solid fa-minus"></i>
-									</div>
-									<div class="number">1</div>
-									<div class="addIcon">
-										<i class="fa-solid fa-plus"></i>
-									</div>
-								</div>
-							</div>
-							<button class="btn addToCartBtn">
-								<i class="fa-solid fa-cart-plus me-2"></i> Add to Cart
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
-			<ul class="nav nav-pills my-3" id="pills-tab" role="tablist">
-				<li class="nav-item" role="presentation">
-					<button
-						class="nav-link tabLink"
-						id="pills-product-details-tab"
-						data-bs-toggle="pill"
-						data-bs-target="#pills-product-details"
-						type="button"
-						role="tab"
-						aria-controls="pills-product-details"
-						aria-selected="true"
-					>
-						Product Details
-					</button>
-				</li>
-				<li class="nav-item" role="presentation">
-					<button
-						class="nav-link tabLink active"
-						id="pills-rating-tab"
-						data-bs-toggle="pill"
-						data-bs-target="#pills-rating"
-						type="button"
-						role="tab"
-						aria-controls="pills-rating"
-						aria-selected="false"
-					>
-						Rating & Reviews
-					</button>
-				</li>
-				<li class="nav-item" role="presentation">
-					<button
-						class="nav-link tabLink"
-						id="pills-faq-tab"
-						data-bs-toggle="pill"
-						data-bs-target="#pills-faq"
-						type="button"
-						role="tab"
-						aria-controls="pills-faq"
-						aria-selected="false"
-					>
-						FAQs
-					</button>
-				</li>
-			</ul>
-			<div class="tab-content" id="pills-tabContent">
-				<div
-					class="tab-pane fade"
-					id="pills-product-details"
-					role="tabpanel"
-					aria-labelledby="pills-product-details-tab"
-					tabindex="0"
-				>
-					<div class="features-list">
-						<h4><i class="fas fa-star me-2"></i>Key Features</h4>
-						<ul>
-							<li>
-								<strong>Premium 100% Cotton Fabric</strong> - Soft, breathable,
-								and naturally hypoallergenic
-							</li>
-							<li>
-								<strong>Modern Graphic Design</strong> - Eye-catching "One Life"
-								print with fade-resistant inks
-							</li>
-							<li>
-								<strong>Relaxed Comfort Fit</strong> - Perfect balance of style
-								and comfort for everyday wear
-							</li>
-							<li>
-								<strong>Pre-Shrunk Construction</strong> - Maintains shape and
-								size wash after wash
-							</li>
-							<li>
-								<strong>Reinforced Seams</strong> - Double-stitched for enhanced
-								durability and longevity
-							</li>
-							<li>
-								<strong>Multiple Color Options</strong> - Available in Brown,
-								Forest Green, and Deep Purple
-							</li>
-							<li>
-								<strong>Size Range</strong> - Small to Extra Large for the
-								perfect fit
-							</li>
-							<li>
-								<strong>Machine Washable</strong> - Easy care for busy
-								lifestyles
-							</li>
-						</ul>
-					</div>
-				</div>
-				<div
-					class="tab-pane fade show active"
-					id="pills-rating"
-					role="tabpanel"
-					aria-labelledby="pills-rating-tab"
-					tabindex="0"
-				>
-					<div class="reviewTop row align-items-center mb-3">
-						<div class="col-12 col-md-6">
-							<h3 class="reviewHeader">All Reviews <span>(451)</span></h3>
-						</div>
-						<div class="col-12 col-md-6 mt-2 mt-md-0">
-							<div
-								class="filter d-flex flex-wrap justify-content-md-end justify-content-start gap-2"
-							>
-								<div
-									class="slider d-flex align-items-center justify-content-center"
-								>
-									<i class="fa-solid fa-sliders"></i>
-								</div>
-								<div
-									class="latest d-flex justify-content-between align-items-center"
-								>
-									<p class="mb-0">Latest</p>
-									<i class="fa-solid fa-caret-down ms-2"></i>
-								</div>
-								<div class="writeBtn">
-									<button class="btn w-100">
-										<i class="fa-solid fa-pencil"></i> Write a Review
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
+			<div id="loading" class="loading">Loading product details...</div>
 
-					<!-- Reviews -->
-					<div class="row row-cols-1 row-cols-md-2 g-4 reviewsContainer">
-						<div class="col">
-							<div class="card">
-								<div class="card-body">
-									<div
-										class="topCard d-flex justify-content-between align-items-center"
-									>
-										<div class="stars">
-											<i class="fa-solid fa-star starIcon"></i>
-											<i class="fa-solid fa-star starIcon"></i>
-											<i class="fa-solid fa-star starIcon"></i>
-											<i class="fa-solid fa-star starIcon"></i>
-											<i class="fa-solid fa-star starIcon"></i>
-										</div>
-										<div class="review_dots">
-											<i class="fa-solid fa-ellipsis dots"></i>
-										</div>
-									</div>
-									<div class="cardTitle d-flex align-items-center">
-										<h5 class="card-title">Abdelrahman Salah</h5>
-										<i
-											class="fa-solid fa-circle-check fs-5 ms-1 checkCircle"
-										></i>
-									</div>
-									<p class="card-text">
-										"I absolutely love this t-shirt! The design is unique and
-										the fabric feels so comfortable. As a fellow designer, I
-										appreciate the attention to detail. It's become my favorite
-										go-to shirt."
-									</p>
-									<p class="postDate">Posted on August 14, 2025</p>
-								</div>
-							</div>
-						</div>
-						<div class="col">
-							<div class="card">
-								<div class="card-body">
-									<div
-										class="topCard d-flex justify-content-between align-items-center"
-									>
-										<div class="stars">
-											<i class="fa-solid fa-star starIcon"></i>
-											<i class="fa-solid fa-star starIcon"></i>
-											<i class="fa-solid fa-star starIcon"></i>
-											<i class="fa-solid fa-star starIcon"></i>
-											<i class="fa-solid fa-star starIcon"></i>
-										</div>
-										<div class="review_dots">
-											<i class="fa-solid fa-ellipsis dots"></i>
-										</div>
-									</div>
-									<div class="cardTitle d-flex align-items-center">
-										<h5 class="card-title">Abdelrahman Salah</h5>
-										<i
-											class="fa-solid fa-circle-check fs-5 ms-1 checkCircle"
-										></i>
-									</div>
-									<p class="card-text">
-										"I absolutely love this t-shirt! The design is unique and
-										the fabric feels so comfortable. As a fellow designer, I
-										appreciate the attention to detail. It's become my favorite
-										go-to shirt."
-									</p>
-									<p class="postDate">Posted on August 14, 2025</p>
-								</div>
-							</div>
-						</div>
-						<div class="col">
-							<div class="card">
-								<div class="card-body">
-									<div
-										class="topCard d-flex justify-content-between align-items-center"
-									>
-										<div class="stars">
-											<i class="fa-solid fa-star starIcon"></i>
-											<i class="fa-solid fa-star starIcon"></i>
-											<i class="fa-solid fa-star starIcon"></i>
-											<i class="fa-solid fa-star starIcon"></i>
-											<i class="fa-solid fa-star starIcon"></i>
-										</div>
-										<div class="review_dots">
-											<i class="fa-solid fa-ellipsis dots"></i>
-										</div>
-									</div>
-									<div class="cardTitle d-flex align-items-center">
-										<h5 class="card-title">Abdelrahman Salah</h5>
-										<i
-											class="fa-solid fa-circle-check fs-5 ms-1 checkCircle"
-										></i>
-									</div>
-									<p class="card-text">
-										"I absolutely love this t-shirt! The design is unique and
-										the fabric feels so comfortable. As a fellow designer, I
-										appreciate the attention to detail. It's become my favorite
-										go-to shirt."
-									</p>
-									<p class="postDate">Posted on August 14, 2025</p>
-								</div>
-							</div>
-						</div>
-						<div class="col">
-							<div class="card">
-								<div class="card-body">
-									<div
-										class="topCard d-flex justify-content-between align-items-center"
-									>
-										<div class="stars">
-											<i class="fa-solid fa-star starIcon"></i>
-											<i class="fa-solid fa-star starIcon"></i>
-											<i class="fa-solid fa-star starIcon"></i>
-											<i class="fa-solid fa-star starIcon"></i>
-											<i class="fa-solid fa-star starIcon"></i>
-										</div>
-										<div class="review_dots">
-											<i class="fa-solid fa-ellipsis dots"></i>
-										</div>
-									</div>
-									<div class="cardTitle d-flex align-items-center">
-										<h5 class="card-title">Abdelrahman Salah</h5>
-										<i
-											class="fa-solid fa-circle-check fs-5 ms-1 checkCircle"
-										></i>
-									</div>
-									<p class="card-text">
-										"I absolutely love this t-shirt! The design is unique and
-										the fabric feels so comfortable. As a fellow designer, I
-										appreciate the attention to detail. It's become my favorite
-										go-to shirt."
-									</p>
-									<p class="postDate">Posted on August 14, 2025</p>
-								</div>
-							</div>
-						</div>
-						<div class="col">
-							<div class="card">
-								<div class="card-body">
-									<div
-										class="topCard d-flex justify-content-between align-items-center"
-									>
-										<div class="stars">
-											<i class="fa-solid fa-star starIcon"></i>
-											<i class="fa-solid fa-star starIcon"></i>
-											<i class="fa-solid fa-star starIcon"></i>
-											<i class="fa-solid fa-star starIcon"></i>
-											<i class="fa-solid fa-star starIcon"></i>
-										</div>
-										<div class="review_dots">
-											<i class="fa-solid fa-ellipsis dots"></i>
-										</div>
-									</div>
-									<div class="cardTitle d-flex align-items-center">
-										<h5 class="card-title">Abdelrahman Salah</h5>
-										<i
-											class="fa-solid fa-circle-check fs-5 ms-1 checkCircle"
-										></i>
-									</div>
-									<p class="card-text">
-										"I absolutely love this t-shirt! The design is unique and
-										the fabric feels so comfortable. As a fellow designer, I
-										appreciate the attention to detail. It's become my favorite
-										go-to shirt."
-									</p>
-									<p class="postDate">Posted on August 14, 2025</p>
-								</div>
-							</div>
-						</div>
-						<div class="col">
-							<div class="card">
-								<div class="card-body">
-									<div
-										class="topCard d-flex justify-content-between align-items-center"
-									>
-										<div class="stars">
-											<i class="fa-solid fa-star starIcon"></i>
-											<i class="fa-solid fa-star starIcon"></i>
-											<i class="fa-solid fa-star starIcon"></i>
-											<i class="fa-solid fa-star starIcon"></i>
-											<i class="fa-solid fa-star starIcon"></i>
-										</div>
-										<div class="review_dots">
-											<i class="fa-solid fa-ellipsis dots"></i>
-										</div>
-									</div>
-									<div class="cardTitle d-flex align-items-center">
-										<h5 class="card-title">Abdelrahman Salah</h5>
-										<i
-											class="fa-solid fa-circle-check fs-5 ms-1 checkCircle"
-										></i>
-									</div>
-									<p class="card-text">
-										"I absolutely love this t-shirt! The design is unique and
-										the fabric feels so comfortable. As a fellow designer, I
-										appreciate the attention to detail. It's become my favorite
-										go-to shirt."
-									</p>
-									<p class="postDate">Posted on August 14, 2025</p>
-								</div>
-							</div>
-						</div>
-						<button class="btn loadBtn mx-auto">Load More Reviews</button>
-					</div>
+			<div id="product-content" style="display: none">
+				<div class="breadcrumbContainer">
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item">
+								<a href="#">Home</a>
+								<i class="fa-solid fa-chevron-right"></i>
+							</li>
+							<li class="breadcrumb-item">
+								<a href="#">Shop</a>
+								<i class="fa-solid fa-chevron-right"></i>
+							</li>
+							<li class="breadcrumb-item">
+								<a href="#" id="breadcrumb-category">Men</a>
+								<i class="fa-solid fa-chevron-right"></i>
+							</li>
+							<li
+								class="breadcrumb-item active"
+								aria-current="page"
+								id="breadcrumb-product"
+							>
+								Wide-Leg Jogger Trousers
+							</li>
+						</ol>
+					</nav>
 				</div>
-				<div
-					class="tab-pane fade"
-					id="pills-faq"
-					role="tabpanel"
-					aria-labelledby="pills-faq-tab"
-					tabindex="0"
-				>
-					<div class="accordion" id="faqAccordion">
-						<div class="accordion-item">
-							<h2 class="accordion-header" id="faqOneHeading">
-								<button
-									class="accordion-button"
-									type="button"
-									data-bs-toggle="collapse"
-									data-bs-target="#faqOne"
-									aria-expanded="true"
-									aria-controls="faqOne"
-								>
-									What is your return policy?
-								</button>
-							</h2>
-							<div
-								id="faqOne"
-								class="accordion-collapse collapse show"
-								aria-labelledby="faqOneHeading"
-								data-bs-parent="#faqAccordion"
-							>
-								<div class="accordion-body">
-									You can return any unused product within 14 days of purchase
-									for a full refund, provided it is in its original packaging.
-								</div>
-							</div>
-						</div>
 
-						<div class="accordion-item">
-							<h2 class="accordion-header" id="faqTwoHeading">
-								<button
-									class="accordion-button collapsed"
-									type="button"
-									data-bs-toggle="collapse"
-									data-bs-target="#faqTwo"
-									aria-expanded="false"
-									aria-controls="faqTwo"
-								>
-									Do you offer international shipping?
-								</button>
-							</h2>
-							<div
-								id="faqTwo"
-								class="accordion-collapse collapse"
-								aria-labelledby="faqTwoHeading"
-								data-bs-parent="#faqAccordion"
-							>
-								<div class="accordion-body">
-									Yes, we ship worldwide. Delivery times and costs may vary
-									depending on your location.
-								</div>
-							</div>
-						</div>
-
-						<div class="accordion-item">
-							<h2 class="accordion-header" id="faqThreeHeading">
-								<button
-									class="accordion-button collapsed"
-									type="button"
-									data-bs-toggle="collapse"
-									data-bs-target="#faqThree"
-									aria-expanded="false"
-									aria-controls="faqThree"
-								>
-									How can I track my order?
-								</button>
-							</h2>
-							<div
-								id="faqThree"
-								class="accordion-collapse collapse"
-								aria-labelledby="faqThreeHeading"
-								data-bs-parent="#faqAccordion"
-							>
-								<div class="accordion-body">
-									Once your order has been shipped, you will receive an email
-									with a tracking number to monitor your delivery status.
-								</div>
-							</div>
-						</div>
-
-						<div class="accordion-item">
-							<h2 class="accordion-header" id="faqFourHeading">
-								<button
-									class="accordion-button collapsed"
-									type="button"
-									data-bs-toggle="collapse"
-									data-bs-target="#faqFour"
-									aria-expanded="false"
-									aria-controls="faqFour"
-								>
-									What payment methods do you accept?
-								</button>
-							</h2>
-							<div
-								id="faqFour"
-								class="accordion-collapse collapse"
-								aria-labelledby="faqFourHeading"
-								data-bs-parent="#faqAccordion"
-							>
-								<div class="accordion-body">
-									We accept credit cards, debit cards, PayPal, and bank
-									transfers. All transactions are secure and encrypted.
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<section class="mightLike">
-				<h2>You might also like</h2>
-				<div class="row row-cols-1 row-cols-md-4 g-4">
-					<div class="col">
-						<div class="card">
-							<img
-								src="../../assets/image/products/polo_t-shirt.png"
-								class="card-img-top"
-								alt="Product Image"
-							/>
-							<div class="card-body">
-								<h5 class="card-title">Polo with Contrast Trims</h5>
-								<div class="rate mb-2">
-									<i class="fa-solid fa-star rate_star"></i>
-									<i class="fa-solid fa-star rate_star"></i>
-									<i class="fa-solid fa-star rate_star"></i>
-									<i class="fa-solid fa-star rate_star"></i>
-									<i class="fa-regular fa-star rate_star inactive"></i>
-									<span>(4.0)</span>
-								</div>
-								<div class="price">
-									<span class="currentPrice">$180</span>
-									<span class="oldPrice">$200</span>
-									<span class="discount">-10%</span>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col">
-						<div class="card">
-							<img
-								src="../../assets/image/products/pink_round.png"
-								class="card-img-top"
-								alt="Product Image"
-							/>
-							<div class="card-body">
-								<h5 class="card-title">Gradient Graphic T-shirt</h5>
-								<div class="rate mb-2">
-									<i class="fa-solid fa-star rate_star"></i>
-									<i class="fa-solid fa-star rate_star"></i>
-									<i class="fa-solid fa-star rate_star"></i>
-									<i class="fa-solid fa-star rate_star"></i>
-									<i class="fa-regular fa-star rate_star inactive"></i>
-									<span>(4.0)</span>
-								</div>
-								<div class="price">
-									<span class="currentPrice">$145</span>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col">
-						<div class="card">
-							<img
-								src="../../assets/image/products/light_red_polo.png"
-								class="card-img-top"
-								alt="Product Image"
-							/>
-							<div class="card-body">
-								<h5 class="card-title">Polo with Tipping Details</h5>
-								<div class="rate mb-2">
-									<i class="fa-solid fa-star rate_star"></i>
-									<i class="fa-solid fa-star rate_star"></i>
-									<i class="fa-solid fa-star rate_star"></i>
-									<i class="fa-solid fa-star rate_star"></i>
-									<i class="fa-regular fa-star rate_star inactive"></i>
-									<span>(4.0)</span>
-								</div>
-								<div class="price">
-									<span class="currentPrice">$180</span>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col">
-						<div class="card">
-							<img
-								src="../../assets/image/products/black_striped_polo_t-shirt.png"
-								class="card-img-top"
-								alt="Product Image"
-							/>
-							<div class="card-body">
-								<h5 class="card-title">Black Striped T-shirt</h5>
-								<div class="rate mb-2">
-									<i class="fa-solid fa-star rate_star"></i>
-									<i class="fa-solid fa-star rate_star"></i>
-									<i class="fa-solid fa-star rate_star"></i>
-									<i class="fa-solid fa-star rate_star"></i>
-									<i class="fa-regular fa-star rate_star inactive"></i>
-									<span>(4.0)</span>
-								</div>
-								<div class="price">
-									<span class="currentPrice">$120</span>
-									<span class="oldPrice">$150</span>
-									<span class="discount">-30%</span>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</section>
-			<section class="newsletter">
 				<div class="row">
-					<div
-						class="col-lg-6 col-md-10 col-sm-12 mx-auto d-flex justify-content-center align-items-center"
-					>
-						<div class="newsletter_content">
-							<h2>STAY UPTO DATE ABOUT OUR LATEST OFFERS</h2>
+					<div class="col-lg-6 col-md-12">
+						<div class="imagesContainer d-flex">
+							<div class="mainImage">
+								<img id="main-image" src="" alt="Product Image" />
+							</div>
 						</div>
 					</div>
-					<div
-						class="col-lg-6 col-md-10 col-sm-12 mx-auto d-flex justify-content-center align-items-center"
-					>
-						<div class="newsletter_form">
-							<div class="newsletter_inputWrapper">
-								<i class="fa-solid fa-envelope emailIcon"></i>
-								<input
-									type="email"
-									class="form-control newsletterInput"
-									name="newsletter"
-									placeholder="Enter your email address"
-								/>
+
+					<div class="col-lg-6 col-md-12">
+						<div class="productDetails">
+							<h2 id="product-name"></h2>
+							<div class="rate">
+								<div id="stars-container"></div>
+								<span id="rating-text"></span>
 							</div>
-							<button class="btn subscribeBtn">Subscribe to Newsletter</button>
+							<div class="price">
+								<span class="currentPrice" id="current-price"></span>
+								<span class="oldPrice" id="original-price"></span>
+								<span class="discount" id="discount-badge"></span>
+							</div>
+							<div class="description">
+								<p id="product-description"></p>
+							</div>
+
+							<div class="stock-indicator" id="stock-indicator">
+								<span id="stock-text"></span>
+							</div>
+
+							<div class="colors">
+								<h6>Select Colors</h6>
+								<div class="colorOptions" id="color-options"></div>
+							</div>
+
+							<div class="size">
+								<h6>Select Size</h6>
+								<div class="sizeOptions" id="size-options"></div>
+							</div>
+
+							<div class="purchaseOptions">
+								<div class="quantity">
+									<div class="counter">
+										<div class="removeIcon" id="decrease-qty">
+											<i class="fa-solid fa-minus"></i>
+										</div>
+										<div class="number" id="quantity-display">1</div>
+										<div class="addIcon" id="increase-qty">
+											<i class="fa-solid fa-plus"></i>
+										</div>
+									</div>
+								</div>
+								<button class="btn addToCartBtn" id="add-to-cart">
+									<i class="fa-solid fa-cart-plus me-2"></i> Add to Cart
+								</button>
+							</div>
 						</div>
 					</div>
 				</div>
-			</section>
+
+				<ul class="nav nav-pills my-3" id="pills-tab" role="tablist">
+					<li class="nav-item" role="presentation">
+						<button
+							class="nav-link tabLink"
+							id="pills-product-details-tab"
+							data-bs-toggle="pill"
+							data-bs-target="#pills-product-details"
+							type="button"
+							role="tab"
+						>
+							Product Details
+						</button>
+					</li>
+					<li class="nav-item" role="presentation">
+						<button
+							class="nav-link tabLink active"
+							id="pills-rating-tab"
+							data-bs-toggle="pill"
+							data-bs-target="#pills-rating"
+							type="button"
+							role="tab"
+						>
+							Rating & Reviews
+						</button>
+					</li>
+					<li class="nav-item" role="presentation">
+						<button
+							class="nav-link tabLink"
+							id="pills-faq-tab"
+							data-bs-toggle="pill"
+							data-bs-target="#pills-faq"
+							type="button"
+							role="tab"
+						>
+							FAQs
+						</button>
+					</li>
+				</ul>
+
+				<div class="tab-content" id="pills-tabContent">
+					<div class="tab-pane fade" id="pills-product-details" role="tabpanel">
+						<div class="features-list">
+							<h4><i class="fas fa-star me-2"></i>Key Features</h4>
+							<ul>
+								<li>
+									<strong>Premium Cotton Fabric</strong> - Soft, breathable, and
+									comfortable looped lining
+								</li>
+								<li>
+									<strong>Wide-Leg Design</strong> - Modern relaxed fit for
+									ultimate comfort and style
+								</li>
+								<li>
+									<strong>Elastic Waistband</strong> - Adjustable inner
+									drawstring for perfect fit
+								</li>
+								<li>
+									<strong>Practical Pockets</strong> - Side pockets and patch
+									back pocket detail
+								</li>
+								<li>
+									<strong>Versatile Style</strong> - Perfect for casual wear and
+									lounging
+								</li>
+								<li>
+									<strong>Multiple Colors</strong> - Available in Anthracite
+									Grey, Black, and Grey Marl
+								</li>
+								<li>
+									<strong>Size Range</strong> - X-Small to X-Large for the
+									perfect fit
+								</li>
+								<li>
+									<strong>Machine Washable</strong> - Easy care for busy
+									lifestyles
+								</li>
+							</ul>
+						</div>
+					</div>
+
+					<div
+						class="tab-pane fade show active"
+						id="pills-rating"
+						role="tabpanel"
+					>
+						<div class="reviewTop row align-items-center mb-3">
+							<div class="col-12 col-md-6">
+								<h3 class="reviewHeader">
+									All Reviews <span id="total-reviews"></span>
+								</h3>
+							</div>
+							<div class="col-12 col-md-6 mt-2 mt-md-0">
+								<div
+									class="filter d-flex flex-wrap justify-content-md-end justify-content-start gap-2"
+								>
+									<div
+										class="slider d-flex align-items-center justify-content-center"
+									>
+										<i class="fa-solid fa-sliders"></i>
+									</div>
+									<div
+										class="latest d-flex justify-content-between align-items-center"
+									>
+										<p class="mb-0">Latest</p>
+										<i class="fa-solid fa-caret-down ms-2"></i>
+									</div>
+									<div class="writeBtn">
+										<button
+											class="btn w-100"
+											data-bs-toggle="modal"
+											data-bs-target="#reviewModal"
+										>
+											<i class="fa-solid fa-pencil"></i> Write a Review
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Reviews will be generated dynamically -->
+						<div
+							class="row row-cols-1 row-cols-md-2 g-4 reviewsContainer"
+							id="reviews-container"
+						>
+							<button class="btn loadBtn mx-auto">Load More Reviews</button>
+						</div>
+					</div>
+
+					<div class="tab-pane fade" id="pills-faq" role="tabpanel">
+						<div class="accordion" id="faqAccordion">
+							<div class="accordion-item">
+								<h2 class="accordion-header" id="faqOneHeading">
+									<button
+										class="accordion-button"
+										type="button"
+										data-bs-toggle="collapse"
+										data-bs-target="#faqOne"
+									>
+										What is your return policy?
+									</button>
+								</h2>
+								<div id="faqOne" class="accordion-collapse collapse show">
+									<div class="accordion-body">
+										You can return any unused product within 14 days of purchase
+										for a full refund, provided it is in its original packaging.
+									</div>
+								</div>
+							</div>
+							<div class="accordion-item">
+								<h2 class="accordion-header" id="faqTwoHeading">
+									<button
+										class="accordion-button collapsed"
+										type="button"
+										data-bs-toggle="collapse"
+										data-bs-target="#faqTwo"
+									>
+										Do you offer international shipping?
+									</button>
+								</h2>
+								<div id="faqTwo" class="accordion-collapse collapse">
+									<div class="accordion-body">
+										Yes, we ship worldwide. Delivery times and costs may vary
+										depending on your location.
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<section class="mightLike">
+					<h2>You might also like</h2>
+					<div class="row row-cols-1 row-cols-md-4 g-4">
+						<div class="col">
+							<div class="card">
+								<img
+									src="../../assets/image/products/polo_t-shirt.png"
+									class="card-img-top"
+									alt="Product Image"
+								/>
+								<div class="card-body">
+									<h5 class="card-title">Polo with Contrast Trims</h5>
+									<div class="rate mb-2">
+										<i class="fa-solid fa-star rate_star"></i>
+										<i class="fa-solid fa-star rate_star"></i>
+										<i class="fa-solid fa-star rate_star"></i>
+										<i class="fa-solid fa-star rate_star"></i>
+										<i class="fa-regular fa-star rate_star inactive"></i>
+										<span>(4.0)</span>
+									</div>
+									<div class="price">
+										<span class="currentPrice">$180</span>
+										<span class="oldPrice">$200</span>
+										<span class="discount">-10%</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col">
+							<div class="card">
+								<img
+									src="../../assets/image/products/pink_round.png"
+									class="card-img-top"
+									alt="Product Image"
+								/>
+								<div class="card-body">
+									<h5 class="card-title">Gradient Graphic T-shirt</h5>
+									<div class="rate mb-2">
+										<i class="fa-solid fa-star rate_star"></i>
+										<i class="fa-solid fa-star rate_star"></i>
+										<i class="fa-solid fa-star rate_star"></i>
+										<i class="fa-solid fa-star rate_star"></i>
+										<i class="fa-regular fa-star rate_star inactive"></i>
+										<span>(4.0)</span>
+									</div>
+									<div class="price">
+										<span class="currentPrice">$145</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col">
+							<div class="card">
+								<img
+									src="../../assets/image/products/light_red_polo.png"
+									class="card-img-top"
+									alt="Product Image"
+								/>
+								<div class="card-body">
+									<h5 class="card-title">Polo with Tipping Details</h5>
+									<div class="rate mb-2">
+										<i class="fa-solid fa-star rate_star"></i>
+										<i class="fa-solid fa-star rate_star"></i>
+										<i class="fa-solid fa-star rate_star"></i>
+										<i class="fa-solid fa-star rate_star"></i>
+										<i class="fa-regular fa-star rate_star inactive"></i>
+										<span>(4.0)</span>
+									</div>
+									<div class="price">
+										<span class="currentPrice">$180</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col">
+							<div class="card">
+								<img
+									src="../../assets/image/products/black_striped_polo_t-shirt.png"
+									class="card-img-top"
+									alt="Product Image"
+								/>
+								<div class="card-body">
+									<h5 class="card-title">Black Striped T-shirt</h5>
+									<div class="rate mb-2">
+										<i class="fa-solid fa-star rate_star"></i>
+										<i class="fa-solid fa-star rate_star"></i>
+										<i class="fa-solid fa-star rate_star"></i>
+										<i class="fa-solid fa-star rate_star"></i>
+										<i class="fa-regular fa-star rate_star inactive"></i>
+										<span>(4.0)</span>
+									</div>
+									<div class="price">
+										<span class="currentPrice">$120</span>
+										<span class="oldPrice">$150</span>
+										<span class="discount">-30%</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+				<section class="newsletter">
+					<div class="row">
+						<div
+							class="col-lg-6 col-md-10 col-sm-12 mx-auto d-flex justify-content-center align-items-center"
+						>
+							<div class="newsletter_content">
+								<h2>STAY UPTO DATE ABOUT OUR LATEST OFFERS</h2>
+							</div>
+						</div>
+						<div
+							class="col-lg-6 col-md-10 col-sm-12 mx-auto d-flex justify-content-center align-items-center"
+						>
+							<div class="newsletter_form">
+								<div class="newsletter_inputWrapper">
+									<i class="fa-solid fa-envelope emailIcon"></i>
+									<input
+										type="email"
+										class="form-control newsletterInput"
+										name="newsletter"
+										placeholder="Enter your email address"
+									/>
+								</div>
+								<button class="btn subscribeBtn">
+									Subscribe to Newsletter
+								</button>
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
 		</main>
 		<!-- End Main Content -->
 		<footer>
@@ -937,8 +647,113 @@
 				</div>
 			</div>
 		</footer>
+		<!-- Review Modal -->
+		<div
+			class="modal fade"
+			id="reviewModal"
+			tabindex="-1"
+			aria-labelledby="reviewModalLabel"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<!-- Header -->
+					<div class="modal-header">
+						<h5 class="modal-title" id="reviewModalLabel">Write a Review</h5>
+						<button
+							type="button"
+							class="btn-close"
+							data-bs-dismiss="modal"
+							aria-label="Close"
+						></button>
+					</div>
+
+					<!-- Body -->
+					<div class="modal-body">
+						<form id="reviewForm">
+							<div class="mb-3">
+								<label for="reviewTitle" class="form-label">Title</label>
+								<input
+									type="text"
+									class="form-control"
+									id="reviewTitle"
+									required
+								/>
+							</div>
+							<div class="mb-3">
+								<label for="reviewText" class="form-label">Your Review</label>
+								<textarea
+									class="form-control"
+									id="reviewText"
+									rows="3"
+									required
+								></textarea>
+							</div>
+
+							<div class="mb-3">
+								<label for="rating" class="form-label">Rating</label>
+								<div class="stars">
+									<i class="fa-regular fa-star star" data-value="1"></i>
+									<i class="fa-regular fa-star star" data-value="2"></i>
+									<i class="fa-regular fa-star star" data-value="3"></i>
+									<i class="fa-regular fa-star star" data-value="4"></i>
+									<i class="fa-regular fa-star star" data-value="5"></i>
+									<input type="hidden" id="rating" name="rating" required />
+								</div>
+							</div>
+						</form>
+					</div>
+
+					<!-- Footer -->
+					<div class="modal-footer">
+						<button
+							type="button"
+							class="btn btn-secondary"
+							data-bs-dismiss="modal"
+						>
+							Cancel
+						</button>
+						<button type="submit" id="submitReview" class="btn btn-primary">
+							Submit Review
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 		<script src="../../javascripts/Bootstrap/bootstrap.bundle.min.js"></script>
 		<script src="../../javascripts/General/main.js" type="module"></script>
-		<script src="../../javascripts/Product Details/main.js" type="module"></script>
+		<script
+			src="../../javascripts/Product Details/main.js"
+			type="module"
+		></script>
+		<script
+			type="module"
+			src="../../features/productDetails/index.js"
+		></script>
+		<script>
+			document.addEventListener("DOMContentLoaded", () => {
+				const stars = document.querySelectorAll(".star");
+				const ratingInput = document.getElementById("rating");
+
+				stars.forEach((star, index) => {
+					star.addEventListener("click", () => {
+						const ratingValue = star.getAttribute("data-value");
+						ratingInput.value = ratingValue;
+
+						// Reset all stars
+						stars.forEach((s, i) => {
+							if (i < ratingValue) {
+								s.classList.remove("fa-regular");
+								s.classList.add("fa-solid");
+							} else {
+								s.classList.remove("fa-solid");
+								s.classList.add("fa-regular");
+							}
+						});
+					});
+				});
+			});
+		</script>
 	</body>
 </html>

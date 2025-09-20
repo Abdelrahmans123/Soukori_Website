@@ -100,9 +100,9 @@ export const addReview = async (productId, comment, rating, title) => {
 			comment,
 			rating,
 			title,
-			orderId: "order123", // Placeholder, replace with actual order ID if available
-			userId: "user123", // Placeholder, replace with actual user ID if available
-			status: "approved", // New reviews are pending approval
+			orderId: "order123", 
+			userId: "user123", 
+			status: "approved", 
 			createdAt: new Date(),
 		});
 		console.log("Review added successfully");

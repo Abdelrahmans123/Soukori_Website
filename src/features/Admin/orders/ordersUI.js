@@ -1,9 +1,7 @@
 import {
     getAllOrders,
-    getProductById,
     getUserById,
     updateMultipleOrderStatuses,
-    updateOrderStatus,
 } from "./firebase.js";
 
 export class OrdersPage {
@@ -12,7 +10,7 @@ export class OrdersPage {
         this.pagePath = "/admin/orders";
         this.pageIcon = "fa fa-shopping-cart";
         this.render = this.render.bind(this);
-        this.statusChangeHandler = null; // Store reference for cleanup
+        this.statusChangeHandler = null;
     }
 
     async renderOrders() {
@@ -31,14 +29,12 @@ export class OrdersPage {
                     order.items.length > 0
                 ) {
                     order.items.forEach((item) => {
-                        // Only add items that have a name or productId
                         if (item.name || item.productId) {
                             orderItems.push({
                                 orderId: order.id,
                                 createdAt: order.createdAt,
                                 status: order.status,
                                 grandTotal: order.grandTotal,
-                                // Item details
                                 productId: item.productId,
                                 productName: item.name,
                                 brand: item.brand,
@@ -77,8 +73,6 @@ export class OrdersPage {
                     return { ...item, customerName: "Guest Customer" };
                 })
             );
-
-            // Filter out any items that still don't have valid product names
             const validItems = itemsWithCustomers.filter(
                 (item) =>
                     item.productName &&

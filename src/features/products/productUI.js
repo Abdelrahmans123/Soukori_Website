@@ -170,18 +170,18 @@ function renderProducts(products) {
                     <div class="productPrice">
                         ${product.discount && product.discount > 0
 				? `<span class="currentPrice">$${(
-					(product.variants?.[0]?.price || 0) *
+					(product.variants[0]?.sizes[0]?.price || 0) *
 					(1 - product.discount / 100)
 				).toFixed(2)}</span>
-                               <span class="originalPrice">$${(product.variants?.[0]?.price || 0).toFixed(
+                               <span class="originalPrice">$${(product.variants[0]?.sizes[0]?.price || 0).toFixed(
 					2
 				)}</span>`
-				: `<span class="currentPrice">$${(product.variants?.[0]?.price || 0).toFixed(
+				: `<span class="currentPrice">$${(product.variants[0]?.sizes[0]?.price || 0).toFixed(
 					2
 				)}</span>`
 			}
                     </div>
-                    <button class="addToCartBtn">
+                    <button class="addToCartBtn" data-product-id="${product.id}">
                         <i class="fas fa-shopping-cart me-2"></i>
                         Add to Cart
                     </button>
@@ -272,7 +272,10 @@ function addProductEventListeners() {
 	document.querySelectorAll(".addToCartBtn").forEach((btn) => {
 		btn.addEventListener("click", function (e) {
 			e.preventDefault();
-			this.innerHTML = '<i class="fas fa-check me-2"></i>Added!';
+			const productId = this.dataset.productId;
+			// go to product details page
+			window.location.href = `/src/pages/Product/productDetails.html?id=${productId}`;
+			this.innerHTML = '<i class="fas fa-check me-2"></i>Check Options!';
 			this.style.backgroundColor = "#28a745";
 			setTimeout(() => {
 				this.innerHTML = '<i class="fas fa-shopping-cart me-2"></i>Add to Cart';
@@ -280,7 +283,6 @@ function addProductEventListeners() {
 			}, 2000);
 		});
 	});
-
 	document.querySelectorAll(".wishlistBtn").forEach((btn) => {
 		btn.addEventListener("click", function (e) {
 			e.preventDefault();

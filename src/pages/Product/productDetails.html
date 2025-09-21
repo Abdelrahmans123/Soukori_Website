@@ -52,15 +52,15 @@
 				>
 					<i class="fas fa-bars"></i>
 				</button>
-				<a class="navbar-brand" href="index.html">SOUKORI</a>
+				<a class="navbar-brand" href="../../index.html">SOUKORI</a>
 
 				<div class="collapse navbar-collapse" id="navbarNav">
 					<ul class="navbar-nav m-auto">
 						<li class="nav-item me-4">
-							<a class="nav-link" href="index.html">Home</a>
+							<a class="nav-link" href="../../index.html">Home</a>
 						</li>
 						<li class="nav-item me-4">
-							<a class="nav-link" href="shop.html">Shop</a>
+							<a class="nav-link" href="../../pages/Product/product.html">Shop</a>
 						</li>
 						<li class="nav-item me-4">
 							<a class="nav-link" href="categories.html">Categories</a>
@@ -99,13 +99,17 @@
 					</a>
 
 					<!-- Auth Section -->
-					<div class="authButtons d-none d-lg-flex">
-						<button type="button" class="btn btn-outline-primary">
-							<i class="fas fa-sign-in-alt me-1"></i> Login
-						</button>
-						<button type="button" class="btn btn-outline-success">
-							<i class="fas fa-user-plus me-1"></i> Register
-						</button>
+					<div class="authButtons d-none">
+						<a href="../Auth/login.html">
+							<button type="button" class="btn btn-outline-primary">
+								<i class="fas fa-sign-in-alt me-1"></i> Login
+							</button>
+						</a>
+						<a href="../Auth/register.html">
+							<button type="button" class="btn btn-outline-success">
+								<i class="fas fa-user-plus me-1"></i> Register
+							</button>
+						</a>
 					</div>
 
 					<!-- Dropdown User  -->
@@ -723,6 +727,7 @@
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 		<script src="../../javascripts/Bootstrap/bootstrap.bundle.min.js"></script>
 		<script src="../../javascripts/General/main.js" type="module"></script>
+		<script src="../../javascripts/Auth/auth.js" type="module"></script>
 		<script
 			src="../../javascripts/Product Details/main.js"
 			type="module"

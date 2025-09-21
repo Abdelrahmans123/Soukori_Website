@@ -8,5 +8,4 @@ import {
 
 document.addEventListener("DOMContentLoaded", () => {
 	initializeProducts();
-
 });

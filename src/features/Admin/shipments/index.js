@@ -1,15 +1,15 @@
-import { OrdersPage } from "./ordersUI.js";
+import { ShipmentsPage } from "./shipmentsUi.JS";
 
-const orders = new OrdersPage();
-orders
+const shipments = new ShipmentsPage();
+shipments
 	.render()
 	.then((container) => {
 		document.getElementById("main-content").innerHTML = "";
 		document.getElementById("main-content").appendChild(container);
 	})
 	.catch((error) => {
-		console.error("Error rendering orders page:", error);
-		const errorContainer = orders.renderError();
+		console.error("Error rendering shipments page:", error);
+		const errorContainer = shipments.renderError(error);
 		document.getElementById("main-content").innerHTML = "";
 		document.getElementById("main-content").appendChild(errorContainer);
 	});

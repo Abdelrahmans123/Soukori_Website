@@ -1,154 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>SOUKORI Dashboard</title>
-		<link
-			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
-			rel="stylesheet"
-		/>
-		<link
-			rel="stylesheet"
-			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-		/>
-		<link rel="stylesheet" href="../../styles/Admin/dashboard.css" />
-	</head>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>SOUKORI Dashboard</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+        <link rel="stylesheet" href="../../styles/Admin/dashboard.css" />
+    </head>
 
-	<body>
-		<!--------------------------------------- Sidebar ---------------------------------------------------------------------->
-		<div class="sidebar">
-			<span class="logo">SOUKORI</span>
-			<nav>
-				<a href="/src/pages/admin/dashboard.html"
-					><i class="fa-solid fa-table-cells-large"></i> DASHBOARD</a
-				>
-				<a href="#"><i class="fa-regular fa-folder"></i> ALL PRODUCTS</a>
-				<a href="/src/pages/admin/orders.html"
-					><i class="fa-regular fa-file-lines"></i> ORDER LIST</a
-				>
-				<a href="/src/pages/admin/categories.html"
-					><i class="fa-solid fa-layer-group"></i> CATEGORIES</a
-				>
-				<a href="/src/pages/admin/shipments.html"
-					><i class="fa-solid fa-truck"></i> SHIPMENTS</a
-				>
-			</nav>
-		</div>
+    <body>
+        <!--------------------------------------- Sidebar ---------------------------------------------------------------------->
+        <div class="sidebar">
+            <span class="logo">SOUKORI</span>
+            <nav>
+                <a href="/src/pages/admin/dashboard.html"
+                    ><i class="fa-solid fa-table-cells-large"></i> DASHBOARD</a
+                >
+                <a href="./product/all.html"
+                    ><i class="fa-regular fa-folder"></i> ALL PRODUCTS</a
+                >
+                <a href="/src/pages/admin/orders.html"
+                    ><i class="fa-regular fa-file-lines"></i> ORDER LIST</a
+                >
+                <a href="/src/pages/admin/categories.html"
+                    ><i class="fa-solid fa-layer-group"></i> CATEGORIES</a
+                >
+                <a href="#"><i class="fa-solid fa-truck"></i> SHIPMENTS</a>
+            </nav>
+        </div>
 
-		<!--------------------------------------- Main ---------------------------------------------------------------------->
-		<div class="main">
-			<div class="header-bar d-flex align-items-center gap-3">
-				<button class="btn btn-light d-lg-none" id="toggleSidebar">
-					<i class="fas fa-bars"></i>
-				</button>
+        <!--------------------------------------- Main ---------------------------------------------------------------------->
+        <div class="main">
+            <div class="header-bar d-flex align-items-center gap-3">
+                <button class="btn btn-light d-lg-none" id="toggleSidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
 
-				<!------------------   Search  ------------------>
-				<div class="dropdown">
-					<button
-						class="btn btn-light"
-						data-bs-toggle="dropdown"
-						aria-expanded="false"
-					>
-						<i class="fas fa-search"></i>
-					</button>
+                <!------------------   Search  ------------------>
+                <div class="dropdown">
+                    <button
+                        class="btn btn-light"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                    >
+                        <i class="fas fa-search"></i>
+                    </button>
 
-					<!-- Dropdown Search Box -->
-					<div class="dropdown-menu p-3 shadow" style="min-width: 250px">
-						<form class="d-flex">
-							<input
-								type="text"
-								class="form-control me-2"
-								placeholder="Type to search..."
-							/>
-							<button type="submit" class="btn btn-outline-dark">
-								<i class="fas fa-search"></i>
-							</button>
-						</form>
-					</div>
-				</div>
+                    <!-- Dropdown Search Box -->
+                    <div
+                        class="dropdown-menu p-3 shadow"
+                        style="min-width: 250px"
+                    >
+                        <form class="d-flex">
+                            <input
+                                type="text"
+                                class="form-control me-2"
+                                placeholder="Type to search..."
+                            />
+                            <button type="submit" class="btn btn-outline-dark">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
 
-				<!------------------   Notifications  ------------------>
-				<div class="dropdown">
-					<button
-						class="btn btn-light position-relative"
-						data-bs-toggle="dropdown"
-						aria-expanded="false"
-					>
-						<i class="fas fa-bell"></i>
-					</button>
+                <!------------------   Notifications  ------------------>
+                <div class="dropdown">
+                    <button
+                        class="btn btn-light position-relative"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                    >
+                        <i class="fas fa-bell"></i>
+                    </button>
 
-					<ul class="dropdown-menu dropdown-menu-end shadow">
-						<li>
-							<h6 class="dropdown-header">Notifications</h6>
-						</li>
-						<li>
-							<a class="dropdown-item" href="#">New order received</a>
-						</li>
-						<li>
-							<a class="dropdown-item" href="#">You have 2 new messages</a>
-						</li>
-						<li>
-							<a class="dropdown-item" href="#">Server rebooted</a>
-						</li>
-						<li>
-							<hr class="dropdown-divider" />
-						</li>
-						<li>
-							<a class="dropdown-item text-center" href="#">View all</a>
-						</li>
-					</ul>
-				</div>
+                    <ul class="dropdown-menu dropdown-menu-end shadow">
+                        <li>
+                            <h6 class="dropdown-header">Notifications</h6>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#"
+                                >New order received</a
+                            >
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#"
+                                >You have 2 new messages</a
+                            >
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#"
+                                >Server rebooted</a
+                            >
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider" />
+                        </li>
+                        <li>
+                            <a class="dropdown-item text-center" href="#"
+                                >View all</a
+                            >
+                        </li>
+                    </ul>
+                </div>
 
-				<!------------------   Admin Profile  ------------------>
-				<div class="dropdown">
-					<button
-						class="btn btn-outline-dark dropdown-toggle"
-						type="button"
-						data-bs-toggle="dropdown"
-						aria-expanded="false"
-					>
-						ADMIN
-					</button>
+                <!------------------   Admin Profile  ------------------>
+                <div class="dropdown">
+                    <button
+                        class="btn btn-outline-dark dropdown-toggle"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        id="adminName"
+                    >
+                        
+                    </button>
 
-					<ul class="dropdown-menu">
-						<li><a class="dropdown-item" href="#">Profile</a></li>
-						<li><a class="dropdown-item" href="#">Logout</a></li>
-					</ul>
-				</div>
-			</div>
-			<div
-				class="loading d-flex justify-content-center align-items-center vh-100"
-				id="loading"
-			>
-				<div class="spinner-border text-primary" role="status">
-					<span class="visually-hidden">Loading...</span>
-				</div>
-			</div>
-			<div class="container-fluid" id="main-content" style="display: none">
-				<div class="card p-4">
-					<table class="table">
-						<thead>
-							<tr>
-								<th scope="col">Order ID</th>
-								<th scope="col">Customer Name</th>
-								<th scope="col">Product</th>
-								<th scope="col">Quantity</th>
-								<th scope="col">Price</th>
-								<th scope="col">Status</th>
-								<th scope="col">Actions</th>
-							</tr>
-						</thead>
-						<tbody>
-							<!-- More rows as needed -->
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-		<script src="../../javascripts/admin/general/main.js"></script>
-		<script src="../../features/Admin/orders/index.js" type="module"></script>
-	</body>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" id="logoutBtn" href="#">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div
+                class="loading d-flex justify-content-center align-items-center vh-100"
+                id="loading"
+            >
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+            <div
+                class="container-fluid"
+                id="main-content"
+                style="display: none"
+            >
+                <div class="card p-4">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Order ID</th>
+                                <th scope="col">Customer Name</th>
+                                <th scope="col">Product</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- More rows as needed -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="../../javascripts/admin/general/main.js"></script>
+        <script
+            src="../../features/Admin/orders/index.js"
+            type="module"
+        ></script>
+         <script type="module" src="../../javascripts/admin/auth/login.js"></script>
+    </body>
 </html>

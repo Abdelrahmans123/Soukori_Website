@@ -36,6 +36,7 @@
 			</nav>
 		</div>
 
+
 		<!--------------------------------------- Main ---------------------------------------------------------------------->
 		<div class="main">
 			<div class="header-bar d-flex align-items-center gap-3">
@@ -100,43 +101,51 @@
 					</ul>
 				</div>
 
-				<!------------------   Admin Profile  ------------------>
-				<div class="dropdown">
-					<button
-						class="btn btn-outline-dark dropdown-toggle"
-						type="button"
-						data-bs-toggle="dropdown"
-						aria-expanded="false"
-					>
-						ADMIN
-					</button>
 
-					<ul class="dropdown-menu">
-						<li><a class="dropdown-item" href="#">Profile</a></li>
-						<li><a class="dropdown-item" href="#">Logout</a></li>
-					</ul>
-				</div>
-			</div>
-			<div
-				class="loading d-flex justify-content-center align-items-center vh-100"
-				id="loading"
-			>
-				<div class="spinner-border text-primary" role="status">
-					<span class="visually-hidden">Loading...</span>
-				</div>
-			</div>
-			<div class="container-fluid" id="main-content" style="display: none">
-				<div class="card p-4"></div>
-			</div>
-		</div>
-		<!-- End Modal -->
+                <!------------------   Admin Profile  ------------------>
+                <div class="dropdown">
+                    <button
+                        class="btn btn-outline-dark dropdown-toggle"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        id="adminName"
+                    >
+                        
+                    </button>
 
-		<script src="../../javascripts/Bootstrap/bootstrap.bundle.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-		<script src="../../javascripts/admin/general/main.js"></script>
-		<script
-			src="../../features/Admin/categories/index.js"
-			type="module"
-		></script>
-	</body>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" id="logoutBtn" href="#">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div
+                class="loading d-flex justify-content-center align-items-center vh-100"
+                id="loading"
+            >
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+            <div
+                class="container-fluid"
+                id="main-content"
+                style="display: none"
+            >
+                <div class="card p-4"></div>
+            </div>
+        </div>
+        <!-- End Modal -->
+   
+        <script src="../../javascripts/Bootstrap/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="../../javascripts/admin/general/main.js"></script>
+        <script
+            src="../../features/Admin/categories/index.js"
+            type="module"
+        ></script>
+         <script type="module" src="../../javascripts/admin/auth/login.js"></script>
+    </body>
+
 </html>

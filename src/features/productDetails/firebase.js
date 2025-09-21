@@ -10,6 +10,7 @@ import {
 	orderBy,
 	limit,
 	startAfter,
+	arrayUnion,
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 import db from "../../config/firebase.js";
 export const getProductById = async (productId) => {
@@ -36,7 +37,7 @@ export async function getReviewsByProduct(productId, isNextPage = false) {
 			orderBy("createdAt", "desc"),
 			limit(pageSize)
 		);
-        
+
 
 		// add pagination
 		if (isNextPage && lastVisible) {
@@ -63,10 +64,17 @@ export async function getReviewsByProduct(productId, isNextPage = false) {
 	}
 }
 
-export const addCart = async (cartItem, createdAt) => {
-	const cartRef = collection(db, "carts");
-	await addDoc(cartRef, { items: [cartItem], createdAt: createdAt });
+export const addCart = async (cartItem, createdAt, cartId) => {
+  const cartRef = doc(db, "carts", cartId);
+  await updateDoc(cartRef, {
+    items: arrayUnion({
+      ...cartItem,
+      timestamp: new Date().toISOString(),
+    }),
+    updatedAt: new Date(),
+  });
 };
+
 export const updateCart = async (docId, cartItem) => {
 	const docRef = doc(db, "carts", docId);
 	const snapshot = await getDoc(docRef);
@@ -100,9 +108,9 @@ export const addReview = async (productId, comment, rating, title) => {
 			comment,
 			rating,
 			title,
-			orderId: "order123", 
-			userId: "user123", 
-			status: "approved", 
+			orderId: "order123",
+			userId: "user123",
+			status: "approved",
 			createdAt: new Date(),
 		});
 		console.log("Review added successfully");

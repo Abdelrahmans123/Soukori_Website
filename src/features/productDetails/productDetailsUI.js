@@ -10,8 +10,11 @@ import {
 	addDoc,
 	updateDoc,
 	increment,
+	serverTimestamp,
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 import db from "../../config/firebase.js";
+import { auth } from "../../javascripts/Auth/firebase-config.js"
 import {
 	addCart,
 	addReview,
@@ -20,12 +23,16 @@ import {
 	updateCart,
 } from "./firebase.js";
 
+
+
 let currentVariant = 0;
 let selectedSize = null;
 let currentQuantity = 1;
 let cart = [];
 let productId = new URLSearchParams(window.location.search).get("id");
 let productData = null;
+let userId;
+
 export class ProductPage {
 	constructor() {
 		this.init();
@@ -38,9 +45,15 @@ export class ProductPage {
 			this.setupEventListeners();
 			this.hideLoading();
 		}, 1000);
+
+		// Load cart from localStorage on init
+		const storedCart = localStorage.getItem("carts");
+		if (storedCart) {
+			cart = JSON.parse(storedCart);
+		}
 	}
 
-	async loadProduct() {
+	async loadProduct(variantIndex = 0, sizePriceIndex = 0) {
 		productData = await getProductById(productId);
 		document.getElementById("product-name").textContent = productData.name;
 		document.getElementById("breadcrumb-product").textContent =
@@ -53,14 +66,14 @@ export class ProductPage {
 		document.getElementById("product-description").textContent =
 			productData.description;
 
-		const discountedPrice = productData.price * (1 - productData.discount);
+		const discountedPrice = +(productData.variants[variantIndex].sizes[sizePriceIndex].price * (1 - productData.discount));
 		document.getElementById(
 			"current-price"
 		).textContent = `$${discountedPrice.toFixed(2)}`;
 		if (productData.discount > 0) {
 			document.getElementById(
 				"original-price"
-			).textContent = `$${productData.price.toFixed(2)}`;
+			).textContent = `$${productData.variants[variantIndex].sizes[sizePriceIndex].price.toFixed(2)}`;
 			document.getElementById("discount-badge").textContent = `${Math.round(
 				productData.discount * 100
 			)}%`;
@@ -171,9 +184,8 @@ export class ProductPage {
 
 		sizes.forEach((sizeInfo) => {
 			const sizeOption = document.createElement("div");
-			sizeOption.className = `sizeOption ${
-				sizeInfo.quantity === 0 ? "out-of-stock" : ""
-			}`;
+			sizeOption.className = `sizeOption ${sizeInfo.quantity === 0 ? "out-of-stock" : ""
+				}`;
 			sizeOption.innerHTML = `<p>${sizeInfo.size}</p>`;
 			sizeOption.dataset.size = sizeInfo.size;
 			sizeOption.dataset.quantity = sizeInfo.quantity;
@@ -192,13 +204,32 @@ export class ProductPage {
 		});
 
 		sizeElement.classList.add("active");
+
+		const sizeIndex = Array.from(sizeElement.parentNode.children).indexOf(sizeElement);
+		const variant = productData.variants[currentVariant];
+
 		selectedSize = {
 			size: sizeElement.dataset.size,
 			quantity: parseInt(sizeElement.dataset.quantity),
+			price: variant.sizes[sizeIndex].price,
 		};
 
 		this.updateStockIndicator();
+		this.updatePriceDisplay();
 	}
+
+	updatePriceDisplay() {
+		if (!selectedSize) return;
+
+		const discountedPrice = selectedSize.price * (1 - productData.discount);
+		document.getElementById("current-price").textContent = `$${discountedPrice.toFixed(2)}`;
+
+		if (productData.discount > 0) {
+			document.getElementById("original-price").textContent = `$${selectedSize.price.toFixed(2)}`;
+			document.getElementById("discount-badge").textContent = `${Math.round(productData.discount * 100)}%`;
+		}
+	}
+
 
 	updateStockIndicator() {
 		const indicator = document.getElementById("stock-indicator");
@@ -268,7 +299,7 @@ export class ProductPage {
 			id: productData.id,
 			name: productData.name,
 			brand: productData.brand,
-			price: productData.price * (1 - productData.discount),
+			price: +(selectedSize.price * (1 - productData.discount)),
 			size: selectedSize.size,
 			color: productData.variants[currentVariant].color,
 			image: productData.variants[currentVariant].image,
@@ -277,46 +308,46 @@ export class ProductPage {
 		};
 
 		try {
-			let existingIndex = cart.findIndex(
-				(item) =>
-					item.id === cartItem.id &&
-					item.size === cartItem.size &&
-					item.color === cartItem.color
-			);
-
-			if (existingIndex !== -1) {
-				cart[existingIndex].quantity += currentQuantity;
-
-				// ✅ Update Firestore
-				const cartSnapshot = await getDocs(collection(db, "carts"));
-				for (const d of cartSnapshot.docs) {
-					const data = d.data().items;
-					const match = data.find(
-						(item) =>
-							item.id === cartItem.id &&
-							item.size === cartItem.size &&
-							item.color === cartItem.color
-					);
-					if (match) {
-						await updateCart(d.id, cart[existingIndex]); // pass updated cart item
-						break;
-					}
+			// Get logged-in user
+			onAuthStateChanged(auth, async (user) => {
+				if (!user) {
+					cart.push(cartItem);
+					localStorage.setItem("carts", JSON.stringify(cart));
+					this.showNotification("Added to cart", "success");
+					return;
 				}
-			} else {
-				// New item → push to cart + Firestore
+
+				const userRef = doc(db, "users", user.uid);
+				const userSnap = await getDoc(userRef);
+
+				if (!userSnap.exists()) {
+					console.error("User document not found!");
+					return;
+				}
+
+				const userData = userSnap.data();
+				const cartId = userData.cartID;  //  fetch cartId from user doc
+
+				if (!cartId) {
+					console.error("No cartId found in user document");
+					return;
+				}
+
+				// Update Firestore cart
+				await addCart(cartItem, new Date(), cartId);
+
+				// Update local cart copy
 				cart.push(cartItem);
+				localStorage.setItem("carts", JSON.stringify(cart));
 
-				await addCart(cartItem, Date.now());
-			}
+				this.showNotification("Cart updated successfully!", "success");
 
-			// Update local storage
-			localStorage.setItem("carts", JSON.stringify(cart));
+				// Update stock locally
+				selectedSize.quantity -= currentQuantity;
+				this.updateStockIndicator();
 
-			this.showNotification("Cart updated successfully!", "success");
-
-			// Update stock locally
-			selectedSize.quantity -= currentQuantity;
-			this.updateStockIndicator();
+				await updateCartCount();
+			});
 		} catch (error) {
 			console.error("Error adding to cart:", error);
 			this.showNotification("Failed to add to cart", "error");
@@ -444,8 +475,8 @@ export class ProductPage {
                             </div>
                             <p class="card-text">${review.comment}</p>
                             <p class="postDate">Posted on ${new Date(
-															review.createdAt.seconds * 1000
-														).toLocaleDateString()}</p>
+			review.createdAt.seconds * 1000
+		).toLocaleDateString()}</p>
                         </div>
                     </div>
                 `;
@@ -495,7 +526,7 @@ export class ProductPage {
 // Load user's cart count (optional)
 async function updateCartCount() {
 	try {
-		const cartRef = collection(db, "cart");
+		const cartRef = collection(db, "carts");
 		const cartSnapshot = await getCountFromServer(cartRef);
 		const cartCount = cartSnapshot.data().count;
 

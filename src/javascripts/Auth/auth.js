@@ -15,27 +15,24 @@ import {
 const provider = new GoogleAuthProvider();
 const authEl = document.querySelector(".authButtons");
 const userDropdownEl = document.querySelector(".user-dropdown");
-const cartBtn = document.querySelector('.cartBtn');
 
 function showAuth() {
   authEl.classList.remove("d-none");
   authEl.classList.add("d-lg-flex");
   userDropdownEl.classList.add("d-none");
-  cartBtn.classList.add("d-none");
 }
 
 function showUserDropdown() {
   authEl.classList.add("d-none");
-  cartBtn.classList.remove("d-none");
   userDropdownEl.classList.remove("d-none");
 }
 
 // Shows quickly before Firebase responds
 if (localStorage.getItem("userLoggedIn") === "true") {
-  showUserDropdown(); 
-   if (window.location.pathname.includes("login.html") || window.location.pathname.includes("register.html") || window.location.pathname.includes("forgot-password.html")) {
-        window.location.href = "../../index.html";
-      }
+  showUserDropdown();
+  if (window.location.pathname.includes("login.html") || window.location.pathname.includes("register.html") || window.location.pathname.includes("forgot-password.html")) {
+    window.location.href = "../../index.html";
+  }
 } else {
   showAuth();
 }
@@ -52,23 +49,43 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
+ async function getUserCartToLocal(user) {
+   const userRef = doc(db, "users", user.uid);
+   const userSnap = await getDoc(userRef);
+   if (userSnap.exists()) {
+     const userData = userSnap.data();
+     const cartId = userData.cartID;
+     const cartRef = doc(db, "carts", cartId);
+     const cartSnap = await getDoc(cartRef);
+     const cartData = cartSnap.data();
+     const cartItems = cartData.items || [];
+     localStorage.setItem("carts", JSON.stringify(cartItems));
+     window.location.href = "../../index.html";
+     return;
+   }
+ }
+
 //  login
 document.getElementById("loginForm")?.addEventListener("submit", (e) => {
+  const loginBUtton = document.getElementById("loggingInBtn");
+  loginBUtton.innerHTML=`Logging in... <span class="spinner"></span>`;
+  loginBUtton.style.background = 'grey';
   e.preventDefault();
 
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value;
 
   signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      window.location.href = "../../index.html";
+    .then(async (userCredential) => {
+      const user = userCredential.user;
+      getUserCartToLocal(user);
       localStorage.setItem("userLoggedIn", "true"); // Store the login state
       showUserDropdown();
     })
     .catch((error) => {
-    const errorDiv = document.getElementById("loginError");
-    errorDiv.innerText = error.message;
-    errorDiv.style.display = "block"; 
+      const errorDiv = document.getElementById("loginError");
+      errorDiv.innerText = error.message;
+      errorDiv.style.display = "block";
     });
 });
 
@@ -85,10 +102,10 @@ document.getElementById("registerForm")?.addEventListener("submit", async (e) =>
   const password = document.getElementById("password").value;
   const confirmPassword = document.getElementById("confirmPassword").value;
 
-  
+
 
   console.log(name)
-    // Check if passwords match
+  // Check if passwords match
   if (password !== confirmPassword) {
     showMessage("warning", "❌ Error: Passwords do not match");
     return;
@@ -152,13 +169,13 @@ document.getElementById("registerForm")?.addEventListener("submit", async (e) =>
       updatedAt: serverTimestamp(),
     });
 
-     // Commit the batch
+    // Commit the batch
     await batch.commit();
-      showMessage("success", "✅ Account created successfully! Redirecting...");
-      window.location.href = "../../index.html";
-      localStorage.setItem("userLoggedIn", "true"); 
+    showMessage("success", "✅ Account created successfully! Redirecting...");
+    window.location.href = "../../index.html";
+    localStorage.setItem("userLoggedIn", "true");
   } catch (error) {
-      showMessage("warning", "❌ Error: " + error.message);
+    showMessage("warning", "❌ Error: " + error.message);
   }
 });
 
@@ -169,6 +186,7 @@ document.getElementById("logoutBtn")?.addEventListener("click", (e) => {
   signOut(auth)
     .then(() => {
       localStorage.removeItem("userLoggedIn");
+      localStorage.removeItem("carts");
       showAuth();
       if (window.location.pathname.includes("index.html")) {
         window.location.href = "pages/Auth/login.html"; // Redirect from index to login page
@@ -227,7 +245,7 @@ document.getElementById("googleLogin")?.addEventListener("click", async (e) => {
     }
     window.location.href = "../../index.html";
     localStorage.setItem("userLoggedIn", "true");
-    
+
   } catch (error) {
     console.error("Google Login Error:", error);
     const errorDiv = document.getElementById("loginError");
@@ -261,13 +279,13 @@ document.getElementById("forgotPasswordForm")?.addEventListener("submit", (e) =>
 
 
 
-function showMessage(type = "info",message ) {
-    const messageDiv = document.getElementById("showUpdateMessages");
+function showMessage(type = "info", message) {
+  const messageDiv = document.getElementById("showUpdateMessages");
 
-    messageDiv.className = `alert alert-${type} text-center`;
-    messageDiv.textContent = message;
-    messageDiv.classList.remove("d-none");
-    setTimeout(() => {
-        messageDiv.classList.add("d-none");
-    }, 3000);
+  messageDiv.className = `alert alert-${type} text-center`;
+  messageDiv.textContent = message;
+  messageDiv.classList.remove("d-none");
+  setTimeout(() => {
+    messageDiv.classList.add("d-none");
+  }, 3000);
 }

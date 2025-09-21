@@ -1,6 +1,9 @@
-import { productPagination } from "./firebase.js";
+import { Pagination } from "../Pagination/firebase.js";
 
 const pageSize = 6;
+const tableName = "products";
+const productPagination = new Pagination(pageSize, tableName);
+
 export async function initializeProducts() {
 	try {
 		showLoadingState();
@@ -142,46 +145,55 @@ function renderProducts(products) {
 		productCard.innerHTML = `
             <div class="productCard">
                 <div class="productImage">
-                    <img src="${product.variants?.[0]?.image || "/assets/placeholder.jpg"
-			}" alt="${product.name
-			}" class="img-fluid" onerror="this.src='/assets/placeholder.jpg'">
+                    <img src="${
+											product.variants?.[0]?.image || "/assets/placeholder.jpg"
+										}" alt="${
+			product.name
+		}" class="img-fluid" onerror="this.src='/assets/placeholder.jpg'">
                     <div class="productActions">
                         <button class="actionBtn wishlistBtn" title="Add to Wishlist">
                             <i class="far fa-heart"></i>
                         </button>
-                        <button class="actionBtn quickViewBtn" title="Quick View" data-product-id="${product.id
-			}">
+                        <button class="actionBtn quickViewBtn" title="Quick View" data-product-id="${
+													product.id
+												}">
                             <i class="far fa-eye"></i>
                         </button>
                     </div>
-                    ${product.discount && product.discount > 0
-				? `<div class="discountBadge">-${(product.discount * 100).toFixed(0)}%</div>`
-				: ""
-			}
+                    ${
+											product.discount && product.discount > 0
+												? `<div class="discountBadge">-${(
+														product.discount * 100
+												  ).toFixed(0)}%</div>`
+												: ""
+										}
                 </div>
                 <div class="productInfo">
                     <h3 class="productTitle">${product.name}</h3>
                     <div class="productRating">
                         ${generateStarRating(getAverageRating(product.ratings))}
                         <span class="ratingCount">(${getTotalRatings(
-				product.ratings
-			)})</span>
+													product.ratings
+												)})</span>
                     </div>
                     <div class="productPrice">
-                        ${product.discount && product.discount > 0
-				? `<span class="currentPrice">$${(
-					(product.variants[0]?.sizes[0]?.price || 0) *
-					(1 - product.discount / 100)
-				).toFixed(2)}</span>
-                               <span class="originalPrice">$${(product.variants[0]?.sizes[0]?.price || 0).toFixed(
-					2
-				)}</span>`
-				: `<span class="currentPrice">$${(product.variants[0]?.sizes[0]?.price || 0).toFixed(
-					2
-				)}</span>`
-			}
+                        ${
+													product.discount && product.discount > 0
+														? `<span class="currentPrice">$${(
+																(product.variants[0]?.sizes[0]?.price || 0) *
+																(1 - product.discount / 100)
+														  ).toFixed(2)}</span>
+                               <span class="originalPrice">$${(
+																	product.variants[0]?.sizes[0]?.price || 0
+																).toFixed(2)}</span>`
+														: `<span class="currentPrice">$${(
+																product.variants[0]?.sizes[0]?.price || 0
+														  ).toFixed(2)}</span>`
+												}
                     </div>
-                    <button class="addToCartBtn" data-product-id="${product.id}">
+                    <button class="addToCartBtn" data-product-id="${
+											product.id
+										}">
                         <i class="fas fa-shopping-cart me-2"></i>
                         Add to Cart
                     </button>
@@ -236,12 +248,14 @@ function generatePageNumbers(currentPage, totalPages) {
 
 	if (totalPages <= maxVisiblePages) {
 		for (let i = 1; i <= totalPages; i++) {
-			pagesHTML += `<li class="page ${i === currentPage ? "active" : ""
-				}" data-page="${i}">${i}</li>`;
+			pagesHTML += `<li class="page ${
+				i === currentPage ? "active" : ""
+			}" data-page="${i}">${i}</li>`;
 		}
 	} else {
-		pagesHTML += `<li class="page ${1 === currentPage ? "active" : ""
-			}" data-page="1">1</li>`;
+		pagesHTML += `<li class="page ${
+			1 === currentPage ? "active" : ""
+		}" data-page="1">1</li>`;
 
 		if (currentPage > 4) {
 			pagesHTML += '<li class="page dots">...</li>';
@@ -251,8 +265,9 @@ function generatePageNumbers(currentPage, totalPages) {
 		const end = Math.min(totalPages - 1, currentPage + 1);
 
 		for (let i = start; i <= end; i++) {
-			pagesHTML += `<li class="page ${i === currentPage ? "active" : ""
-				}" data-page="${i}">${i}</li>`;
+			pagesHTML += `<li class="page ${
+				i === currentPage ? "active" : ""
+			}" data-page="${i}">${i}</li>`;
 		}
 
 		if (currentPage < totalPages - 3) {
@@ -260,8 +275,9 @@ function generatePageNumbers(currentPage, totalPages) {
 		}
 
 		if (totalPages > 1) {
-			pagesHTML += `<li class="page ${totalPages === currentPage ? "active" : ""
-				}" data-page="${totalPages}">${totalPages}</li>`;
+			pagesHTML += `<li class="page ${
+				totalPages === currentPage ? "active" : ""
+			}" data-page="${totalPages}">${totalPages}</li>`;
 		}
 	}
 

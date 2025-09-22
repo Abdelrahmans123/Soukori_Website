@@ -13,8 +13,7 @@ export async function initializeProducts() {
 
 		// Load first page
 		const result = await productPagination.getFirstPage();
-
-		renderProducts(result.products);
+		renderProducts(result.content);
 		updatePaginationUI(result);
 
 		return result;
@@ -29,7 +28,7 @@ export async function loadPage(pageNumber) {
 	try {
 		showLoadingState();
 		const result = await productPagination.goToPage(pageNumber);
-		renderProducts(result.products);
+		renderProducts(result.content);
 		updatePaginationUI(result);
 		return result;
 	} catch (error) {
@@ -42,7 +41,7 @@ export async function loadPage(pageNumber) {
 export async function nextPage() {
 	try {
 		const result = await productPagination.getNextPage();
-		renderProducts(result.products);
+		renderProducts(result.content);
 		updatePaginationUI(result);
 		return result;
 	} catch (error) {
@@ -53,7 +52,7 @@ export async function nextPage() {
 export async function previousPage() {
 	try {
 		const result = await productPagination.getPreviousPage();
-		renderProducts(result.products);
+		renderProducts(result.content);
 		updatePaginationUI(result);
 		return result;
 	} catch (error) {
@@ -122,7 +121,6 @@ function getTotalRatings(ratings) {
 
 function renderProducts(products) {
 	const productsContainer = document.getElementById("productsContainer");
-
 	if (!products || products.length === 0) {
 		productsContainer.innerHTML = `
             <div class="col-12">

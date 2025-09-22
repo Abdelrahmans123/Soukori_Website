@@ -15,8 +15,8 @@ import {
 const provider = new GoogleAuthProvider();
 const authEl = document.querySelector(".authButtons");
 const userDropdownEl = document.querySelector(".user-dropdown");
-const loginBUtton = document.getElementById("loggingInBtn");
-
+const loginBUtton = document.getElementById("loggingInBtn"); 
+const registerBTN = document.getElementById("registerBTN");
 
 function showAuth() {
   authEl.classList.remove("d-none");
@@ -114,6 +114,8 @@ document.getElementById("registerForm")?.addEventListener("submit", async (e) =>
     showMessage("warning", "❌ Error: Passwords do not match");
     return;
   }
+  registerBTN.innerHTML = `Registering... <span class="spinner"></span>`;
+  registerBTN.style.background = 'grey';
 
   try {
     // Authentication
@@ -179,6 +181,8 @@ document.getElementById("registerForm")?.addEventListener("submit", async (e) =>
     window.location.href = "../../index.html";
     localStorage.setItem("userLoggedIn", "true");
   } catch (error) {
+    registerBTN.innerHTML = `Register`;
+    registerBTN.style.background = 'black';
     showMessage("warning", "❌ Error: " + error.message);
   }
 });

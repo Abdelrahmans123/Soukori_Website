@@ -76,7 +76,7 @@ onAuthStateChanged(auth, async (user) => {
 
         <div class="mb-3">
           <label class="form-label">Phone</label>
-          <input type="text" class="form-control" id="phone" value="${userData.phone || ""}" />
+          <input type="tel" class="form-control" id="phone" value="${userData.phone || ""}" placeholder="+1 (123) 456-7890" />
         </div>
 
         <div class="mb-3">

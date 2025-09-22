@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../../assets/image/icon.ico" />
+    <link rel="stylesheet" href="../../styles/Bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../styles/Font Awesome/all.min.css" />
+    <link rel="stylesheet" href="../../styles/style.css" />
+    <link rel="stylesheet" href="../../styles/General/breadcrump.css" />
+    <link rel="stylesheet" href="../../styles/profile/orders.css">
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-white">
+        <div class="container flex-nowrap position-relative">
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="fas fa-bars"></i>
+            </button>
+            <a class="navbar-brand" href="../../index.html">SOUKORI</a>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav m-auto">
+                    <li class="nav-item me-4">
+                        <a class="nav-link" href="../../index.html">Home</a>
+                    </li>
+                    <li class="nav-item me-4">
+                        <a class="nav-link" href="/src/pages/Product/product.html">Shop</a>
+                    </li>
+                    <li class="nav-item me-4">
+                        <a class="nav-link" href="categories.html">Categories</a>
+                    </li>
+                    <li class="nav-item me-4">
+                        <a class="nav-link" href="deals.html">Deals</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Icons section -->
+            <div class="nav-icons d-flex justify-content-around align-items-center">
+                <!-- Search Desktop -->
+                <form class="searchInput d-none d-lg-flex me-3">
+                    <input class="form-control" type="search" placeholder="Search for products..."
+                        aria-label="Search" />
+                    <i class="fas fa-search searchIcon"></i>
+                </form>
+
+                <!-- Search Mobile -->
+                <div class="mobile-icons d-lg-none">
+                    <i class="fas fa-search icon"></i>
+                </div>
+
+                <!-- Cart -->
+                <a href="../profile/cart.html" class="text-dark position-relative mx-3 cartBtn">
+                    <i class="fas fa-shopping-cart"></i>
+                    <spansrc/pages/Auth/forgot-password.html
+                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">3</span>
+                </a>
+
+                <!-- Auth Section -->
+                <div class="authButtons d-none">
+                    <a href="../Auth/login.html">
+                        <button type="button" class="btn btn-outline-dark">
+                            <i class="fas fa-sign-in-alt me-1"></i> Login
+                        </button>
+                    </a>
+                    <a href="../Auth/register.html">
+                        <button type="button" class="btn btn-outline-dark">
+                            <i class="fas fa-user-plus me-1"></i> Register
+                        </button>
+                    </a>
+                </div>
+
+                <!-- Dropdown User  -->
+                <div class="dropdown user-dropdown">
+                    <a class="dropdown-toggle text-dark" href="#" role="button" id="userDropdown"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user-check"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li>
+                            <a class="dropdown-item" href="../profile/profile.html">Profile</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#">Orders</a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider" />
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#" id="logoutBtn">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container my-5">
+        <div class="breadcrumbContainer">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="../../index.html">Home</a>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        Orders
+                    </li>
+                </ol>
+            </nav>
+        </div>
+
+        <div class="ordersData">
+            <div class="col-12">
+            <div class="products-loading">
+                <i class="fas fa-spinner"></i>
+                Loading Orders...
+            </div>
+        </div>
+        </div>
+
+    </main>
+
+      <!-- ----------------------------- Newsletter Section --------------------- -->
+  <div class="container my-5">
+    <section class="newsletter">
+      <div class="row">
+        <div class="col-lg-6 col-md-10 col-sm-12 mx-auto d-flex justify-content-center align-items-center">
+          <div class="newsletter_content">
+            <h2>STAY UPTO DATE ABOUT OUR LATEST OFFERS</h2>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-10 col-sm-12 mx-auto d-flex justify-content-center align-items-center">
+          <div class="newsletter_form">
+            <div class="newsletter_inputWrapper">
+              <i class="fa-solid fa-envelope emailIcon"></i>
+              <input type="email" class="form-control newsletterInput" name="newsletter"
+                placeholder="Enter your email address" />
+            </div>
+            <button class="btn subscribeBtn">Subscribe to Newsletter</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <!-- ----------------------------- Footer ----------------------------- -->
+  <footer>
+    <div class="container">
+      <div class="row mt-3 footer_content">
+        <div class="col-lg-3 col-md-6 col-sm-12 mb-4 firstFooterContent">
+          <h2>SOUKORI</h2>
+          <p>
+            We have clothes that suits your style and which you’re proud to
+            wear. From women to men.
+          </p>
+          <div class="socialIcons d-flex flex-wrap">
+            <div class="socialIcon facebook me-2 mb-2">
+              <i class="fa-brands fa-facebook-f"></i>
+            </div>
+            <div class="socialIcon twitter me-2 mb-2">
+              <i class="fa-brands fa-twitter"></i>
+            </div>
+            <div class="socialIcon instagram me-2 mb-2">
+              <i class="fa-brands fa-instagram"></i>
+            </div>
+            <div class="socialIcon linkedIn me-2 mb-2">
+              <i class="fa-brands fa-linkedin-in"></i>
+            </div>
+            <div class="socialIcon pinterest me-2 mb-2">
+              <i class="fa-brands fa-pinterest-p"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-6 col-sm-6 col-12 mb-4 secondFooterContent">
+          <h2>COMPANY</h2>
+          <ul class="list-unstyled">
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Features</a></li>
+            <li><a href="#">Works</a></li>
+            <li><a href="#">Career</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-2 col-md-6 col-sm-6 col-12 mb-4 secondFooterContent">
+          <h2>HELP</h2>
+          <ul class="list-unstyled">
+            <li><a href="#">Customer Support</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Return Policy</a></li>
+            <li><a href="#">Shipping Information</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-2 col-md-6 col-sm-6 col-12 mb-4 secondFooterContent">
+          <h2>FAQ</h2>
+          <ul class="list-unstyled">
+            <li><a href="#">Account</a></li>
+            <li><a href="#">Manage Delivery</a></li>
+            <li><a href="./orders.html">Orders</a></li>
+            <li><a href="#">Payments</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-4 secondFooterContent">
+          <h2>RESOURCES</h2>
+          <ul class="list-unstyled">
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Guides</a></li>
+            <li><a href="#">Tutorials</a></li>
+            <li><a href="#">Documentation</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="row justify-content-between align-items-center">
+        <div class="col-md-6 col-12 text-center text-md-start">
+          <p class="mb-0 py-3">© 2025 SOUKORI All rights reserved.</p>
+        </div>
+        <div class="col-md-6 col-12 text-center text-md-end">
+          <div class="payment_method d-flex flex-wrap justify-content-center justify-content-md-end align-items-center">
+            <div class="payment_image mx-2 my-1">
+              <img src="../../assets/image/footer/Visa.png" alt="Visa" />
+            </div>
+            <div class="payment_image mx-2 my-1">
+              <img src="../../assets/image/footer/masterCard.png" alt="MasterCard" />
+            </div>
+            <div class="payment_image mx-2 my-1">
+              <img src="../../assets/image/footer/PayPal.png" alt="PayPal" />
+            </div>
+            <div class="payment_image mx-2 my-1">
+              <img src="../../assets/image/footer/applePay.png" alt="Apple Pay" />
+            </div>
+            <div class="payment_image mx-2 my-1">
+              <img src="../../assets/image/footer/googlePay.png" alt="Google Pay" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+    <script src="../../javascripts/Bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="../../javascripts/General/main.js" type="module"></script>
+    <script src="../../javascripts/Auth/auth.js" type="module"></script>
+    <script src="../../javascripts/profile/orders.js" type="module"></script>
+
+</body>
+
+</html>

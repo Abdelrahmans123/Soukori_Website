@@ -2,106 +2,104 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cart</title>
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="../../assets/image/icon.ico" />
-    <link rel="stylesheet" href="../../styles/Bootstrap/bootstrap.min.css" />
-    <link rel="stylesheet" href="../../styles/Font Awesome/all.min.css" />
-    <link rel="stylesheet" href="../../styles/style.css" />
-    <link rel="stylesheet" href="../../styles/General/breadcrump.css" />
-    <link rel="stylesheet" href="../../styles/profile/cart.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart</title>
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="../../assets/image/icon.ico" />
+  <link rel="stylesheet" href="../../styles/Bootstrap/bootstrap.min.css" />
+  <link rel="stylesheet" href="../../styles/Font Awesome/all.min.css" />
+  <link rel="stylesheet" href="../../styles/style.css" />
+  <link rel="stylesheet" href="../../styles/General/breadcrump.css" />
+  <link rel="stylesheet" href="../../styles/profile/cart.css">
 
 </head>
 
 <body>
-     <nav class="navbar navbar-expand-lg navbar-light bg-white">
-        <div class="container flex-nowrap position-relative">
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <i class="fas fa-bars"></i>
-            </button>
-            <a class="navbar-brand" href="../../index.html">SOUKORI</a>
+  <nav class="navbar navbar-expand-lg navbar-light bg-white">
+    <div class="container flex-nowrap position-relative">
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <i class="fas fa-bars"></i>
+      </button>
+      <a class="navbar-brand" href="../../index.html">SOUKORI</a>
 
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav m-auto">
-                    <li class="nav-item me-4">
-                        <a class="nav-link" href="../../index.html">Home</a>
-                    </li>
-                    <li class="nav-item me-4">
-                        <a class="nav-link" href="/src/pages/Product/product.html">Shop</a>
-                    </li>
-                    <li class="nav-item me-4">
-                        <a class="nav-link" href="categories.html">Categories</a>
-                    </li>
-                    <li class="nav-item me-4">
-                        <a class="nav-link" href="deals.html">Deals</a>
-                    </li>
-                </ul>
-            </div>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav m-auto">
+          <li class="nav-item me-4">
+            <a class="nav-link" href="../../index.html">Home</a>
+          </li>
+          <li class="nav-item me-4">
+            <a class="nav-link" href="/src/pages/Product/product.html">Shop</a>
+          </li>
+          <li class="nav-item me-4">
+            <a class="nav-link" href="categories.html">Categories</a>
+          </li>
+          <li class="nav-item me-4">
+            <a class="nav-link" href="deals.html">Deals</a>
+          </li>
+        </ul>
+      </div>
 
-            <!-- Icons section -->
-            <div class="nav-icons d-flex justify-content-around align-items-center">
-                <!-- Search Desktop -->
-                <form class="searchInput d-none d-lg-flex me-3">
-                    <input class="form-control" type="search" placeholder="Search for products..."
-                        aria-label="Search" />
-                    <i class="fas fa-search searchIcon"></i>
-                </form>
+      <!-- Icons section -->
+      <div class="nav-icons d-flex justify-content-around align-items-center">
+        <!-- Search Desktop -->
+        <form class="searchInput d-none d-lg-flex me-3">
+          <input class="form-control" type="search" placeholder="Search for products..." aria-label="Search" />
+          <i class="fas fa-search searchIcon"></i>
+        </form>
 
-                <!-- Search Mobile -->
-                <div class="mobile-icons d-lg-none">
-                    <i class="fas fa-search icon"></i>
-                </div>
-
-                <!-- Cart -->
-                <a href="#" class="text-dark position-relative mx-3 cartBtn">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span
-                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">3</span>
-                </a>
-
-                <!-- Auth Section -->
-                <div class="authButtons d-none">
-                    <a href="../Auth/login.html">
-                        <button type="button" class="btn btn-outline-dark">
-                            <i class="fas fa-sign-in-alt me-1"></i> Login
-                        </button>
-                    </a>
-                    <a href="../Auth/register.html">
-                        <button type="button" class="btn btn-outline-dark">
-                            <i class="fas fa-user-plus me-1"></i> Register
-                        </button>
-                    </a>
-                </div>
-
-                <!-- Dropdown User  -->
-                <div class="dropdown user-dropdown">
-                    <a class="dropdown-toggle text-dark" href="#" role="button" id="userDropdown"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-user-check"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                        <li>
-                            <a class="dropdown-item" href="../profile/profile.html">Profile</a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="#">Orders</a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider" />
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="#" id="logoutBtn">Logout</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+        <!-- Search Mobile -->
+        <div class="mobile-icons d-lg-none">
+          <i class="fas fa-search icon"></i>
         </div>
-    </nav>
 
-    <main class="container my-5">
-    <div class="breadcrumbContainer">
+        <!-- Cart -->
+        <a href="#" class="text-dark position-relative mx-3 cartBtn">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">3</span>
+        </a>
+
+        <!-- Auth Section -->
+        <div class="authButtons d-none">
+          <a href="../Auth/login.html">
+            <button type="button" class="btn btn-outline-dark">
+              <i class="fas fa-sign-in-alt me-1"></i> Login
+            </button>
+          </a>
+          <a href="../Auth/register.html">
+            <button type="button" class="btn btn-outline-dark">
+              <i class="fas fa-user-plus me-1"></i> Register
+            </button>
+          </a>
+        </div>
+
+        <!-- Dropdown User  -->
+        <div class="dropdown user-dropdown">
+          <a class="dropdown-toggle text-dark" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            <i class="fas fa-user-check"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+            <li>
+              <a class="dropdown-item" href="../profile/profile.html">Profile</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="./orders.html">Orders</a>
+            </li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+            <li>
+              <a class="dropdown-item" href="#" id="logoutBtn">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container my-5">
+    <div class="breadcrumbContainer delete_for_checkout">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
@@ -116,195 +114,268 @@
     </div>
 
     <div>
-      <h1 class="title">YOUR CART</h1>
+      <h1 class="title delete_for_checkout">YOUR CART</h1>
     </div>
+    <div class="modal fade" id="orderSuccessModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
 
-    <div class="row">
-      <!-- Order Products -->
-      <div class="col-12 col-lg-8">
-        <div class="p-3 border rounded-3" id="cartItems">
-          <!-- product 1-->
-          <!-- product 2-->
+          <!-- Header -->
+          <div class="modal-header border-0 bg-success text-white rounded-top-4">
+            <h5 class="modal-title fw-bold">
+              <i class="fas fa-check-circle me-2"></i> Order Placed!
+            </h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+          <!-- Body -->
+          <div class="modal-body text-center py-4">
+            <div class="mb-3">
+              <i class="fas fa-box-open fa-3x text-success"></i>
+            </div>
+            <h4 class="fw-bold mb-2">Thank you for your purchase 🎉</h4>
+            <p class="text-muted mb-0">
+              Your order has been placed successfully.<br>
+              You can track it anytime in your <a href="./orders.html"
+                class="fw-semibold text-decoration-none">Orders</a> page.
+            </p>
+          </div>
+
+          <!-- Footer -->
+          <div class="modal-footer border-0 justify-content-center pb-4">
+            <button type="button" class="btn btn-success px-4 rounded-pill" id="goToOrders">
+              <i class="fas fa-receipt me-2"></i> Go to Orders
+            </button>
+          </div>
         </div>
       </div>
-      <!-- Order Summary Count -->
-      <div class="col-12 col-lg-4" id="order_summary">
+    </div>
+    <!-- Wrapper for sliding effect -->
+    <div id="cartCheckoutWrapper" class="cart-checkout-wrapper">
+      <div id="cartContainer">
+        <!-- Order Products -->
+        <div class="col-12 col-lg-7">
+          <div class="p-3 border rounded-3" id="cartItems">
+            <!-- product 1-->
+            <!-- product 2-->
+          </div>
+        </div>
+        <!-- Order Summary -->
+        <div class="col-12 col-lg-4" id="order_summary">
+          <div class="p-3 border rounded-3">
+            <h2>Order Summary</h2>
+            <div class="row">
+              <div class="col-6">Subtotal</div>
+              <div class="col-6 text-end" id="subtotal">$0.00</div>
+            </div>
+            <div class="row">
+              <div class="col-6">Tax (%14)</div>
+              <div class="col-6 text-end" id="tax">$0.00</div>
+            </div>
+            <div class="row">
+              <div class="col-6">Discount</div>
+              <div class="col-6 text-end" id="discount">0%</div>
+            </div>
+            <div class="row">
+              <div class="col-6">Delivery Fee</div>
+              <div class="col-6 text-end" id="deliveryFee">$0.00</div>
+            </div>
+            <hr class="my-2">
+            <div class="row">
+              <div class="col-6 fw-bold">Total</div>
+              <div class="col-6 text-end fw-bold" id="total">$0.00</div>
+            </div>
+            <!-- Promo Code -->
+            <div class="row mb-3">
+              <div class="col-7 d-flex align-items-center">
+                <input type="text" class="form-control" id="promoCode" placeholder="Enter promo code">
+              </div>
+              <div class="col-5 d-flex align-items-center">
+                <button class="btn btn-dark rounded-pill w-100" id="promoBTN">Apply</button>
+              </div>
+            </div>
+            <button class="btn btn-dark rounded-pill w-100" id="checkoutBTN">Checkout</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Checkout Form -->
+      <div id="checkoutForm" class="checkout-form d-none">
         <div class="p-3 border rounded-3">
-          <h2>Order Summary</h2>
-          <div class="row">
-            <div class="col-6">Subtotal</div>
-            <div class="col-6 text-end" id="subtotal">$0.00</div>
-          </div>
-          <div class="row">
-            <div class="col-6">Discount</div>
-            <div class="col-6 text-end" id="discount">0%</div>
-          </div>
-          <div class="row">
-            <div class="col-6">Delivery Fee</div>
-            <div class="col-6 text-end" id="deliveryFee">$0.00</div>
-          </div>
-          <hr class="my-2">
-          <div class="row">
-            <div class="col-6 fw-bold">Total</div>
-            <div class="col-6 text-end fw-bold" id="total">$0.00</div>
-          </div>
-          <!-- Promo Code -->
-          <div class="row mb-3">
-            <div class="col-7 d-flex align-items-center">
-              <input type="text" class="form-control" id="promoCode" placeholder="Enter promo code">
+          <h2>Checkout</h2>
+          <button class="btn btn-outline-dark mb-3" id="backToCartBtn"><i class="fas fa-arrow-left"></i> Back to
+            Cart</button>
+          <form id="checkoutDetails" class="checkout-form">
+            <!-- Address Section -->
+            <h3>Shipping Address</h3>
+            <div class="mb-3 form-group-inline">
+              <label for="streetAddress" class="form-label">Street Address</label>
+              <input type="text" class="form-control" id="streetAddress" placeholder="123 Main St" required>
             </div>
-            <div class="col-5 d-flex align-items-center">
-              <button class="btn btn-dark rounded-pill w-100" id="promoBTN">Apply</button>
+            <div class="mb-3 form-group-inline">
+              <label for="city" class="form-label">City</label>
+              <input type="text" class="form-control" id="city" placeholder="City" required>
             </div>
-          </div>
-          <button class="btn btn-dark rounded-pill w-100" id="checkoutBTN">Checkout</button>
+            <div class="mb-3 form-group-inline">
+              <label for="state" class="form-label">State/Province</label>
+              <input type="text" class="form-control" id="state" placeholder="State" required>
+            </div>
+            <div class="mb-3 form-group-inline">
+              <label for="zipCode" class="form-label">Zip/Postal Code</label>
+              <input type="text" class="form-control" id="zipCode" placeholder="12345" required>
+            </div>
+            <div class="mb-3 form-group-inline">
+              <label for="country" class="form-label">Country</label>
+              <input type="text" class="form-control" id="country" placeholder="Country" required>
+            </div>
+            <div class="mb-3 form-group-inline">
+              <label for="phoneNumber" class="form-label">Phone Number</label>
+              <input type="tel" class="form-control" id="phoneNumber" placeholder="+1 (123) 456-7890" required>
+            </div>
+            <!-- Payment Section -->
+            <h3>Payment Information</h3>
+            <div class="mb-3 form-group-inline">
+              <label for="cardNumber" class="form-label">Card Number</label>
+              <input type="text" class="form-control" id="cardNumber" required placeholder="1234 5678 9012 3456">
+            </div>
+            <div class="row mb-3">
+              <div class="col-6 form-group-inline">
+                <label for="expiryDate" class="form-label">Expiry Date</label>
+                <input type="text" class="form-control" id="expiryDate" required placeholder="MM/YY">
+              </div>
+              <div class="col-6 form-group-inline">
+                <label for="cvv" class="form-label">CVV</label>
+                <input type="text" class="form-control" id="cvv" required placeholder="123">
+              </div>
+            </div>
+            <button type="submit" class="btn btn-dark rounded-pill w-100" id="placeorder">Place Order</button>
+          </form>
         </div>
       </div>
     </div>
   </main>
 
   <!-- ----------------------------- Newsletter Section --------------------- -->
-		<div class="container my-5">
-			<section class="newsletter">
-				<div class="row">
-					<div
-						class="col-lg-6 col-md-10 col-sm-12 mx-auto d-flex justify-content-center align-items-center"
-					>
-						<div class="newsletter_content">
-							<h2>STAY UPTO DATE ABOUT OUR LATEST OFFERS</h2>
-						</div>
-					</div>
-					<div
-						class="col-lg-6 col-md-10 col-sm-12 mx-auto d-flex justify-content-center align-items-center"
-					>
-						<div class="newsletter_form">
-							<div class="newsletter_inputWrapper">
-								<i class="fa-solid fa-envelope emailIcon"></i>
-								<input
-									type="email"
-									class="form-control newsletterInput"
-									name="newsletter"
-									placeholder="Enter your email address"
-								/>
-							</div>
-							<button class="btn subscribeBtn">Subscribe to Newsletter</button>
-						</div>
-					</div>
-				</div>
-			</section>
-		</div>
-		<!-- ----------------------------- Footer ----------------------------- -->
-		<footer>
-			<div class="container">
-				<div class="row mt-3 footer_content">
-					<div class="col-lg-3 col-md-6 col-sm-12 mb-4 firstFooterContent">
-						<h2>SOUKORI</h2>
-						<p>
-							We have clothes that suits your style and which you’re proud to
-							wear. From women to men.
-						</p>
-						<div class="socialIcons d-flex flex-wrap">
-							<div class="socialIcon facebook me-2 mb-2">
-								<i class="fa-brands fa-facebook-f"></i>
-							</div>
-							<div class="socialIcon twitter me-2 mb-2">
-								<i class="fa-brands fa-twitter"></i>
-							</div>
-							<div class="socialIcon instagram me-2 mb-2">
-								<i class="fa-brands fa-instagram"></i>
-							</div>
-							<div class="socialIcon linkedIn me-2 mb-2">
-								<i class="fa-brands fa-linkedin-in"></i>
-							</div>
-							<div class="socialIcon pinterest me-2 mb-2">
-								<i class="fa-brands fa-pinterest-p"></i>
-							</div>
-						</div>
-					</div>
-					<div
-						class="col-lg-2 col-md-6 col-sm-6 col-12 mb-4 secondFooterContent"
-					>
-						<h2>COMPANY</h2>
-						<ul class="list-unstyled">
-							<li><a href="#">About Us</a></li>
-							<li><a href="#">Features</a></li>
-							<li><a href="#">Works</a></li>
-							<li><a href="#">Career</a></li>
-						</ul>
-					</div>
+  <div class="container my-5">
+    <section class="newsletter">
+      <div class="row">
+        <div class="col-lg-6 col-md-10 col-sm-12 mx-auto d-flex justify-content-center align-items-center">
+          <div class="newsletter_content">
+            <h2>STAY UPTO DATE ABOUT OUR LATEST OFFERS</h2>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-10 col-sm-12 mx-auto d-flex justify-content-center align-items-center">
+          <div class="newsletter_form">
+            <div class="newsletter_inputWrapper">
+              <i class="fa-solid fa-envelope emailIcon"></i>
+              <input type="email" class="form-control newsletterInput" name="newsletter"
+                placeholder="Enter your email address" />
+            </div>
+            <button class="btn subscribeBtn">Subscribe to Newsletter</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <!-- ----------------------------- Footer ----------------------------- -->
+  <footer>
+    <div class="container">
+      <div class="row mt-3 footer_content">
+        <div class="col-lg-3 col-md-6 col-sm-12 mb-4 firstFooterContent">
+          <h2>SOUKORI</h2>
+          <p>
+            We have clothes that suits your style and which you’re proud to
+            wear. From women to men.
+          </p>
+          <div class="socialIcons d-flex flex-wrap">
+            <div class="socialIcon facebook me-2 mb-2">
+              <i class="fa-brands fa-facebook-f"></i>
+            </div>
+            <div class="socialIcon twitter me-2 mb-2">
+              <i class="fa-brands fa-twitter"></i>
+            </div>
+            <div class="socialIcon instagram me-2 mb-2">
+              <i class="fa-brands fa-instagram"></i>
+            </div>
+            <div class="socialIcon linkedIn me-2 mb-2">
+              <i class="fa-brands fa-linkedin-in"></i>
+            </div>
+            <div class="socialIcon pinterest me-2 mb-2">
+              <i class="fa-brands fa-pinterest-p"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-6 col-sm-6 col-12 mb-4 secondFooterContent">
+          <h2>COMPANY</h2>
+          <ul class="list-unstyled">
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Features</a></li>
+            <li><a href="#">Works</a></li>
+            <li><a href="#">Career</a></li>
+          </ul>
+        </div>
 
-					<div
-						class="col-lg-2 col-md-6 col-sm-6 col-12 mb-4 secondFooterContent"
-					>
-						<h2>HELP</h2>
-						<ul class="list-unstyled">
-							<li><a href="#">Customer Support</a></li>
-							<li><a href="#">FAQ</a></li>
-							<li><a href="#">Return Policy</a></li>
-							<li><a href="#">Shipping Information</a></li>
-						</ul>
-					</div>
+        <div class="col-lg-2 col-md-6 col-sm-6 col-12 mb-4 secondFooterContent">
+          <h2>HELP</h2>
+          <ul class="list-unstyled">
+            <li><a href="#">Customer Support</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Return Policy</a></li>
+            <li><a href="#">Shipping Information</a></li>
+          </ul>
+        </div>
 
-					<div
-						class="col-lg-2 col-md-6 col-sm-6 col-12 mb-4 secondFooterContent"
-					>
-						<h2>FAQ</h2>
-						<ul class="list-unstyled">
-							<li><a href="#">Account</a></li>
-							<li><a href="#">Manage Delivery</a></li>
-							<li><a href="#">Orders</a></li>
-							<li><a href="#">Payments</a></li>
-						</ul>
-					</div>
+        <div class="col-lg-2 col-md-6 col-sm-6 col-12 mb-4 secondFooterContent">
+          <h2>FAQ</h2>
+          <ul class="list-unstyled">
+            <li><a href="#">Account</a></li>
+            <li><a href="#">Manage Delivery</a></li>
+            <li><a href="./orders.html">Orders</a></li>
+            <li><a href="#">Payments</a></li>
+          </ul>
+        </div>
 
-					<div
-						class="col-lg-3 col-md-6 col-sm-6 col-12 mb-4 secondFooterContent"
-					>
-						<h2>RESOURCES</h2>
-						<ul class="list-unstyled">
-							<li><a href="#">Blog</a></li>
-							<li><a href="#">Guides</a></li>
-							<li><a href="#">Tutorials</a></li>
-							<li><a href="#">Documentation</a></li>
-						</ul>
-					</div>
-				</div>
-				<div class="row justify-content-between align-items-center">
-					<div class="col-md-6 col-12 text-center text-md-start">
-						<p class="mb-0 py-3">© 2025 SOUKORI All rights reserved.</p>
-					</div>
-					<div class="col-md-6 col-12 text-center text-md-end">
-						<div
-							class="payment_method d-flex flex-wrap justify-content-center justify-content-md-end align-items-center"
-						>
-							<div class="payment_image mx-2 my-1">
-								<img src="../../assets/image/footer/Visa.png" alt="Visa" />
-							</div>
-							<div class="payment_image mx-2 my-1">
-								<img
-									src="../../assets/image/footer/masterCard.png"
-									alt="MasterCard"
-								/>
-							</div>
-							<div class="payment_image mx-2 my-1">
-								<img src="../../assets/image/footer/PayPal.png" alt="PayPal" />
-							</div>
-							<div class="payment_image mx-2 my-1">
-								<img src="../../assets/image/footer/applePay.png" alt="Apple Pay" />
-							</div>
-							<div class="payment_image mx-2 my-1">
-								<img src="../../assets/image/footer/googlePay.png" alt="Google Pay" />
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</footer>
+        <div class="col-lg-3 col-md-6 col-sm-6 col-12 mb-4 secondFooterContent">
+          <h2>RESOURCES</h2>
+          <ul class="list-unstyled">
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Guides</a></li>
+            <li><a href="#">Tutorials</a></li>
+            <li><a href="#">Documentation</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="row justify-content-between align-items-center">
+        <div class="col-md-6 col-12 text-center text-md-start">
+          <p class="mb-0 py-3">© 2025 SOUKORI All rights reserved.</p>
+        </div>
+        <div class="col-md-6 col-12 text-center text-md-end">
+          <div class="payment_method d-flex flex-wrap justify-content-center justify-content-md-end align-items-center">
+            <div class="payment_image mx-2 my-1">
+              <img src="../../assets/image/footer/Visa.png" alt="Visa" />
+            </div>
+            <div class="payment_image mx-2 my-1">
+              <img src="../../assets/image/footer/masterCard.png" alt="MasterCard" />
+            </div>
+            <div class="payment_image mx-2 my-1">
+              <img src="../../assets/image/footer/PayPal.png" alt="PayPal" />
+            </div>
+            <div class="payment_image mx-2 my-1">
+              <img src="../../assets/image/footer/applePay.png" alt="Apple Pay" />
+            </div>
+            <div class="payment_image mx-2 my-1">
+              <img src="../../assets/image/footer/googlePay.png" alt="Google Pay" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
 
-    <script src="../../javascripts/Bootstrap/bootstrap.bundle.min.js"></script>
-    <script src="../../javascripts/General/main.js" type="module"></script>
-    <script src="../../javascripts/Auth/auth.js" type="module"></script>
-    <script src="../../javascripts/profile/cart.js" type="module"></script>
+  <script src="../../javascripts/Bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="../../javascripts/General/main.js" type="module"></script>
+  <script src="../../javascripts/Auth/auth.js" type="module"></script>
+  <script src="../../javascripts/profile/cart.js" type="module"></script>
 
 </body>
 

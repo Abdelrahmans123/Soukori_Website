@@ -120,7 +120,7 @@ export class ProductPage {
 
 		productData.variants.forEach((variant, index) => {
 			const colorOption = document.createElement("div");
-			colorOption.className = `colorOption ${index === 0 ? "active" : ""}`;
+			colorOption.className = `colorOption ${index === 0 ? "active" : ""} shadow`;
 			colorOption.style.backgroundColor = variant.color;
 
 			// If it's the first color, add a check icon right away

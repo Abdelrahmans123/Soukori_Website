@@ -1,4 +1,4 @@
-import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.5/firebase-firestore.js";
+import { doc, getDoc, updateDoc, setDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/9.6.5/firebase-firestore.js";
 import { db, auth } from "../Auth/firebase-config.js"; // your firebase init file
 import { onAuthStateChanged, sendEmailVerification, updateEmail, verifyBeforeUpdateEmail } from "https://www.gstatic.com/firebasejs/9.6.5/firebase-auth.js";
 
@@ -9,22 +9,50 @@ const subtotalEl = document.getElementById("subtotal");
 const discountEl = document.getElementById("discount");
 const totalEl = document.getElementById("total");
 const orderSummary = document.getElementById("order_summary");
-const storedCart = safeGetCart();
-
 const cartDetails = document.getElementById('cartItems');
+const checkoutBTN = document.getElementById('checkoutBTN');
+const backToCartBtn = document.getElementById('backToCartBtn');
+const cartContainer = document.getElementById('cartContainer');
+const checkoutForm = document.getElementById('checkoutForm');
+const hide_for_checkout = document.querySelectorAll('.delete_for_checkout');
+const placeorderbtn = document.getElementById('placeorder');
+const tax = document.getElementById('tax');
+
+let storedCart = safeGetCart();
 let subTotal = 0;
 let appliedDiscount = 0;
 let cartId = 0;
+let isCartLoaded = false;
+
+// Show checkout form
+function showCheckoutForm() {
+  cartCheckoutWrapper.classList.add('slide-to-checkout');
+  checkoutForm.classList.remove('d-none');
+}
+
+// Show cart
+function showCart() {
+  cartCheckoutWrapper.classList.remove('slide-to-checkout');
+  setTimeout(() => {
+    checkoutForm.classList.add('d-none');
+  }, 500); // Match transition duration
+  checkoutBTN.disabled = false; // Re-enable checkout button
+}
+
 
 // Helper: render "not logged in"
 function showItemsFromCart() {
+  storedCart = safeGetCart();
   let html = "";
   if (storedCart.length === 0) {
+    syncFireStoreWithLocalStorage();
     cartDetails.innerHTML = `
       <div class="text-center">
         <p>Your cart is empty.</p>
       </div>
     `;
+    checkoutBTN.disabled = true
+    isCartLoaded = true;
     return;
   }
   let index = 0;
@@ -59,7 +87,7 @@ function showItemsFromCart() {
 
       index++;
     }
-  } catch { } finally { cartDetails.innerHTML = html; }
+  } catch { } finally { cartDetails.innerHTML = html; isCartLoaded = true; }
 
   // Attach event listeners for delete and quantity buttons
   const cartRows = cartDetails.querySelectorAll('.row[data-cart-id]');
@@ -110,30 +138,46 @@ function showItemsFromCart() {
 
 function updateSummary() {
   recalcSubtotal();
-  const deliveryFee = subTotal > 0 ? 5.00 : 0; // Example: $5 if cart has items
+  const deliveryFee = subTotal*0.01; // Example: $5 if cart has items
   const discountAmount = (subTotal * appliedDiscount) / 100;
-  const total = subTotal - discountAmount + deliveryFee;
+  const taxes = subTotal * 0.14;
+  const total = subTotal - discountAmount + deliveryFee + taxes;
 
   subtotalEl.textContent = `$${subTotal.toFixed(2)}`;
   discountEl.textContent = `${appliedDiscount}%`;
+  tax.textContent = `$${taxes.toFixed(2)}`;
   document.getElementById('deliveryFee').textContent = `$${deliveryFee.toFixed(2)}`;
   totalEl.textContent = `$${total.toFixed(2)}`;
 }
 
 function showMessage(msg, type = "info") {
-  let msgDiv = document.getElementById("promoMessage");
-  if (!msgDiv) {
-    msgDiv = document.createElement("div");
-    msgDiv.id = "promoMessage";
-    msgDiv.className = "alert mt-2";
-    orderSummary.appendChild(msgDiv);
-  }
-  msgDiv.className = `alert alert-${type} mt-2`;
+  // Remove old message if it exists
+  const oldMsg = document.getElementById("promoMessage");
+  if (oldMsg) oldMsg.remove();
+
+  const msgDiv = document.createElement("div");
+  msgDiv.id = "promoMessage";
+  msgDiv.className = `alert alert-${type} rounded-2`;
   msgDiv.textContent = msg;
+
+  // Position absolutely inside orderSummary
+  msgDiv.style.position = "absolute";
+  msgDiv.style.top = "10%";
+  msgDiv.style.left = "50%";
+  msgDiv.style.transform = "translateX(-50%)";
+  msgDiv.style.zIndex = "1000";
+  // Make it fit message in one line
+  msgDiv.style.display = "inline-block";
+  msgDiv.style.whiteSpace = "nowrap";
+  msgDiv.style.padding = "0.5rem 1rem"; // optional for spacing
+
+  // Make sure parent is relative so absolute positioning works
+  orderSummary.style.position = "relative";
+  orderSummary.appendChild(msgDiv);
 
   setTimeout(() => {
     msgDiv.remove();
-  }, 4000);
+  }, 1000);
 }
 
 async function deleteItemFromLocal(index) {
@@ -169,7 +213,7 @@ async function deleteItemFromLocal(index) {
         console.error("Failed to delete from Firestore:", err);
       }
     }
-    
+
   }
 }
 
@@ -193,10 +237,24 @@ async function syncFireStoreWithLocalStorage() {
     try {
       const storedCartLocal = safeGetCart();
       const cartRef = doc(db, "carts", cartId);
-      await updateDoc(cartRef, {
-        items: storedCartLocal  // overwrite items array
-      });
-      console.log("Items synced successfully from Firestore");
+      if (storedCartLocal.length !== 0) {
+        await updateDoc(cartRef, {
+          items: storedCartLocal  // overwrite items array
+        });
+        console.log("Items synced successfully with Firestore");
+      } else {
+        const cartSnap = await getDoc(cartRef);
+        if (cartSnap.exists()) {
+          const cartItemsFS = cartSnap.data().items || [];
+          localStorage.setItem("carts", JSON.stringify(cartItemsFS));
+          storedCart = cartItemsFS;
+          console.log('sss', storedCart)
+          console.log("Local storage updated from Firestore:", cartItemsFS);
+        } else {
+          console.log("No cart found in Firestore for this user");
+        }
+      }
+
     } catch (err) {
       console.error("Failed to sync with Firestore:", err);
     }
@@ -213,16 +271,18 @@ function recalcSubtotal() {
 }
 
 onAuthStateChanged(auth, async (user) => {
-  showItemsFromCart()
   if (user) {
     const userRef = doc(db, "users", user.uid);
     const userSnap = await getDoc(userRef);
     if (userSnap.exists()) {
       cartId = userSnap.data().cartID;
+      if (userSnap.data().phone.length !== 0)
+        document.getElementById('phoneNumber').value = userSnap.data().phone;
     }
   } else {
     cartId = 0;
   }
+  showItemsFromCart();
 
 })
 
@@ -243,7 +303,7 @@ promoBtn.addEventListener("click", async () => {
   if (code) {
     promoBtn.disabled = true;
     const originalText = promoBtn.innerHTML;
-    promoBtn.innerHTML = `Applying... <span class="spinner"></span>`;
+    promoBtn.innerHTML = `Applying<span class="spinner"></span>`;
     try {
       const promoRef = doc(db, "promoCodes", code);
       const promoSnap = await getDoc(promoRef);
@@ -295,6 +355,111 @@ promoBtn.addEventListener("click", async () => {
     appliedDiscount = 0;
     updateSummary();
     return;
+  }
+});
+
+checkoutBTN.addEventListener('click', () => {
+  checkoutBTN.disabled = true;
+  const originalText = checkoutBTN.innerHTML;
+  if (!isCartLoaded) {
+    showMessage('Please wait for the cart to load', 'warning');
+    checkoutBTN.disabled = false;
+    return;
+  }
+  const user = auth.currentUser;
+  if (!user) {
+    // Not logged in
+    showMessage('⚠️ You must log in before checkout', 'danger');
+    checkoutBTN.disabled = false;
+    return;
+  } else {
+    console.log(hide_for_checkout)
+    hide_for_checkout.forEach((item) => {
+      item.classList.add('d-none');
+    })
+    showCheckoutForm();
+  }
+})
+
+backToCartBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  hide_for_checkout.forEach((item) => {
+    item.classList.remove('d-none');
+  })
+  showCart();
+});
+
+// Handle checkout form submission
+document.getElementById('checkoutDetails').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  placeorderbtn.disabled = true;
+  const originalText = placeorderbtn.innerHTML;
+  placeorderbtn.innerHTML = `placing order..<span class="spinner"></span>`;
+  try {
+    // Collect address fields
+    const streetAddress = document.getElementById('streetAddress').value;
+    const city = document.getElementById('city').value;
+    const state = document.getElementById('state').value;
+    const zipCode = document.getElementById('zipCode').value;
+    const country = document.getElementById('country').value;
+    const phoneNumber = document.getElementById('phoneNumber').value;
+    const cardNumber = document.getElementById('cardNumber').value;
+    const expiryDate = document.getElementById('expiryDate').value;
+    const cvv = document.getElementById('cvv').value;
+    const lastFourDigits = cardNumber.slice(-4);
+
+    // Save order to Firestore
+    const orderId = `${Date.now()}`;
+    const orderRef = doc(db, 'orders', orderId);
+    await setDoc(orderRef, {
+      userId: auth.currentUser.uid,
+      cart: safeGetCart(),
+      total: totalEl.textContent.replace('$', ''),
+      address: {
+        streetAddress,
+        city,
+        state,
+        zipCode,
+        country,
+        phoneNumber
+      },
+      timestamp: new Date(),
+      cardLastFour: lastFourDigits,
+    });
+
+    // Update user's orders array
+    const userRef = doc(db, 'users', auth.currentUser.uid);
+    await updateDoc(userRef, {
+      orders: arrayUnion(orderId)
+    }).catch(async (error) => {
+      // If user document doesn't exist, create it with the orders array
+      if (error.code === 'not-found') {
+        await setDoc(userRef, {
+          orders: [orderId]
+        });
+      } else {
+        throw error; // Re-throw other errors
+      }
+    });
+
+
+    // Clear cart
+    localStorage.setItem('carts', JSON.stringify([]));
+    await updateDoc(doc(db, 'carts', cartId), { items: [] });
+    hide_for_checkout.forEach((item) => {
+      item.classList.remove('d-none');
+    })
+    showItemsFromCart();
+    updateSummary();
+    showCart()
+    const modal = new bootstrap.Modal(document.getElementById('orderSuccessModal'));
+    modal.show();
+    document.getElementById('goToOrders').addEventListener('click', () => {
+      window.location.href = "./orders.html";
+    })
+  } catch (err) {
+    console.error('Checkout error:', err);
+    alert('Failed to place order');
   }
 });
 

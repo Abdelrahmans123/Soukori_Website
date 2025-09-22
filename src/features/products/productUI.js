@@ -207,15 +207,15 @@ function renderProducts(products) {
 }
 
 function updatePaginationUI(paginationData) {
-	const { currentPage, totalPages, totalProducts, hasNext, hasPrev } =
+	const { currentPage, totalPages, total, hasNext, hasPrev } =
 		paginationData;
 
 	// Update showing results text
 	const showNumbers = document.querySelector(".showNumbers p");
 	if (showNumbers) {
 		const startItem = (currentPage - 1) * pageSize + 1;
-		const endItem = Math.min(currentPage * pageSize, totalProducts);
-		showNumbers.textContent = `Showing ${startItem}-${endItem} of ${totalProducts} results`;
+		const endItem = Math.min(currentPage * pageSize, total);
+		showNumbers.textContent = `Showing ${startItem}-${endItem} of ${total} results`;
 	}
 
 	// Update pagination controls
@@ -354,3 +354,4 @@ document.addEventListener("DOMContentLoaded", () => {
 	initializePaginationEvents();
 	initializeProducts();
 });
+

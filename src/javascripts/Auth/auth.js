@@ -15,6 +15,8 @@ import {
 const provider = new GoogleAuthProvider();
 const authEl = document.querySelector(".authButtons");
 const userDropdownEl = document.querySelector(".user-dropdown");
+const loginBUtton = document.getElementById("loggingInBtn");
+
 
 function showAuth() {
   authEl.classList.remove("d-none");
@@ -49,26 +51,26 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
- async function getUserCartToLocal(user) {
-   const userRef = doc(db, "users", user.uid);
-   const userSnap = await getDoc(userRef);
-   if (userSnap.exists()) {
-     const userData = userSnap.data();
-     const cartId = userData.cartID;
-     const cartRef = doc(db, "carts", cartId);
-     const cartSnap = await getDoc(cartRef);
-     const cartData = cartSnap.data();
-     const cartItems = cartData.items || [];
-     localStorage.setItem("carts", JSON.stringify(cartItems));
-     window.location.href = "../../index.html";
-     return;
-   }
- }
+async function getUserCartToLocal(user) {
+  const userRef = doc(db, "users", user.uid);
+  const userSnap = await getDoc(userRef);
+  if (userSnap.exists()) {
+    const userData = userSnap.data();
+    const cartId = userData.cartID;
+    const cartRef = doc(db, "carts", cartId);
+    const cartSnap = await getDoc(cartRef);
+    const cartData = cartSnap.data();
+    const cartItems = cartData.items || [];
+    localStorage.setItem("carts", JSON.stringify(cartItems));
+    window.location.href = "../../index.html";
+    return;
+  }
+}
 
 //  login
 document.getElementById("loginForm")?.addEventListener("submit", (e) => {
   const loginBUtton = document.getElementById("loggingInBtn");
-  loginBUtton.innerHTML=`Logging in... <span class="spinner"></span>`;
+  loginBUtton.innerHTML = `Logging in... <span class="spinner"></span>`;
   loginBUtton.style.background = 'grey';
   e.preventDefault();
 
@@ -86,6 +88,8 @@ document.getElementById("loginForm")?.addEventListener("submit", (e) => {
       const errorDiv = document.getElementById("loginError");
       errorDiv.innerText = error.message;
       errorDiv.style.display = "block";
+      loginBUtton.innerHTML = `Log in`;
+      loginBUtton.style.background = 'black';
     });
 });
 
@@ -211,7 +215,8 @@ document.getElementById("googleLogin")?.addEventListener("click", async (e) => {
     // Check if Firestore user doc exists
     const userRef = doc(db, "users", user.uid);
     const userSnap = await getDoc(userRef);
-
+    loginBUtton.innerHTML = `Logging in... <span class="spinner"></span>`;
+    loginBUtton.style.background = 'grey';
     if (!userSnap.exists()) {
       // Batch to create user + cart
       const batch = writeBatch(db);
@@ -239,7 +244,6 @@ document.getElementById("googleLogin")?.addEventListener("click", async (e) => {
         status: "active",
         updatedAt: serverTimestamp(),
       });
-
       await batch.commit();
       console.log("New Google user added to Firestore.");
     }
@@ -247,6 +251,8 @@ document.getElementById("googleLogin")?.addEventListener("click", async (e) => {
     localStorage.setItem("userLoggedIn", "true");
 
   } catch (error) {
+      loginBUtton.innerHTML = `Log in`;
+      loginBUtton.style.background = 'black';
     console.error("Google Login Error:", error);
     const errorDiv = document.getElementById("loginError");
     errorDiv.innerText = error.message;

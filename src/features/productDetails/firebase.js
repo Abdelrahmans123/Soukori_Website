@@ -38,7 +38,6 @@ export async function getReviewsByProduct(productId, isNextPage = false) {
 			limit(pageSize)
 		);
 
-
 		// add pagination
 		if (isNextPage && lastVisible) {
 			q = query(
@@ -65,14 +64,14 @@ export async function getReviewsByProduct(productId, isNextPage = false) {
 }
 
 export const addCart = async (cartItem, createdAt, cartId) => {
-  const cartRef = doc(db, "carts", cartId);
-  await updateDoc(cartRef, {
-    items: arrayUnion({
-      ...cartItem,
-      timestamp: new Date().toISOString(),
-    }),
-    updatedAt: new Date(),
-  });
+	const cartRef = doc(db, "carts", cartId);
+	await updateDoc(cartRef, {
+		items: arrayUnion({
+			...cartItem,
+			timestamp: new Date().toISOString(),
+		}),
+		updatedAt: new Date(),
+	});
 };
 
 export const updateCart = async (docId, cartItem) => {
@@ -100,21 +99,81 @@ export const updateCart = async (docId, cartItem) => {
 		await updateDoc(docRef, { items });
 	}
 };
-export const addReview = async (productId, comment, rating, title) => {
+export const addReview = async (productId, comment, rating, title, userId) => {
 	try {
+		// Check if user exists
+		const userRef = doc(db, "users", userId);
+		const userSnap = await getDoc(userRef);
+		if (!userSnap.exists()) {
+			throw new Error("User does not exist");
+		}
+
+		// Query orders collection to find orders for this user
+		const ordersRef = collection(db, "orders");
+		const ordersQuery = query(ordersRef, where("userId", "==", userId));
+		const ordersSnapshot = await getDocs(ordersQuery);
+
+		if (ordersSnapshot.empty) {
+			throw new Error("No orders found for this user");
+		}
+
+		// Check if user has purchased this product
+		let hasOrderedProduct = false;
+		let orderWithProduct = null;
+
+		ordersSnapshot.forEach((doc) => {
+			const orderData = doc.data();
+			const items = orderData.items || [];
+
+			for (let item of items) {
+				if (item.id === productId || item.productId === productId) {
+					hasOrderedProduct = true;
+					orderWithProduct = { id: doc.id, ...orderData };
+					break;
+				}
+			}
+		});
+
+		if (!hasOrderedProduct) {
+			throw new Error("You can only review products you have purchased");
+		}
+
+		// Check if product exists
+		const productRef = doc(db, "products", productId);
+		const productSnap = await getDoc(productRef);
+		if (!productSnap.exists()) {
+			throw new Error("Product does not exist");
+		}
+		// Check if user has already reviewed this product
+		const existingReviewSnapshot = await getDocs(
+			query(
+				collection(db, "reviews"),
+				where("productId", "==", productId),
+				where("userId", "==", userId)
+			)
+		);
+
+		if (!existingReviewSnapshot.empty) {
+			throw new Error("You have already reviewed this product");
+		}
+
+		// Add the review
 		const reviewsRef = collection(db, "reviews");
 		await addDoc(reviewsRef, {
 			productId,
 			comment,
 			rating,
 			title,
-			orderId: "order123",
-			userId: "user123",
+			orderId: orderWithProduct.id,
+			userId: userId,
 			status: "approved",
 			createdAt: new Date(),
 		});
+
 		console.log("Review added successfully");
+		return { success: true, message: "Review added successfully" };
 	} catch (error) {
 		console.error("Error adding review:", error);
+		throw error; // Re-throw to handle in the calling function
 	}
 };

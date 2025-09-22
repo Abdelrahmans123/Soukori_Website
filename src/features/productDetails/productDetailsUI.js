@@ -14,7 +14,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 import db from "../../config/firebase.js";
-import { auth } from "../../javascripts/Auth/firebase-config.js"
+import { auth } from "../../javascripts/Auth/firebase-config.js";
 import {
 	addCart,
 	addReview,
@@ -22,8 +22,7 @@ import {
 	getReviewsByProduct,
 	updateCart,
 } from "./firebase.js";
-
-
+import { getUserById } from "../Admin/orders/firebase.js";
 
 let currentVariant = 0;
 let selectedSize = null;
@@ -66,14 +65,19 @@ export class ProductPage {
 		document.getElementById("product-description").textContent =
 			productData.description;
 
-		const discountedPrice = +(productData.variants[variantIndex].sizes[sizePriceIndex].price * (1 - productData.discount));
+		const discountedPrice = +(
+			productData.variants[variantIndex].sizes[sizePriceIndex].price *
+			(1 - productData.discount)
+		);
 		document.getElementById(
 			"current-price"
 		).textContent = `$${discountedPrice.toFixed(2)}`;
 		if (productData.discount > 0) {
 			document.getElementById(
 				"original-price"
-			).textContent = `$${productData.variants[variantIndex].sizes[sizePriceIndex].price.toFixed(2)}`;
+			).textContent = `$${productData.variants[variantIndex].sizes[
+				sizePriceIndex
+			].price.toFixed(2)}`;
 			document.getElementById("discount-badge").textContent = `${Math.round(
 				productData.discount * 100
 			)}%`;
@@ -120,7 +124,9 @@ export class ProductPage {
 
 		productData.variants.forEach((variant, index) => {
 			const colorOption = document.createElement("div");
-			colorOption.className = `colorOption ${index === 0 ? "active" : ""} shadow`;
+			colorOption.className = `colorOption ${
+				index === 0 ? "active" : ""
+			} shadow`;
 			colorOption.style.backgroundColor = variant.color;
 
 			// If it's the first color, add a check icon right away
@@ -184,8 +190,9 @@ export class ProductPage {
 
 		sizes.forEach((sizeInfo) => {
 			const sizeOption = document.createElement("div");
-			sizeOption.className = `sizeOption ${sizeInfo.quantity === 0 ? "out-of-stock" : ""
-				}`;
+			sizeOption.className = `sizeOption ${
+				sizeInfo.quantity === 0 ? "out-of-stock" : ""
+			}`;
 			sizeOption.innerHTML = `<p>${sizeInfo.size}</p>`;
 			sizeOption.dataset.size = sizeInfo.size;
 			sizeOption.dataset.quantity = sizeInfo.quantity;
@@ -205,7 +212,9 @@ export class ProductPage {
 
 		sizeElement.classList.add("active");
 
-		const sizeIndex = Array.from(sizeElement.parentNode.children).indexOf(sizeElement);
+		const sizeIndex = Array.from(sizeElement.parentNode.children).indexOf(
+			sizeElement
+		);
 		const variant = productData.variants[currentVariant];
 
 		selectedSize = {
@@ -222,14 +231,19 @@ export class ProductPage {
 		if (!selectedSize) return;
 
 		const discountedPrice = selectedSize.price * (1 - productData.discount);
-		document.getElementById("current-price").textContent = `$${discountedPrice.toFixed(2)}`;
+		document.getElementById(
+			"current-price"
+		).textContent = `$${discountedPrice.toFixed(2)}`;
 
 		if (productData.discount > 0) {
-			document.getElementById("original-price").textContent = `$${selectedSize.price.toFixed(2)}`;
-			document.getElementById("discount-badge").textContent = `${Math.round(productData.discount * 100)}%`;
+			document.getElementById(
+				"original-price"
+			).textContent = `$${selectedSize.price.toFixed(2)}`;
+			document.getElementById("discount-badge").textContent = `${Math.round(
+				productData.discount * 100
+			)}%`;
 		}
 	}
-
 
 	updateStockIndicator() {
 		const indicator = document.getElementById("stock-indicator");
@@ -326,7 +340,7 @@ export class ProductPage {
 				}
 
 				const userData = userSnap.data();
-				const cartId = userData.cartID;  //  fetch cartId from user doc
+				const cartId = userData.cartID; //  fetch cartId from user doc
 
 				if (!cartId) {
 					console.error("No cartId found in user document");
@@ -454,7 +468,10 @@ export class ProductPage {
 		}
 	}
 
-	createReviewCard(review) {
+	async createReviewCard(review) {
+		const userName = await getUserById(review.userId)
+			.then((user) => user.name)
+			.catch(() => "User");
 		const reviewsContainer = document.getElementById("reviews-container");
 		const colDiv = document.createElement("div");
 		colDiv.className = "col";
@@ -470,13 +487,13 @@ export class ProductPage {
                                 </div>
                             </div>
                             <div class="cardTitle d-flex align-items-center">
-                                <h5 class="card-title">${review.title}</h5>
+                                <h5 class="card-title">${userName}</h5>
                                 <i class="fa-solid fa-circle-check fs-5 ms-1 checkCircle"></i>
                             </div>
                             <p class="card-text">${review.comment}</p>
                             <p class="postDate">Posted on ${new Date(
-			review.createdAt.seconds * 1000
-		).toLocaleDateString()}</p>
+															review.createdAt.seconds * 1000
+														).toLocaleDateString()}</p>
                         </div>
                     </div>
                 `;
@@ -500,22 +517,30 @@ export class ProductPage {
 		const comment = document.getElementById("reviewText").value;
 		const rating = parseInt(document.getElementById("rating").value);
 		const title = document.getElementById("reviewTitle").value;
+		const userId = localStorage.getItem("userId");
 
+		if (!userId) {
+			this.showNotification("Please log in to submit a review", "error");
+			return;
+		}
 		if (!comment || !rating || !title) {
 			this.showNotification("Please fill in all review fields", "error");
 			return;
 		}
 		try {
-			await addReview(productData.id, comment, rating, title);
+			await addReview(productData.id, comment, rating, title, userId);
 			this.showNotification("Review submitted successfully!", "success");
 			this.loadReviews(); // Reload reviews to show the new one
 			// Clear form
 			document.getElementById("reviewForm").reset();
 			// Close modal
-			const reviewModal = new bootstrap.Modal(
-				document.getElementById("reviewModal")
-			);
-			reviewModal.hide();
+			const reviewModal = document.getElementById("reviewModal");
+			if (reviewModal) {
+				const modalInstance = bootstrap.Modal.getInstance(reviewModal);
+				if (modalInstance) {
+					modalInstance.hide();
+				}
+			}
 		} catch (error) {
 			console.error("Error submitting review:", error);
 			this.showNotification("Failed to submit review", "error");

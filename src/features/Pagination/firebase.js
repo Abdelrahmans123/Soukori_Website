@@ -1,242 +1,126 @@
-// firebase.js - Fixed pagination methods with consistent property names
 import {
 	collection,
 	query,
+	where,
 	orderBy,
 	limit,
-	startAfter,
-	endBefore,
-	limitToLast,
 	getDocs,
+	startAfter,
 	getCountFromServer,
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 import db from "../../config/firebase.js";
 
-class Pagination {
-	constructor(pageSize, tableName) {
+export class Pagination {
+	constructor(pageSize, tableName, filters = null) {
 		this.pageSize = pageSize;
+		this.tableName = tableName;
 		this.currentPage = 1;
 		this.total = 0;
 		this.totalPages = 0;
-		this.firstVisible = null;
+		this.filters = filters; // { field: "discount", operator: ">", value: 0 }
 		this.lastVisible = null;
-		this.pageSnapshots = new Map();
-		this.tableName = tableName;
+		this.firstVisible = null;
+		this.snapshots = [];
 	}
 
-	// Get total count of items
-	async getTotalCount() {
-		try {
-			const tablesRef = collection(db, this.tableName);
-			const snapshot = await getCountFromServer(tablesRef);
-			this.total = snapshot.data().count;
-			this.totalPages = Math.ceil(this.total / this.pageSize);
-			return this.total;
-		} catch (error) {
-			console.error("Error getting total count:", error);
-			return 0;
+	_buildBaseQuery(extra = []) {
+		const colRef = collection(db, this.tableName);
+
+		// If filter exists
+		if (this.filters && this.filters.field) {
+			return query(
+				colRef,
+				where(this.filters.field, this.filters.operator, this.filters.value),
+				orderBy(this.filters.field, "desc"),
+				...extra
+			);
 		}
+
+		// No filter → fallback to default ordering (e.g. createdAt)
+		return query(colRef, orderBy("createdAt", "desc"), ...extra);
+	}
+
+	async getTotalCount() {
+		const q = this._buildBaseQuery();
+		const snapshot = await getCountFromServer(q);
+		this.total = snapshot.data().count;
+		this.totalPages = Math.ceil(this.total / this.pageSize);
+		return this.total;
 	}
 
 	async getFirstPage() {
-		try {
-			const tablesRef = collection(db, this.tableName);
-			const q = query(
-				tablesRef,
-				orderBy("createdAt", "desc"),
-				limit(this.pageSize)
-			);
-			const querySnapshot = await getDocs(q);
-			const content = [];
-			querySnapshot.forEach((doc) => {
-				content.push({ id: doc.id, ...doc.data() });
-			});
-			this.firstVisible = querySnapshot.docs[0];
-			this.lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
-			this.currentPage = 1;
-			this.pageSnapshots.set(1, {
-				content,
-				firstDoc: this.firstVisible,
-				lastDoc: this.lastVisible,
-			});
-			return {
-				content, // ✅ CONSISTENT: Always use 'content'
-				currentPage: this.currentPage,
-				totalPages: this.totalPages,
-				total: this.total,
-				hasNext: querySnapshot.docs.length === this.pageSize,
-				hasPrev: false,
-			};
-		} catch (error) {
-			console.error("Error getting first page:", error);
-			throw error;
-		}
+		const q = this._buildBaseQuery([limit(this.pageSize)]);
+		const snapshot = await getDocs(q);
+
+		this.snapshots[1] = snapshot;
+		this.firstVisible = snapshot.docs[0];
+		this.lastVisible = snapshot.docs[snapshot.docs.length - 1];
+
+		return this._formatResult(snapshot, 1);
 	}
 
 	async getNextPage() {
-		if (!this.lastVisible) {
-			throw new Error(
-				"No reference to last document. Call getFirstPage() first."
-			);
-		}
-		if (this.totalPages > 0 && this.currentPage >= this.totalPages) {
-			throw new Error("Already on the last page.");
-		}
-		try {
-			const tablesRef = collection(db, this.tableName);
-			const q = query(
-				tablesRef,
-				orderBy("createdAt", "desc"),
-				startAfter(this.lastVisible),
-				limit(this.pageSize)
-			);
+		if (this.currentPage >= this.totalPages) return null;
 
-			const querySnapshot = await getDocs(q);
-			const content = [];
+		const q = this._buildBaseQuery([
+			startAfter(this.lastVisible),
+			limit(this.pageSize),
+		]);
 
-			querySnapshot.forEach((doc) => {
-				content.push({ id: doc.id, ...doc.data() });
-			});
+		const snapshot = await getDocs(q);
+		this.currentPage++;
+		this.snapshots[this.currentPage] = snapshot;
+		this.lastVisible = snapshot.docs[snapshot.docs.length - 1];
+		this.firstVisible = snapshot.docs[0];
 
-			if (content.length > 0) {
-				this.firstVisible = querySnapshot.docs[0];
-				this.lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
-				this.currentPage++;
-				this.pageSnapshots.set(this.currentPage, {
-					content,
-					firstDoc: this.firstVisible,
-					lastDoc: this.lastVisible,
-				});
-			}
-			return {
-				content, // ✅ FIXED: Changed from 'products' to 'content'
-				currentPage: this.currentPage,
-				totalPages: this.totalPages,
-				total: this.total, // ✅ FIXED: Changed from 'totalProducts' to 'total'
-				hasNext: content.length === this.pageSize, // ✅ FIXED: Changed from 'products' to 'content'
-				hasPrev: this.currentPage > 1,
-			};
-		} catch (error) {
-			console.error("Error getting next page:", error);
-			throw error;
-		}
+		return this._formatResult(snapshot, this.currentPage);
 	}
 
-	// Get previous page
 	async getPreviousPage() {
-		if (!this.firstVisible || this.currentPage <= 1) {
-			throw new Error(
-				"Already on first page or no reference to first document."
-			);
-		}
+		if (this.currentPage <= 1) return null;
 
-		try {
-			const tablesRef = collection(db, this.tableName);
-			const q = query(
-				tablesRef,
-				orderBy("createdAt", "desc"),
-				endBefore(this.firstVisible),
-				limitToLast(this.pageSize)
-			);
+		this.currentPage--;
+		const snapshot = this.snapshots[this.currentPage];
+		this.firstVisible = snapshot.docs[0];
+		this.lastVisible = snapshot.docs[snapshot.docs.length - 1];
 
-			const querySnapshot = await getDocs(q);
-			const content = []; // ✅ FIXED: Changed from 'contents' to 'content'
-
-			querySnapshot.forEach((doc) => {
-				content.push({ id: doc.id, ...doc.data() });
-			});
-
-			if (content.length > 0) {
-				this.firstVisible = querySnapshot.docs[0];
-				this.lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
-				this.currentPage--;
-
-				// Cache this page
-				this.pageSnapshots.set(this.currentPage, {
-					content, // ✅ FIXED: Changed from 'contents' to 'content'
-					firstDoc: this.firstVisible,
-					lastDoc: this.lastVisible,
-				});
-			}
-
-			return {
-				content, // ✅ FIXED: Changed from 'contents' to 'content'
-				currentPage: this.currentPage,
-				totalPages: this.totalPages,
-				total: this.total, // ✅ FIXED: Changed from 'totalProducts' to 'total'
-				hasNext: this.currentPage < this.totalPages,
-				hasPrev: this.currentPage > 1,
-			};
-		} catch (error) {
-			console.error("Error getting previous page:", error);
-			throw error;
-		}
+		return this._formatResult(snapshot, this.currentPage);
 	}
 
 	async goToPage(pageNumber) {
-		if (this.totalPages === 0) {
-			await this.getTotalCount();
-		}
-		if (
-			pageNumber < 1 ||
-			(this.totalPages > 0 && pageNumber > this.totalPages)
-		) {
-			throw new Error(`Invalid page number. Valid range: 1-${this.totalPages}`);
-		}
-		if (this.pageSnapshots.has(pageNumber)) {
-			const cached = this.pageSnapshots.get(pageNumber);
-			this.currentPage = pageNumber;
-			this.firstVisible = cached.firstDoc;
-			this.lastVisible = cached.lastDoc;
-			return {
-				content: cached.content, // ✅ FIXED: Changed from 'products' to 'content'
-				currentPage: this.currentPage,
-				totalPages: this.totalPages,
-				total: this.total, // ✅ FIXED: Changed from 'totalProducts' to 'total'
-				hasNext: this.currentPage < this.totalPages,
-				hasPrev: this.currentPage > 1,
-			};
-		}
-		try {
-			const tablesRef = collection(db, this.tableName);
-			const offset = (pageNumber - 1) * this.pageSize;
-			const q = query(
-				tablesRef,
-				orderBy("createdAt", "desc"),
-				limit(offset + this.pageSize)
-			);
+		if (pageNumber < 1 || pageNumber > this.totalPages) return null;
 
-			const querySnapshot = await getDocs(q);
-			const allDocs = querySnapshot.docs;
-			const pageContent = allDocs.slice(offset, offset + this.pageSize); // ✅ FIXED: Changed from 'pageContents' to 'pageContent'
-			const content = pageContent.map((doc) => ({
-				// ✅ FIXED: Changed from 'contents' to 'content'
-				id: doc.id,
-				...doc.data(),
-			}));
+		// calculate offset
+		const offset = (pageNumber - 1) * this.pageSize;
 
-			if (content.length > 0) {
-				this.firstVisible = pageContent[0]; // ✅ FIXED: Use document reference, not data
-				this.lastVisible = pageContent[pageContent.length - 1]; // ✅ FIXED: Use document reference, not data
-				this.currentPage = pageNumber;
-				this.pageSnapshots.set(pageNumber, {
-					content,
-					firstDoc: this.firstVisible,
-					lastDoc: this.lastVisible,
-				});
-			}
-			return {
-				content, // ✅ FIXED: Changed from 'contents' to 'content'
-				currentPage: this.currentPage,
-				totalPages: this.totalPages,
-				total: this.total,
-				hasNext: this.currentPage < this.totalPages,
-				hasPrev: this.currentPage > 1,
-			};
-		} catch (error) {
-			console.error("Error going to page:", error);
-			throw error;
+		// load offset first
+		const prevQuery = this._buildBaseQuery([limit(offset)]);
+		const prevSnapshot = await getDocs(prevQuery);
+
+		let q = this._buildBaseQuery([limit(this.pageSize)]);
+		if (!prevSnapshot.empty && offset > 0) {
+			const lastVisible = prevSnapshot.docs[prevSnapshot.docs.length - 1];
+			q = this._buildBaseQuery([startAfter(lastVisible), limit(this.pageSize)]);
 		}
+
+		const snapshot = await getDocs(q);
+		this.snapshots[pageNumber] = snapshot;
+		this.currentPage = pageNumber;
+		this.firstVisible = snapshot.docs[0];
+		this.lastVisible = snapshot.docs[snapshot.docs.length - 1];
+
+		return this._formatResult(snapshot, pageNumber);
+	}
+
+	_formatResult(snapshot, pageNumber) {
+		return {
+			content: snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })),
+			currentPage: pageNumber,
+			totalPages: this.totalPages,
+			total: this.total,
+			hasNext: pageNumber < this.totalPages,
+			hasPrev: pageNumber > 1,
+		};
 	}
 
 	getPaginationInfo() {
@@ -244,18 +128,6 @@ class Pagination {
 			currentPage: this.currentPage,
 			totalPages: this.totalPages,
 			total: this.total,
-			pageSize: this.pageSize,
-			hasNext: this.currentPage < this.totalPages,
-			hasPrev: this.currentPage > 1,
 		};
 	}
-
-	// Reset pagination
-	reset() {
-		this.currentPage = 1;
-		this.firstVisible = null;
-		this.lastVisible = null;
-		this.pageSnapshots.clear();
-	}
 }
-export { Pagination };

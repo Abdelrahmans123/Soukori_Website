@@ -60,13 +60,12 @@
 							<a class="nav-link" href="../../index.html">Home</a>
 						</li>
 						<li class="nav-item me-4">
-							<a class="nav-link" href="../../pages/Product/product.html">Shop</a>
+							<a class="nav-link" href="/src/pages/Product/product.html"
+								>Shop</a
+							>
 						</li>
 						<li class="nav-item me-4">
-							<a class="nav-link" href="categories.html">Categories</a>
-						</li>
-						<li class="nav-item me-4">
-							<a class="nav-link" href="deals.html">Deals</a>
+							<a class="nav-link" href="/src/pages/Product/deals.html">Deals</a>
 						</li>
 					</ul>
 				</div>
@@ -90,7 +89,10 @@
 					</div>
 
 					<!-- Cart -->
-					<a href="../profile/cart.html" class="text-dark position-relative mx-3 cartBtn">
+					<a
+						href="../profile/cart.html"
+						class="text-dark position-relative mx-3 cartBtn"
+					>
 						<i class="fas fa-shopping-cart"></i>
 						<span
 							class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
@@ -129,7 +131,9 @@
 							aria-labelledby="userDropdown"
 						>
 							<li>
-								<a class="dropdown-item" href="../profile/profile.html">Profile</a>
+								<a class="dropdown-item" href="../profile/profile.html"
+									>Profile</a
+								>
 							</li>
 							<li>
 								<a class="dropdown-item" href="#">Orders</a>
@@ -732,10 +736,7 @@
 			src="../../javascripts/Product Details/main.js"
 			type="module"
 		></script>
-		<script
-			type="module"
-			src="../../features/productDetails/index.js"
-		></script>
+		<script type="module" src="../../features/productDetails/index.js"></script>
 		<script>
 			document.addEventListener("DOMContentLoaded", () => {
 				const stars = document.querySelectorAll(".star");

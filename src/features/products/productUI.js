@@ -198,27 +198,20 @@ function renderProducts(products) {
                 </div>
             </div>
         `;
-
 		productsContainer.appendChild(productCard);
 	});
-
-	// Add event listeners
 	addProductEventListeners();
 }
 
 function updatePaginationUI(paginationData) {
 	const { currentPage, totalPages, total, hasNext, hasPrev } =
 		paginationData;
-
-	// Update showing results text
 	const showNumbers = document.querySelector(".showNumbers p");
 	if (showNumbers) {
 		const startItem = (currentPage - 1) * pageSize + 1;
 		const endItem = Math.min(currentPage * pageSize, total);
 		showNumbers.textContent = `Showing ${startItem}-${endItem} of ${total} results`;
 	}
-
-	// Update pagination controls
 	const paginationContainer = document.querySelector(".pagination");
 	if (paginationContainer) {
 		const prevBtn = paginationContainer.querySelector(".previous button");

@@ -91,8 +91,8 @@ async function loadOrders(loadMore = false) {
           <div class="card-header d-flex justify-content-between align-items-center">
             <h5 class="mb-0">Order #${order.id}</h5>
             <span class="badge bg-${status.toUpperCase() === 'PENDING' ? 'warning' :
-          status.toUpperCase() === 'SHIPPED' ? 'primary' :
-            status.toUpperCase() === 'DELIVERED' ? 'success' :
+          status.toUpperCase() === 'PAID' ? 'success' :
+            status.toUpperCase() === 'FAILED' ? 'danger' :
               'secondary'}">
               ${status}
             </span>

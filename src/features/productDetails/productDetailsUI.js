@@ -29,6 +29,20 @@ let productId = new URLSearchParams(window.location.search).get("id");
 let productData = null;
 let userId;
 
+const cartBadge = document.querySelector(
+  ".badge.rounded-pill.bg-danger"
+);
+
+function updateCartBadge() {
+  const carts = JSON.parse(localStorage.getItem("carts")) || [];
+
+  if (carts.length > 0) {
+    cartBadge.textContent = `${carts.length + 1}`; // make sure it’s visible
+  } else {
+    cartBadge.textContent = "";
+  }
+}
+
 export class ProductPage {
 	constructor() {
 		this.init();
@@ -305,6 +319,7 @@ export class ProductPage {
 			this.showNotification("Not enough stock available", "error");
 			return;
 		}
+		updateCartBadge();
 
 		const cartItem = {
 			id: productData.id,

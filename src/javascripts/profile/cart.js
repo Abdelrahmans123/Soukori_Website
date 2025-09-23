@@ -480,6 +480,19 @@ TRANSACTION TABLE ()
 document.getElementById("checkoutDetails").addEventListener("submit", async (e) => {
   e.preventDefault();
 
+  // check if user is logged in
+  const user = auth.currentUser;
+  if (!user) {
+    alert("You must be logged in to checkout.");
+    return;
+  }
+
+  // check if email is verified
+  if (!user.emailVerified) {
+    alert("Please verify your email before checking out.");
+    return;
+  }
+
   placeorderbtn.disabled = true;
   placeorderbtn.innerHTML = `Redirecting to Stripe...<span class="spinner"></span>`;
 
@@ -492,8 +505,9 @@ document.getElementById("checkoutDetails").addEventListener("submit", async (e) 
 
   const orderId = `${Date.now()}`;
   const cartItems = safeGetCart();
-  const userId = auth.currentUser?.uid;
+  const userId = user.uid;
   const discount = appliedDiscount;
+
   try {
     const response = await fetch("http://localhost:4242/create-checkout-session", {
       method: "POST",
@@ -521,6 +535,7 @@ document.getElementById("checkoutDetails").addEventListener("submit", async (e) 
     placeorderbtn.innerHTML = "Place Order";
   }
 });
+
 
 
 

@@ -38,6 +38,7 @@ class ProductFilters {
 	}
 
 	initializeFilters() {
+		console.log('22')
 		this.setupCategoryFilters();
 		this.setupPriceRange();
 		this.setupColorFilters();
@@ -48,15 +49,15 @@ class ProductFilters {
 	}
 
 	setupCategoryFilters() {
-		const categoryFilters = document.querySelectorAll(
-			'.category_filter input[type="radio"]'
-		);
-		categoryFilters.forEach((filter, index) => {
-			const categoryNames = ["T-Shirt", "Shorts", "Shirts", "Hoodie", "Jeans"];
-
+		const cat=document.querySelectorAll(".cat_cont p")
+		cat.forEach((filter, index) => {
+			
+			const categoriesName=filter.textContent;
+			console.log("category",categoriesName);
+			
 			filter.addEventListener("change", (e) => {
 				if (e.target.checked) {
-					this.filters.categories = [categoryNames[index]];
+					this.filters.categories = [categoriesName];
 					this.applyFilters();
 				}
 			});
@@ -265,10 +266,11 @@ class ProductFilters {
 	}
 
 	setupApplyButton() {
-		const applyButtons = document.querySelectorAll(".applyFilterBtn button");
-		applyButtons.forEach((button) => {
-			button.addEventListener("click", () => {
+		const applyButtons = document.getElementById("apply_button");
+		console.log('ss')
+			applyButtons.addEventListener("click", () => {
 				this.applyFilters();
+				console.log('sss')
 				// Close mobile offcanvas if open
 				const offcanvas = document.getElementById("filtersOffcanvas");
 				if (offcanvas) {
@@ -278,20 +280,21 @@ class ProductFilters {
 					}
 				}
 			});
-		});
+		
 	}
 
 	buildFirestoreQuery() {
 		let queryConstraints = [orderBy("createdAt", "desc")];
-
+		console.log('sss');
+		
 		// Category filter
 		if (this.filters.categories.length > 0) {
-			queryConstraints.push(where("category", "in", this.filters.categories));
+			queryConstraints.push(where("categoryId", "in", this.filters.categories));
 		}
 
 		// Status filter (only show available products)
 		queryConstraints.push(where("status", "==", "available"));
-
+		console.log('fliter:',this.filters.categories);
 		return query(collection(db, this.tableName), ...queryConstraints);
 	}
 
@@ -868,3 +871,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Make productFilters globally accessible for the clear filters button
 window.productFilters = productFilters;
+
+export {ProductFilters}

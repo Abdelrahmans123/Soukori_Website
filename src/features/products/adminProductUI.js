@@ -59,9 +59,9 @@ function renderAdminProductCard(product) {
               <div class="product-price">
                 ${
 									product.discount > 0
-										? `<span class="text-decoration-line-through text-muted me-2">₹${displayPrice}</span>
-                   <span class="text-success fw-bold">₹${discountedPrice}</span>`
-										: `<span class="fw-bold">₹${displayPrice} </span>`
+										? `<span class="text-decoration-line-through text-muted me-2">$${displayPrice}</span>
+                   <span class="text-success fw-bold">$${discountedPrice}</span>`
+										: `<span class="fw-bold">$${displayPrice} </span>`
 								}
               </div>
             </div>

@@ -10,7 +10,8 @@ import {
   showSuccessMessage,
   showErrorMessage,
 } from "../../../features/general/utils.js";
-
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+const auth = getAuth();
 class AddProduct {
   // Initialize Firebase collection and state
   constructor() {

@@ -12,18 +12,15 @@ import {
 	increment,
 	serverTimestamp,
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 import db from "../../config/firebase.js";
 import { auth } from "../../javascripts/Auth/firebase-config.js";
 import {
-	addCart,
+	addCartToFirestore,
 	addReview,
 	getProductById,
 	getReviewsByProduct,
-	updateCart,
 } from "./firebase.js";
 import { getUserById } from "../Admin/orders/firebase.js";
-
 let currentVariant = 0;
 let selectedSize = null;
 let currentQuantity = 1;
@@ -322,49 +319,39 @@ export class ProductPage {
 		};
 
 		try {
-			// Get logged-in user
-			onAuthStateChanged(auth, async (user) => {
-				if (!user) {
-					cart.push(cartItem);
-					localStorage.setItem("carts", JSON.stringify(cart));
-					this.showNotification("Added to cart", "success");
-					return;
-				}
+			// Get current user directly
+			const user = auth.currentUser;
 
-				const userRef = doc(db, "users", user.uid);
-				const userSnap = await getDoc(userRef);
-
-				if (!userSnap.exists()) {
-					console.error("User document not found!");
-					return;
-				}
-
-				const userData = userSnap.data();
-				const cartId = userData.cartID; //  fetch cartId from user doc
-
-				if (!cartId) {
-					console.error("No cartId found in user document");
-					return;
-				}
-
-				// Update Firestore cart
-				await addCart(cartItem, new Date(), cartId);
-
-				// Update local cart copy
+			if (!user) {
+				// Handle guest cart (local storage only)
 				cart.push(cartItem);
 				localStorage.setItem("carts", JSON.stringify(cart));
+				this.showNotification("Added to cart", "success");
+				return;
+			}
 
-				this.showNotification("Cart updated successfully!", "success");
+			console.log("Adding to cart for user:", user.uid);
 
-				// Update stock locally
-				selectedSize.quantity -= currentQuantity;
-				this.updateStockIndicator();
+			// Add to Firestore cart using the utility function
+			await addCartToFirestore(cartItem, new Date(), user.uid);
 
+			// Update local cart copy
+			cart.push(cartItem);
+			localStorage.setItem("carts", JSON.stringify(cart));
+
+			this.showNotification("Cart updated successfully!", "success");
+
+			// Update stock locally
+			selectedSize.quantity -= currentQuantity;
+			this.updateStockIndicator();
+
+			// Update cart count in UI
+			if (typeof updateCartCount === "function") {
 				await updateCartCount();
-			});
+			}
 		} catch (error) {
 			console.error("Error adding to cart:", error);
-			this.showNotification("Failed to add to cart", "error");
+			this.showNotification("Failed to add to cart: " + error.message, "error");
 		}
 	}
 
@@ -547,23 +534,3 @@ export class ProductPage {
 		}
 	}
 }
-
-// Load user's cart count (optional)
-async function updateCartCount() {
-	try {
-		const cartRef = collection(db, "carts");
-		const cartSnapshot = await getCountFromServer(cartRef);
-		const cartCount = cartSnapshot.data().count;
-
-		// Update cart badge if it exists
-		const cartBadge = document.querySelector(".badge");
-		if (cartBadge) {
-			cartBadge.textContent = cartCount;
-		}
-	} catch (error) {
-		console.error("Error updating cart count:", error);
-	}
-}
-
-// Update cart count on page load
-updateCartCount();

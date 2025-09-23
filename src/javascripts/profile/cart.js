@@ -192,7 +192,6 @@ async function deleteItemFromLocal(index) {
   if (idx !== -1) {
     storedCartLocal.splice(idx, 1);
     localStorage.setItem("carts", JSON.stringify(storedCartLocal));
-    console.log("Item deleted successfully");
     if (cartDetails.textContent.trim() === '') {
       cartDetails.innerHTML = `
       <div class="text-center">
@@ -204,9 +203,8 @@ async function deleteItemFromLocal(index) {
       try {
         const cartRef = doc(db, "carts", cartId);
         await updateDoc(cartRef, {
-          items: storedCartLocal  // overwrite items array
+          items: storedCartLocal 
         });
-        console.log("Item deleted successfully from Firestore");
       } catch (err) {
         console.error("Failed to delete from Firestore:", err);
       }
@@ -237,17 +235,14 @@ async function syncFireStoreWithLocalStorage() {
       const cartRef = doc(db, "carts", cartId);
       if (storedCartLocal.length !== 0) {
         await updateDoc(cartRef, {
-          items: storedCartLocal  // overwrite items array
+          items: storedCartLocal 
         });
-        console.log("Items synced successfully with Firestore");
       } else {
         const cartSnap = await getDoc(cartRef);
         if (cartSnap.exists()) {
           const cartItemsFS = cartSnap.data().items || [];
           localStorage.setItem("carts", JSON.stringify(cartItemsFS));
-          storedCart = cartItemsFS;
-          console.log('sss', storedCart)
-          console.log("Local storage updated from Firestore:", cartItemsFS);
+          storedCart = cartItemsFS;;
         } else {
           console.log("No cart found in Firestore for this user");
         }

@@ -10,7 +10,7 @@ import {
 	orderBy,
 	limit,
 	startAfter,
-	arrayUnion,
+	setDoc,
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 import db from "../../config/firebase.js";
 export const getProductById = async (productId) => {
@@ -24,12 +24,10 @@ export const getProductById = async (productId) => {
 };
 
 export async function getReviewsByProduct(productId, isNextPage = false) {
-	let lastVisible = null; // track last doc
-	const pageSize = 5; // reviews per batch
+	let lastVisible = null;
+	const pageSize = 5;
 	try {
 		const reviewsRef = collection(db, "reviews");
-
-		// base query
 		let q = query(
 			reviewsRef,
 			where("productId", "==", productId),
@@ -37,8 +35,6 @@ export async function getReviewsByProduct(productId, isNextPage = false) {
 			orderBy("createdAt", "desc"),
 			limit(pageSize)
 		);
-
-		// add pagination
 		if (isNextPage && lastVisible) {
 			q = query(
 				reviewsRef,
@@ -53,7 +49,7 @@ export async function getReviewsByProduct(productId, isNextPage = false) {
 		const snapshot = await getDocs(q);
 
 		if (!snapshot.empty) {
-			lastVisible = snapshot.docs[snapshot.docs.length - 1]; // update for pagination
+			lastVisible = snapshot.docs[snapshot.docs.length - 1];
 		}
 
 		return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -63,16 +59,48 @@ export async function getReviewsByProduct(productId, isNextPage = false) {
 	}
 }
 
-export const addCart = async (cartItem, createdAt, cartId) => {
-	const cartRef = doc(db, "carts", cartId);
-	await updateDoc(cartRef, {
-		items: arrayUnion({
-			...cartItem,
-			timestamp: new Date().toISOString(),
-		}),
-		updatedAt: new Date(),
-	});
-};
+export async function addCartToFirestore(cartItem, timestamp, userId) {
+	try {
+		const cartRef = doc(db, "carts", userId); // Use userId directly as document ID
+		const cartSnap = await getDoc(cartRef);
+
+		if (!cartSnap.exists()) {
+			// Create new cart document
+			await setDoc(cartRef, {
+				userId: userId,
+				items: [cartItem],
+				createdAt: timestamp,
+				updatedAt: timestamp,
+			});
+		} else {
+			// Update existing cart
+			const existingCart = cartSnap.data();
+			const existingItems = existingCart.items || [];
+
+			const existingItemIndex = existingItems.findIndex(
+				(item) =>
+					item.id === cartItem.id &&
+					item.size === cartItem.size &&
+					item.color === cartItem.color
+			);
+
+			if (existingItemIndex > -1) {
+				existingItems[existingItemIndex].quantity += cartItem.quantity;
+			} else {
+				existingItems.push(cartItem);
+			}
+
+			await updateDoc(cartRef, {
+				items: existingItems,
+				updatedAt: timestamp,
+			});
+		}
+		console.log("Cart updated successfully in Firestore");
+	} catch (error) {
+		console.error("Error in addCartToFirestore function:", error);
+		throw error;
+	}
+}
 
 export const updateCart = async (docId, cartItem) => {
 	const docRef = doc(db, "carts", docId);
@@ -82,8 +110,6 @@ export const updateCart = async (docId, cartItem) => {
 
 	const cartData = snapshot.data();
 	let items = cartData.items || [];
-
-	// Find the index of the matching item
 	const index = items.findIndex(
 		(item) =>
 			item.id === cartItem.id &&
@@ -92,23 +118,17 @@ export const updateCart = async (docId, cartItem) => {
 	);
 
 	if (index !== -1) {
-		// Update quantity
 		items[index].quantity = cartItem.quantity;
-
-		// Save back the whole array
 		await updateDoc(docRef, { items });
 	}
 };
 export const addReview = async (productId, comment, rating, title, userId) => {
 	try {
-		// Check if user exists
 		const userRef = doc(db, "users", userId);
 		const userSnap = await getDoc(userRef);
 		if (!userSnap.exists()) {
 			throw new Error("User does not exist");
 		}
-
-		// Query orders collection to find orders for this user
 		const ordersRef = collection(db, "orders");
 		const ordersQuery = query(ordersRef, where("userId", "==", userId));
 		const ordersSnapshot = await getDocs(ordersQuery);
@@ -116,8 +136,6 @@ export const addReview = async (productId, comment, rating, title, userId) => {
 		if (ordersSnapshot.empty) {
 			throw new Error("No orders found for this user");
 		}
-
-		// Check if user has purchased this product
 		let hasOrderedProduct = false;
 		let orderWithProduct = null;
 
@@ -137,14 +155,11 @@ export const addReview = async (productId, comment, rating, title, userId) => {
 		if (!hasOrderedProduct) {
 			throw new Error("You can only review products you have purchased");
 		}
-
-		// Check if product exists
 		const productRef = doc(db, "products", productId);
 		const productSnap = await getDoc(productRef);
 		if (!productSnap.exists()) {
 			throw new Error("Product does not exist");
 		}
-		// Check if user has already reviewed this product
 		const existingReviewSnapshot = await getDocs(
 			query(
 				collection(db, "reviews"),
@@ -174,6 +189,6 @@ export const addReview = async (productId, comment, rating, title, userId) => {
 		return { success: true, message: "Review added successfully" };
 	} catch (error) {
 		console.error("Error adding review:", error);
-		throw error; // Re-throw to handle in the calling function
+		throw error;
 	}
 };

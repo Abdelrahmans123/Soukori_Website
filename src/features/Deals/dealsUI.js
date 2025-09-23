@@ -284,7 +284,7 @@ function addProductEventListeners() {
 			e.preventDefault();
 			const productId = this.dataset.productId;
 			// go to product details page
-			window.location.href = `/src/pages/Product/productDetails.html?id=${productId}`;
+			window.location.href = `/pages/Product/productDetails.html?id=${productId}`;
 			this.innerHTML = '<i class="fas fa-check me-2"></i>Check Options!';
 			this.style.backgroundColor = "#28a745";
 			setTimeout(() => {
@@ -313,7 +313,7 @@ function addProductEventListeners() {
 			e.preventDefault();
 			const productId = this.dataset.productId;
 			// go to product details page
-			window.location.href = `/src/pages/Product/productDetails.html?id=${productId}`;
+			window.location.href = `/pages/Product/productDetails.html?id=${productId}`;
 		});
 	});
 }

@@ -54,7 +54,6 @@ onAuthStateChanged(auth, (user) => {
 		showUserDropdown();
 		localStorage.setItem("userLoggedIn", "true"); // Store the login state
 		localStorage.setItem("userId", user.uid); // Store the user ID
-		console.log("Logged in with UID: " + user.uid);
 	} else {
 		showAuth();
 		localStorage.removeItem("userLoggedIn"); // Remove state if no user
@@ -116,9 +115,6 @@ document
 		const avatar = document.getElementById("avatar");
 		const password = document.getElementById("password").value;
 		const confirmPassword = document.getElementById("confirmPassword").value;
-
-		console.log(name);
-		// Check if passwords match
 		if (password !== confirmPassword) {
 			showMessage("warning", "❌ Error: Passwords do not match");
 			return;
@@ -203,7 +199,6 @@ document
 //  logout
 document.getElementById("logoutBtn")?.addEventListener("click", (e) => {
 	e.preventDefault();
-	console.log("Logging out...");
 	signOut(auth)
 		.then(() => {
 			localStorage.removeItem("userLoggedIn");
@@ -227,9 +222,6 @@ document.getElementById("googleLogin")?.addEventListener("click", async (e) => {
 	try {
 		const result = await signInWithPopup(auth, provider);
 		const user = result.user;
-		console.log("Google User:", user);
-
-		// Check if Firestore user doc exists
 		const userRef = doc(db, "users", user.uid);
 		const userSnap = await getDoc(userRef);
 		loginBUtton.innerHTML = `Logging in... <span class="spinner"></span>`;
@@ -262,7 +254,6 @@ document.getElementById("googleLogin")?.addEventListener("click", async (e) => {
 				updatedAt: serverTimestamp(),
 			});
 			await batch.commit();
-			console.log("New Google user added to Firestore.");
 		}
 		window.location.href = "../../index.html";
 		localStorage.setItem("userLoggedIn", "true");

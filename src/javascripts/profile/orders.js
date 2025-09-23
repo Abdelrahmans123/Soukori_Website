@@ -3,6 +3,7 @@ import { query, where, getDocs, orderBy, collection, limit, startAfter } from "h
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.5/firebase-auth.js";
 
 const ordersContainer = document.querySelector('.ordersData');
+
 const spinny = document.getElementById("spinny");
 const orderList = document.getElementById('ordersList');
 let totalOrdersLoaded = 0;

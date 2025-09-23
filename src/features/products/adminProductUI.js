@@ -7,7 +7,11 @@ import {
 	getCountFromServer,
 	doc,
 	deleteDoc,
+	getDoc,
+	setDoc,
+	updateDoc,
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 import { ProductPagination } from "./firebase.js";
 import db from "../../config/firebase.js";
 import {
@@ -15,6 +19,9 @@ import {
 	showSuccessMessage as swalSuccess,
 	showErrorMessage as swalError,
 } from "../general/utils.js";
+
+// Get auth instance
+const auth = getAuth();
 const pageSize = 8;
 const productPagination = new ProductPagination(pageSize);
 // Global state management
@@ -27,7 +34,7 @@ let currentState = {
 
 // Render single product card with consistent styling
 function renderAdminProductCard(product) {
-	const displayPrice = product.variants[0].sizes[0].price ;
+	const displayPrice = product.variants[0].sizes[0].price;
 	const discountedPrice =
 		product.discount > 0
 			? (displayPrice * (1 - product.discount)).toFixed(2)
@@ -51,12 +58,10 @@ function renderAdminProductCard(product) {
 							}</div>
               <div class="product-price">
                 ${
-									product.discount > 0 ? (
-										`<span class="text-decoration-line-through text-muted me-2">₹${displayPrice}</span>
+									product.discount > 0
+										? `<span class="text-decoration-line-through text-muted me-2">₹${displayPrice}</span>
                    <span class="text-success fw-bold">₹${discountedPrice}</span>`
-									) : (
-										`<span class="fw-bold">₹${displayPrice} </span>`
-									)
+										: `<span class="fw-bold">₹${displayPrice} </span>`
 								}
               </div>
             </div>
@@ -212,12 +217,10 @@ async function loadPage(pageNumber) {
 		document.getElementById("productsContainer");
 
 	if (!container) {
-		console.error("Products container not found!");
 		return;
 	}
 
 	if (currentState.isLoading) {
-		console.log("Already loading, skipping request");
 		return;
 	}
 
@@ -225,25 +228,15 @@ async function loadPage(pageNumber) {
 		currentState.isLoading = true;
 		showLoading(container);
 
-		console.log(`Loading page ${pageNumber}...`);
-
-		// Use pagination service to get specific pagehttp://127.0.0.1:5500/src/pages/admin/product/all.html#
 		let result;
-		//127.0.0.1:5500/src/pages/admin/product/all.html#
 		http: if (pageNumber === 1) {
 			result = await productPagination.getFirstPage();
 		} else {
 			result = await productPagination.goToPage(pageNumber);
 		}
-
-		// Update state
 		currentState.currentPage = result.currentPage;
 		currentState.totalPages = result.totalPages;
-
-		// Render products
 		renderAdminProducts(result.products, container);
-
-		// Update pagination UI
 		updatePaginationControls(result);
 	} catch (error) {
 		console.error("Error loading page:", error);
@@ -253,7 +246,6 @@ async function loadPage(pageNumber) {
 	}
 }
 
-// Update pagination controls
 function updatePaginationControls(result) {
 	const paginationContainer = document.querySelector(".pagination");
 	if (!paginationContainer) return;
@@ -261,31 +253,22 @@ function updatePaginationControls(result) {
 	const prevBtn = paginationContainer.querySelector(".previous button");
 	const nextBtn = paginationContainer.querySelector(".next button");
 	const pagesList = paginationContainer.querySelector(".pages");
-
-	// Update Previous button
 	if (prevBtn) {
 		prevBtn.disabled = !result.hasPrev;
 		prevBtn.onclick = result.hasPrev
 			? () => loadPage(result.currentPage - 1)
 			: null;
 	}
-
-	// Update Next button
 	if (nextBtn) {
 		nextBtn.disabled = !result.hasNext;
 		nextBtn.onclick = result.hasNext
 			? () => loadPage(result.currentPage + 1)
 			: null;
 	}
-
-	// Update page numbers
 	if (pagesList) {
 		pagesList.innerHTML = "";
-
-		// Show page numbers (max 5 visible)
 		const startPage = Math.max(1, result.currentPage - 2);
 		const endPage = Math.min(result.totalPages, startPage + 4);
-
 		for (let i = startPage; i <= endPage; i++) {
 			const li = document.createElement("li");
 			li.className = i === result.currentPage ? "active" : "";
@@ -295,8 +278,6 @@ function updatePaginationControls(result) {
 			li.onclick = () => loadPage(i);
 			pagesList.appendChild(li);
 		}
-
-		// Add ellipsis and last page if needed
 		if (endPage < result.totalPages) {
 			if (endPage < result.totalPages - 1) {
 				const ellipsis = document.createElement("li");
@@ -305,29 +286,24 @@ function updatePaginationControls(result) {
 			}
 
 			const lastLi = document.createElement("li");
-			lastLi.innerHTML = (
-			`	<button class="btn btn-outline-dark">${result.totalPages}</button>`
-			);
+			lastLi.innerHTML = `	<button class="btn btn-outline-dark">${result.totalPages}</button>`;
 			lastLi.onclick = () => loadPage(result.totalPages);
 			pagesList.appendChild(lastLi);
 		}
 	}
 
-	// Update pagination info
 	const info = document.querySelector(".pagination-info");
 	if (info) {
 		info.textContent = `Page ${result.currentPage} of ${result.totalPages} (${result.totalProducts} total products)`;
 	}
 }
 
-// Delete product functionality
 window.handleDeleteProduct = async function (productId) {
 	if (!productId) {
 		alert("Invalid product ID");
 		return;
 	}
 
-	// Use SweetAlert confirmation instead of browser confirm
 	try {
 		const result = await showDeleteConfirmation();
 		if (!result || !result.isConfirmed) return;
@@ -337,7 +313,6 @@ window.handleDeleteProduct = async function (productId) {
 	}
 
 	try {
-		// Show loading state on the product card
 		const productCard = document.querySelector(
 			`[data-product-id="${productId}"]`
 		);
@@ -346,10 +321,7 @@ window.handleDeleteProduct = async function (productId) {
 			productCard.style.pointerEvents = "none";
 		}
 
-		// Delete from Firestore
 		await deleteDoc(doc(db, "products", productId));
-
-		// Remove from DOM with animation
 		if (productCard) {
 			productCard.style.transition = "all 0.3s ease";
 			productCard.style.transform = "scale(0.8)";
@@ -357,11 +329,8 @@ window.handleDeleteProduct = async function (productId) {
 
 			setTimeout(() => {
 				productCard.remove();
-
-				// Check if page is now empty and reload if needed
 				const remainingCards = document.querySelectorAll("[data-product-id]");
 				if (remainingCards.length === 0) {
-					// Reload current page or go to previous page
 					const pageToLoad =
 						currentState.currentPage > 1 && currentState.products.length === 1
 							? currentState.currentPage - 1
@@ -371,22 +340,14 @@ window.handleDeleteProduct = async function (productId) {
 			}, 300);
 		}
 
-		// Show success message via SweetAlert (fallback if Swal utils not available)
-		// try {
 		await swalSuccess("Deleted!", "Product deleted successfully.");
-		// } catch (e) {
-		//   // fallback to local toast if swal fails
-		//   showToastMessage(Product deleted successfully!);
-		// }
 	} catch (error) {
 		console.error("Error deleting product:", error);
 		try {
 			await swalError("Failed to delete product. Please try again.");
 		} catch (e) {
-			//   alert(Failed to delete product: ${error.message});
+			alert(`Failed to delete product: ${error.message}`);
 		}
-
-		// Restore product card state
 		const productCard = document.querySelector(
 			` [data-product-id="${productId}"]`
 		);
@@ -397,43 +358,9 @@ window.handleDeleteProduct = async function (productId) {
 	}
 };
 
-// Rename local toast function to avoid name clash with swal util
-// function showToastMessage(message) {
-// 	const toast = document.createElement("div");
-// 	toast.className = "toast-notification";
-// 	toast.style.cssText = `
-//     position: fixed;
-//     top: 20px;
-//     right: 20px;
-//     background: #d4edda;
-//     color: #155724;
-//     padding: 15px 20px;
-//     border-radius: 8px;
-//     border: 1px solid #c3e6cb;
-//     z-index: 9999;
-//     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-//     animation: slideIn 0.3s ease;
-//   `;
-
-// 	toast.innerHTML = `
-//     <div class="d-flex align-items-center">
-//       <i class="fas fa-check-circle me-2"></i>
-//       <span>${message}</span>
-//     </div>
-//   `;
-
-// 	document.body.appendChild(toast);
-
-// 	setTimeout(() => {
-// 		toast.remove();
-// 	}, 3000);
-// }
-
-// Initialize pagination controls
 function initializePaginationControls() {
 	const paginationContainer = document.querySelector(".pagination");
 	if (!paginationContainer) {
-		console.warn("Pagination container not found, creating one...");
 		createPaginationContainer();
 	}
 }
@@ -466,8 +393,6 @@ function createPaginationContainer() {
 
 // Main initialization function
 export async function initializeAdminProducts() {
-	console.log(" Initializing Admin Products...");
-
 	const container =
 		document.querySelector(".container .row") ||
 		document.getElementById("productsContainer");
@@ -478,28 +403,20 @@ export async function initializeAdminProducts() {
 	}
 
 	try {
-		// Initialize pagination service
 		await productPagination.getTotalCount();
-		// Load first page
 		await loadPage(1);
 
 		// Initialize pagination controls
 		initializePaginationControls();
-
-		console.log(" Admin Products initialized successfully");
 	} catch (error) {
 		console.error(" Error initializing admin products:", error);
 		showError(container, "Failed to load products. Please refresh the page.");
 	}
 }
-
-// Auto-initialize when DOM is ready
 document.addEventListener("DOMContentLoaded", () => {
-	console.log("DOM loaded, initializing admin products...");
 	initializeAdminProducts();
 });
 
-// Export functions that might be needed elsewhere
 export {
 	renderAdminProducts,
 	renderAdminProductCard,

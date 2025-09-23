@@ -47,9 +47,23 @@ if (localStorage.getItem("userLoggedIn") === "true") {
 } else {
 	showAuth();
 }
+const cartBadge = document.querySelector(
+  ".badge.rounded-pill.bg-danger"
+);
+
+function updateCartBadge() {
+  const carts = JSON.parse(localStorage.getItem("carts")) || [];
+
+  if (carts.length > 0) {
+    cartBadge.textContent = `${carts.length}`; // make sure it’s visible
+  } else {
+    cartBadge.textContent = "";
+  }
+}
 
 //  onAuthStateChanged for confirmation
 onAuthStateChanged(auth, (user) => {
+	updateCartBadge();
 	if (user) {
 		showUserDropdown();
 		localStorage.setItem("userLoggedIn", "true"); // Store the login state
@@ -75,6 +89,8 @@ async function getUserCartToLocal(user) {
 		return;
 	}
 }
+
+
 
 //  login
 document.getElementById("loginForm")?.addEventListener("submit", (e) => {

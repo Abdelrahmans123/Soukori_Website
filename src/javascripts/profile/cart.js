@@ -23,7 +23,7 @@ let subTotal = 0;
 let appliedDiscount = 0;
 let cartId = 0;
 let isCartLoaded = false;
-
+let userID;
 // Show checkout form
 function showCheckoutForm() {
   cartCheckoutWrapper.classList.add('slide-to-checkout');
@@ -138,13 +138,11 @@ function showItemsFromCart() {
 
 function updateSummary() {
   recalcSubtotal();
-  const deliveryFee = subTotal*0.01; // Example: $5 if cart has items
-  const discountAmount = (subTotal * appliedDiscount) / 100;
+  const deliveryFee = subTotal * 0.01;
   const taxes = subTotal * 0.14;
-  const total = subTotal - discountAmount + deliveryFee + taxes;
-
+  const total = subTotal * (1 + 0.14) * (1 - appliedDiscount) * 1.01; // Match first calc’s order
   subtotalEl.textContent = `$${subTotal.toFixed(2)}`;
-  discountEl.textContent = `${appliedDiscount}%`;
+  discountEl.textContent = `${appliedDiscount*100}%`;
   tax.textContent = `$${taxes.toFixed(2)}`;
   document.getElementById('deliveryFee').textContent = `$${deliveryFee.toFixed(2)}`;
   totalEl.textContent = `$${total.toFixed(2)}`;
@@ -262,7 +260,7 @@ function recalcSubtotal() {
   for (const item of storedCartLocal) {
     total += item.price * item.quantity;
   }
-  subTotal = Number(total.toFixed(2));
+  subTotal = Number(total);
 }
 
 onAuthStateChanged(auth, async (user) => {
@@ -271,6 +269,7 @@ onAuthStateChanged(auth, async (user) => {
     const userSnap = await getDoc(userRef);
     if (userSnap.exists()) {
       cartId = userSnap.data().cartID;
+      userID = user.uid;
       if (userSnap.data().phone.length !== 0)
         document.getElementById('phoneNumber').value = userSnap.data().phone;
     }
@@ -335,8 +334,8 @@ promoBtn.addEventListener("click", async () => {
       }
 
       // Apply discount
-      appliedDiscount = promo.discountPercent;
-      showMessage(`✅ Promo applied! ${appliedDiscount}% off`, "success");
+      appliedDiscount = promo.discountPercent / 100;
+      showMessage(`✅ Promo applied! ${appliedDiscount*100}% off`, "success");
       updateSummary();
 
     } catch (err) {
@@ -352,6 +351,7 @@ promoBtn.addEventListener("click", async () => {
     return;
   }
 });
+
 
 checkoutBTN.addEventListener('click', () => {
   checkoutBTN.disabled = true;
@@ -385,23 +385,13 @@ backToCartBtn.addEventListener('click', (e) => {
 });
 
 // Handle checkout form submission
-document.getElementById('checkoutDetails').addEventListener('submit', async (e) => {
+/* document.getElementById('checkoutDetails').addEventListener('submit', async (e) => {
   e.preventDefault();
   placeorderbtn.disabled = true;
   const originalText = placeorderbtn.innerHTML;
   placeorderbtn.innerHTML = `placing order..<span class="spinner"></span>`;
   try {
     // Collect address fields
-    const streetAddress = document.getElementById('streetAddress').value;
-    const city = document.getElementById('city').value;
-    const state = document.getElementById('state').value;
-    const zipCode = document.getElementById('zipCode').value;
-    const country = document.getElementById('country').value;
-    const phoneNumber = document.getElementById('phoneNumber').value;
-    const cardNumber = document.getElementById('cardNumber').value;
-    const expiryDate = document.getElementById('expiryDate').value;
-    const cvv = document.getElementById('cvv').value;
-    const lastFourDigits = cardNumber.slice(-4);
 
     // Save order to Firestore
     const orderId = `${Date.now()}`;
@@ -456,7 +446,84 @@ document.getElementById('checkoutDetails').addEventListener('submit', async (e) 
     console.error('Checkout error:', err);
     alert('Failed to place order');
   }
+}); */
+
+
+/*
+ORDERS TABLE
+  userId,
+  userAddress,
+  items,
+  total,
+  phone,
+  payment_method,
+  promocode,
+  currency,
+  status (FAILED, PAID, SHIPPED, DELIVERED),
+  createdAt,
+  transactionNumber (from stripe),
+ 
+TRANSACTION TABLE ()
+  orderId,
+  transactionNumber (from stripe),
+  paymentResult,
+  payment_method,
+  createdAt,
+  failureReason
+
+  create order document for orders (both succesful and failed)
+  create transcation document for failed orders
+  
+  
+*/
+
+document.getElementById("checkoutDetails").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  placeorderbtn.disabled = true;
+  placeorderbtn.innerHTML = `Redirecting to Stripe...<span class="spinner"></span>`;
+
+  const streetAddress = document.getElementById('streetAddress').value;
+  const city = document.getElementById('city').value;
+  const state = document.getElementById('state').value;
+  const zipCode = document.getElementById('zipCode').value;
+  const country = document.getElementById('country').value;
+  const phoneNumber = document.getElementById('phoneNumber').value;
+
+  const orderId = `${Date.now()}`;
+  const cartItems = safeGetCart();
+  const userId = auth.currentUser?.uid;
+  const discount = appliedDiscount;
+  try {
+    const response = await fetch("http://localhost:4242/create-checkout-session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        items: cartItems,
+        orderId,
+        userID: userId,
+        discount,
+        address: { streetAddress, city, state, zipCode, country, phoneNumber }
+      })
+    });
+
+    const data = await response.json();
+    if (data.url) {
+      window.location.href = data.url; // Stripe Checkout redirect
+    } else {
+      throw new Error("Stripe session failed");
+    }
+  } catch (err) {
+    console.error("Error:", err);
+    alert("Failed to start checkout");
+
+    placeorderbtn.disabled = false;
+    placeorderbtn.innerHTML = "Place Order";
+  }
 });
+
+
+
 
 showLoading();
 

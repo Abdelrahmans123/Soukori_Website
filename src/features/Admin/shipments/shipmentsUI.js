@@ -6,7 +6,8 @@ import {
 	updateShipment,
 } from "./firebase.js";
 import { Pagination } from "../../Pagination/firebase.js";
-
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+const auth=getAuth();
 export class ShipmentsPage {
 	constructor() {
 		this.pageTitle = "Shipments";
@@ -52,7 +53,7 @@ export class ShipmentsPage {
 						return this.renderError(new Error("Invalid pagination result"));
 					}
 
-					this.currentShipments = paginatedResult.content; // ✅ FIXED: Use currentShipments
+					this.currentShipments = paginatedResult.content; 
 					console.log("Shipments assigned:", this.currentShipments.length);
 				} catch (loadError) {
 					console.error("Error loading shipments:", loadError);

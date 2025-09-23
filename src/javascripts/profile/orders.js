@@ -4,12 +4,8 @@ import { onAuthStateChanged, sendEmailVerification, updateEmail, verifyBeforeUpd
 
 const ordersContainer = document.querySelector('.ordersData');
 
-
-
-// Check if user is logged in
 onAuthStateChanged(auth, (user) => {
     if (!user) {
-        console.log(auth.currentUser)
         ordersContainer.innerHTML = `
       <div class="alert alert-warning text-center" role="alert">
         Please <a href="../Auth/login.html">log in</a> to view your orders.

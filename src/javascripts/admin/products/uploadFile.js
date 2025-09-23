@@ -6,7 +6,7 @@ async function uploadToCloudinary(file) {
   const formData = new FormData();
   formData.append('file', file);
   formData.append('upload_preset', cloudinaryConfig.uploadPreset);
-  formData.append('folder', 'soukori/products');
+  formData.append('folder', 'Soukori/products');
 
   const response = await fetch(cloudinaryConfig.uploadUrl, { method: 'POST', body: formData });
   if (!response.ok) throw new Error("Cloudinary upload failed");

@@ -20,22 +20,23 @@
 		<div class="sidebar">
 			<span class="logo">SOUKORI</span>
 			<nav>
-				<a href="/src/pages/admin/dashboard.html"
+				<a href="/pages/admin/dashboard.html"
 					><i class="fa-solid fa-table-cells-large"></i> DASHBOARD</a
 				>
-				<a href="#"><i class="fa-regular fa-folder"></i> ALL PRODUCTS</a>
-				<a href="/src/pages/admin/orders.html"
+				<a href="/pages/admin/product/all.html"
+					><i class="fa-regular fa-folder"></i>ALL PRODUCTS</a
+				>
+				<a href="/pages/admin/orders.html"
 					><i class="fa-regular fa-file-lines"></i> ORDER LIST</a
 				>
-				<a href="/src/pages/admin/categories.html"
+				<a href="/pages/admin/categories.html"
 					><i class="fa-solid fa-layer-group"></i> CATEGORIES</a
 				>
-				<a href="/src/pages/admin/shipments.html"
+				<a href="/pages/admin/shipments.html"
 					><i class="fa-solid fa-truck"></i> SHIPMENTS</a
 				>
 			</nav>
 		</div>
-
 
 		<!--------------------------------------- Main ---------------------------------------------------------------------->
 		<div class="main">
@@ -101,51 +102,43 @@
 					</ul>
 				</div>
 
+				<!------------------   Admin Profile  ------------------>
+				<div class="dropdown">
+					<button
+						class="btn btn-outline-dark dropdown-toggle"
+						type="button"
+						data-bs-toggle="dropdown"
+						aria-expanded="false"
+						id="adminName"
+					></button>
 
-                <!------------------   Admin Profile  ------------------>
-                <div class="dropdown">
-                    <button
-                        class="btn btn-outline-dark dropdown-toggle"
-                        type="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                        id="adminName"
-                    >
-                        
-                    </button>
+					<ul class="dropdown-menu">
+						<li><a class="dropdown-item" href="#">Profile</a></li>
+						<li><a class="dropdown-item" id="logoutBtn" href="#">Logout</a></li>
+					</ul>
+				</div>
+			</div>
+			<div
+				class="loading d-flex justify-content-center align-items-center vh-100"
+				id="loading"
+			>
+				<div class="spinner-border text-primary" role="status">
+					<span class="visually-hidden">Loading...</span>
+				</div>
+			</div>
+			<div class="container-fluid" id="main-content" style="display: none">
+				<div class="card p-4"></div>
+			</div>
+		</div>
+		<!-- End Modal -->
 
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
-                        <li><a class="dropdown-item" id="logoutBtn" href="#">Logout</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div
-                class="loading d-flex justify-content-center align-items-center vh-100"
-                id="loading"
-            >
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-            </div>
-            <div
-                class="container-fluid"
-                id="main-content"
-                style="display: none"
-            >
-                <div class="card p-4"></div>
-            </div>
-        </div>
-        <!-- End Modal -->
-   
-        <script src="../../javascripts/Bootstrap/bootstrap.bundle.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="../../javascripts/admin/general/main.js"></script>
-        <script
-            src="../../features/Admin/categories/index.js"
-            type="module"
-        ></script>
-         <script type="module" src="../../javascripts/admin/auth/login.js"></script>
-    </body>
-
+		<script src="../../javascripts/Bootstrap/bootstrap.bundle.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+		<script src="../../javascripts/admin/general/main.js"></script>
+		<script
+			src="../../features/Admin/categories/index.js"
+			type="module"
+		></script>
+		<script type="module" src="../../javascripts/admin/auth/login.js"></script>
+	</body>
 </html>

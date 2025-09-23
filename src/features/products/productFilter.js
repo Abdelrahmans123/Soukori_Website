@@ -803,7 +803,7 @@ function addProductEventListeners() {
 		btn.addEventListener("click", function (e) {
 			e.preventDefault();
 			const productId = this.dataset.productId;
-			window.location.href = `/src/pages/Product/productDetails.html?id=${productId}`;
+			window.location.href = `/pages/Product/productDetails.html?id=${productId}`;
 		});
 	});
 
@@ -827,7 +827,7 @@ function addProductEventListeners() {
 		btn.addEventListener("click", function (e) {
 			e.preventDefault();
 			const productId = this.dataset.productId;
-			window.location.href = `/src/pages/Product/productDetails.html?id=${productId}`;
+			window.location.href = `/pages/Product/productDetails.html?id=${productId}`;
 		});
 	});
 }

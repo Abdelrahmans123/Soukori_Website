@@ -1,4 +1,4 @@
-import { ShipmentsPage } from "./shipmentsUi.JS";
+import { ShipmentsPage } from "./shipmentsUI.js";
 
 const shipments = new ShipmentsPage();
 shipments

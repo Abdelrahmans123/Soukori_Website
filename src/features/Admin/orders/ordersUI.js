@@ -1,5 +1,14 @@
 import { getUserById, updateMultipleOrderStatuses } from "./firebase.js";
-import { Pagination } from "../../Pagination/firebase.js";
+import {
+	collection,
+	getDocs,
+	orderBy,
+	query,
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+import db from "../../../config/firebase.js";
+
+const auth = getAuth();
 
 export class OrdersPage {
 	constructor() {
@@ -8,26 +17,47 @@ export class OrdersPage {
 		this.pageIcon = "fa fa-shopping-cart";
 		this.render = this.render.bind(this);
 		this.statusChangeHandler = null;
-		this.pagination = new Pagination(10, "orders");
-		this.currentOrders = [];
+		this.allOrders = [];
+	}
+
+	async loadAllOrders() {
+		try {
+			console.log("Loading all orders...");
+			const ordersRef = collection(db, "orders");
+			const q = query(ordersRef, orderBy("createdAt", "desc"));
+			const querySnapshot = await getDocs(q);
+
+			this.allOrders = [];
+			querySnapshot.forEach((doc) => {
+				this.allOrders.push({
+					id: doc.id,
+					...doc.data(),
+				});
+			});
+
+			console.log(`Loaded ${this.allOrders.length} total orders`);
+			return this.allOrders;
+		} catch (error) {
+			console.error("Error loading orders:", error);
+			throw error;
+		}
 	}
 
 	async renderOrders() {
 		this.showLoading();
 		try {
-			if (this.pagination.currentPage === 1 && this.pagination.total === 0) {
-				await this.pagination.getTotalCount();
-				const paginatedResult = await this.pagination.getFirstPage();
-				this.currentOrders = paginatedResult.content;
-			}
+			// Load all orders
+			await this.loadAllOrders();
 
-			if (!this.currentOrders || this.currentOrders.length === 0) {
+			// If no orders, show empty state
+			if (!this.allOrders || this.allOrders.length === 0) {
 				this.hideLoading();
 				return this.renderEmptyState();
 			}
 
+			// Process orders into individual order items
 			const orderItems = [];
-			this.currentOrders.forEach((order) => {
+			this.allOrders.forEach((order) => {
 				if (
 					order.items &&
 					Array.isArray(order.items) &&
@@ -56,6 +86,7 @@ export class OrdersPage {
 				}
 			});
 
+			// Get customer information
 			const itemsWithCustomers = await Promise.all(
 				orderItems.map(async (item) => {
 					if (item.userId) {
@@ -87,22 +118,24 @@ export class OrdersPage {
 
 			// If no valid items found, show empty state
 			if (validItems.length === 0) {
+				this.hideLoading();
 				return this.renderEmptyState();
 			}
 
 			const container = document.createElement("div");
 			container.className = "orders-page";
 
-			const paginationInfo = this.pagination.getPaginationInfo();
+			console.log("Total orders:", this.allOrders.length);
+			console.log("Total order items:", validItems.length);
 
 			container.innerHTML = `
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h1>${this.pageTitle}</h1>
                     <div class="d-flex align-items-center gap-3">
                         <div class="text-muted">
-                            <small>Page ${paginationInfo.currentPage} of ${
-				paginationInfo.totalPages
-			} (${paginationInfo.total} total orders)</small>
+                            <small>Showing all ${
+															this.allOrders.length
+														} orders (${validItems.length} items)</small>
                         </div>
                         <div class="changeStatus">
                             <select id="statusFilter" class="form-select">
@@ -120,8 +153,11 @@ export class OrdersPage {
                 </div>
                 
                 <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0">Recent Purchases</h5>
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">All Orders</h5>
+                        <small class="text-muted">Showing all ${
+													validItems.length
+												} items from ${this.allOrders.length} orders</small>
                     </div>
                     <div class="card-body p-0">
                         <div class="table-responsive">
@@ -264,101 +300,54 @@ export class OrdersPage {
                         </div>
                     </div>
                 </div>
-
-                <!-- Pagination Controls -->
-                <div class="d-flex justify-content-between align-items-center mt-4">
-                    <div class="text-muted">
-                        Showing ${validItems.length} items on page ${
-				paginationInfo.currentPage
-			} of ${paginationInfo.totalPages}
-                    </div>
-                    <nav aria-label="Orders pagination">
-                        <ul class="pagination pagination-sm mb-0">
-                            <li class="page-item ${
-															!paginationInfo.hasPrev ? "disabled" : ""
-														}">
-                                <button class="page-link" id="firstPageBtn" ${
-																	!paginationInfo.hasPrev ? "disabled" : ""
-																}>
-                                    <i class="fa fa-angle-double-left"></i> First
-                                </button>
-                            </li>
-                            <li class="page-item ${
-															!paginationInfo.hasPrev ? "disabled" : ""
-														}">
-                                <button class="page-link" id="prevPageBtn" ${
-																	!paginationInfo.hasPrev ? "disabled" : ""
-																}>
-                                    <i class="fa fa-angle-left"></i> Previous
-                                </button>
-                            </li>
-                            
-                            ${this.generatePageNumbers(
-															paginationInfo.currentPage,
-															paginationInfo.totalPages
-														)}
-                            
-                            <li class="page-item ${
-															!paginationInfo.hasNext ? "disabled" : ""
-														}">
-                                <button class="page-link" id="nextPageBtn" ${
-																	!paginationInfo.hasNext ? "disabled" : ""
-																}>
-                                    Next <i class="fa fa-angle-right"></i>
-                                </button>
-                            </li>
-                            <li class="page-item ${
-															!paginationInfo.hasNext ? "disabled" : ""
-														}">
-                                <button class="page-link" id="lastPageBtn" ${
-																	!paginationInfo.hasNext ? "disabled" : ""
-																}>
-                                    Last <i class="fa fa-angle-double-right"></i>
-                                </button>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
                 
-                <!-- Order Summary Card -->
+                <!-- Summary Cards -->
                 <div class="row mt-4">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="card bg-primary text-white">
                             <div class="card-body">
                                 <h5 class="card-title">Total Orders</h5>
-                                <h3 class="mb-0">${paginationInfo.total}</h3>
+                                <h3 class="mb-0">${this.allOrders.length}</h3>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="card bg-success text-white">
                             <div class="card-body">
-                                <h5 class="card-title">Current Page Items</h5>
+                                <h5 class="card-title">Total Items</h5>
                                 <h3 class="mb-0">${validItems.length}</h3>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="card bg-info text-white">
                             <div class="card-body">
-                                <h5 class="card-title">Page Revenue</h5>
-                                <h3 class="mb-0">£${this.currentOrders
-																	.filter((o) => o.items && o.items.length > 0)
-																	.reduce(
-																		(sum, order) =>
-																			sum + (order.grandTotal || 0),
-																		0
-																	)
-																	.toFixed(2)}</h3>
+                                <h5 class="card-title">Delivered</h5>
+                                <h3 class="mb-0">${
+																	validItems.filter(
+																		(item) => item.status === "delivered"
+																	).length
+																}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card bg-warning text-white">
+                            <div class="card-body">
+                                <h5 class="card-title">Pending</h5>
+                                <h3 class="mb-0">${
+																	validItems.filter(
+																		(item) => item.status === "pending"
+																	).length
+																}</h3>
                             </div>
                         </div>
                     </div>
                 </div>
             `;
 
-			// Add event listeners for checkboxes and pagination
+			// Add event listeners
 			this.addEventListeners(container);
-			this.addPaginationEventListeners(container);
 
 			// Hide loading state
 			this.hideLoading();
@@ -366,150 +355,8 @@ export class OrdersPage {
 			return container;
 		} catch (error) {
 			console.error("Error rendering orders:", error);
-			return this.renderError(error);
-		}
-	}
-
-	generatePageNumbers(currentPage, totalPages) {
-		let pages = "";
-		const maxVisiblePages = 5;
-		let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-		let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-
-		// Adjust start page if we're near the end
-		if (endPage - startPage + 1 < maxVisiblePages) {
-			startPage = Math.max(1, endPage - maxVisiblePages + 1);
-		}
-
-		for (let i = startPage; i <= endPage; i++) {
-			pages += `
-                <li class="page-item ${i === currentPage ? "active" : ""}">
-                    <button class="page-link page-number-btn" data-page="${i}">
-                        ${i}
-                    </button>
-                </li>
-            `;
-		}
-		return pages;
-	}
-
-	addPaginationEventListeners(container) {
-		// First page button
-		const firstPageBtn = container.querySelector("#firstPageBtn");
-		if (firstPageBtn) {
-			firstPageBtn.addEventListener("click", async () => {
-				await this.goToFirstPage();
-			});
-		}
-
-		// Previous page button
-		const prevPageBtn = container.querySelector("#prevPageBtn");
-		if (prevPageBtn) {
-			prevPageBtn.addEventListener("click", async () => {
-				await this.goToPreviousPage();
-			});
-		}
-
-		// Next page button
-		const nextPageBtn = container.querySelector("#nextPageBtn");
-		if (nextPageBtn) {
-			nextPageBtn.addEventListener("click", async () => {
-				await this.goToNextPage();
-			});
-		}
-
-		// Last page button
-		const lastPageBtn = container.querySelector("#lastPageBtn");
-		if (lastPageBtn) {
-			lastPageBtn.addEventListener("click", async () => {
-				await this.goToLastPage();
-			});
-		}
-
-		// Page number buttons
-		const pageNumberBtns = container.querySelectorAll(".page-number-btn");
-		pageNumberBtns.forEach((btn) => {
-			btn.addEventListener("click", async (e) => {
-				const pageNumber = parseInt(e.target.getAttribute("data-page"));
-				await this.goToPage(pageNumber);
-			});
-		});
-	}
-
-	async goToFirstPage() {
-		try {
-			this.showLoading();
-			this.pagination.reset();
-			await this.pagination.getTotalCount();
-			const result = await this.pagination.getFirstPage();
-			this.currentOrders = result.content;
-			await this.refreshCurrentView();
-		} catch (error) {
-			console.error("Error going to first page:", error);
-			alert("Failed to load first page. Please try again.");
-		}
-	}
-
-	async goToPreviousPage() {
-		try {
-			this.showLoading();
-			const result = await this.pagination.getPreviousPage();
-			this.currentOrders = result.content;
-			await this.refreshCurrentView();
-		} catch (error) {
-			console.error("Error going to previous page:", error);
-			alert("Failed to load previous page. Please try again.");
-		}
-	}
-
-	async goToNextPage() {
-		try {
-			this.showLoading();
-			const result = await this.pagination.getNextPage();
-			this.currentOrders = result.content;
-			await this.refreshCurrentView();
-		} catch (error) {
-			console.error("Error going to next page:", error);
-			alert("Failed to load next page. Please try again.");
-		}
-	}
-
-	async goToLastPage() {
-		try {
-			this.showLoading();
-			const paginationInfo = this.pagination.getPaginationInfo();
-			const result = await this.pagination.goToPage(paginationInfo.totalPages);
-			this.currentOrders = result.content;
-			await this.refreshCurrentView();
-		} catch (error) {
-			console.error("Error going to last page:", error);
-			alert("Failed to load last page. Please try again.");
-		}
-	}
-
-	async goToPage(pageNumber) {
-		try {
-			this.showLoading();
-			const result = await this.pagination.goToPage(pageNumber);
-			this.currentOrders = result.content;
-			await this.refreshCurrentView();
-		} catch (error) {
-			console.error(`Error going to page ${pageNumber}:`, error);
-			alert(`Failed to load page ${pageNumber}. Please try again.`);
-		}
-	}
-
-	async refreshCurrentView() {
-		try {
-			const newContainer = await this.renderOrders();
-			const mainContent = document.getElementById("main-content");
-			if (mainContent) {
-				mainContent.innerHTML = "";
-				mainContent.appendChild(newContainer);
-			}
-		} catch (error) {
-			console.error("Error refreshing view:", error);
 			this.hideLoading();
+			return this.renderError(error);
 		}
 	}
 
@@ -703,18 +550,36 @@ export class OrdersPage {
 	}
 
 	hideLoading() {
+		console.log("Hiding loading...");
 		const loadingElement = document.getElementById("loading");
 		const mainContent = document.getElementById("main-content");
 
+		console.log("Loading element found:", !!loadingElement);
+		console.log("Main content found:", !!mainContent);
+
 		if (loadingElement) {
 			loadingElement.style.display = "none";
-			if (loadingElement.remove) {
+			// Also try removing it completely if it has a remove method
+			if (loadingElement.remove && loadingElement.parentNode) {
+				console.log("Removing loading element");
 				loadingElement.remove();
 			}
 		}
 		if (mainContent) {
 			mainContent.style.display = "block";
+			console.log("Main content display set to block");
 		}
+
+		// Force removal of any lingering loading elements
+		const allLoadingElements = document.querySelectorAll(
+			'[id*="loading"], .loading, .spinner-border'
+		);
+		console.log("Found loading elements to remove:", allLoadingElements.length);
+		allLoadingElements.forEach((el) => {
+			if (el && el.style) {
+				el.style.display = "none";
+			}
+		});
 	}
 
 	renderError(error) {

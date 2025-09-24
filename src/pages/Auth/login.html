@@ -1,201 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>SOUKORI - Login</title>
-		<!-- Favicon -->
-		<link rel="icon" type="image/x-icon" href="image/icon.ico" />
-		<!-- Favicon -->
-		<link rel="icon" type="image/x-icon" href="../../assets/image/icon.ico" />
-		<link rel="stylesheet" href="../../styles/Bootstrap/bootstrap.min.css" />
-		<link rel="stylesheet" href="../../styles/Font Awesome/all.min.css" />
-		<link rel="stylesheet" href="../../styles/style.css" />
-		<link rel="stylesheet" href="../../styles/profile/cart.css" />
-	</head>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>SOUKORI - Login</title>
+        <!-- Favicon -->
+        <link rel="icon" type="image/x-icon" href="image/icon.ico" />
+        <!-- Favicon -->
+        <link rel="icon" type="image/x-icon" href="../../assets/image/icon.ico" />
+        <link rel="stylesheet" href="../../styles/Bootstrap/bootstrap.min.css" />
+        <link rel="stylesheet" href="../../styles/Font Awesome/all.min.css" />
+        <link rel="stylesheet" href="../../styles/style.css" />
+        <link rel="stylesheet" href="../../styles/profile/cart.css" />
+    </head>
 
-	<body>
-		<!-- Navigation Bar -->
-		<nav class="navbar navbar-expand-lg navbar-light bg-white">
-			<div class="container flex-nowrap position-relative">
-				<button
-					class="navbar-toggler border-0"
-					type="button"
-					data-bs-toggle="collapse"
-					data-bs-target="#navbarNav"
-				>
-					<i class="fas fa-bars"></i>
-				</button>
-				<a class="navbar-brand" href="../../index.html">SOUKORI</a>
+    <body>
+        <!-- Navigation Bar -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-white">
+            <div class="container flex-nowrap position-relative">
+                <button
+                    class="navbar-toggler border-0"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav"
+                >
+                    <i class="fas fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="../../index.html">SOUKORI</a>
 
-				<div class="collapse navbar-collapse" id="navbarNav">
-					<ul class="navbar-nav m-auto">
-						<li class="nav-item me-4">
-							<a class="nav-link" href="../../index.html">Home</a>
-						</li>
-						<li class="nav-item me-4">
-							<a class="nav-link" href="../Product/product.html"
-								>Shop</a
-							>
-						</li>
-						<li class="nav-item me-4">
-							<a class="nav-link" href="../Product/deals.html">Deals</a>
-						</li>
-					</ul>
-				</div>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav m-auto">
+                        <li class="nav-item me-4">
+                            <a class="nav-link" href="../../index.html">Home</a>
+                        </li>
+                        <li class="nav-item me-4">
+                            <a class="nav-link" href="../Product/product.html">Shop</a>
+                        </li>
+                        <li class="nav-item me-4">
+                            <a class="nav-link" href="../Product/deals.html">Deals</a>
+                        </li>
+                    </ul>
+                </div>
 
-				<!-- Icons section -->
-				<div class="nav-icons d-flex justify-content-around align-items-center">
-					<!-- Search Desktop -->
-					<form class="searchInput d-none d-lg-flex me-3">
-						<input
-							class="form-control"
-							type="search"
-							placeholder="Search for products..."
-							aria-label="Search"
-						/>
-						<i class="fas fa-search searchIcon"></i>
-					</form>
+                <!-- Icons section -->
+                <div class="nav-icons d-flex justify-content-around align-items-center">
+                    <!-- Search Desktop -->
+                    <form class="searchInput d-none d-lg-flex me-3">
+                        <input
+                            class="form-control"
+                            type="search"
+                            placeholder="Search for products..."
+                            aria-label="Search"
+                        />
+                        <i class="fas fa-search searchIcon"></i>
+                    </form>
 
-					<!-- Search Mobile -->
-					<div class="mobile-icons d-lg-none">
-						<i class="fas fa-search icon"></i>
-					</div>
+                    <!-- Search Mobile -->
+                    <div class="mobile-icons d-lg-none">
+                        <i class="fas fa-search icon"></i>
+                    </div>
 
-					<!-- Cart -->
-					<a
-						href="../profile/cart.html"
-						class="text-dark position-relative mx-3 cartBtn"
-					>
-						<i class="fas fa-shopping-cart"></i>
-						<span
-							class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-							></span
-						>
-					</a>
+                    <!-- Cart -->
+                    <a
+                        href="../profile/cart.html"
+                        class="text-dark position-relative mx-3 cartBtn"
+                    >
+                        <i class="fas fa-shopping-cart"></i>
+                        <span
+                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                        ></span>
+                    </a>
 
-					<!-- Auth Section -->
-					<div class="authButtons d-none d-lg-flex">
-						<a href="../Auth/login.html">
-							<button type="button" class="btn btn-outline-dark">
-								<i class="fas fa-sign-in-alt me-1"></i> Login
-							</button>
-						</a>
-						<a href="../Auth/register.html">
-							<button type="button" class="btn btn-outline-dark">
-								<i class="fas fa-user-plus me-1"></i> Register
-							</button>
-						</a>
-					</div>
+                    <!-- Auth Section -->
+                    <div class="authButtons d-none d-lg-flex">
+                        <a href="../Auth/login.html">
+                            <button type="button" class="btn btn-outline-dark">
+                                <i class="fas fa-sign-in-alt me-1"></i> Login
+                            </button>
+                        </a>
+                        <a href="../Auth/register.html">
+                            <button type="button" class="btn btn-outline-dark">
+                                <i class="fas fa-user-plus me-1"></i> Register
+                            </button>
+                        </a>
+                    </div>
 
-					<!-- Dropdown User  -->
-					<div class="dropdown user-dropdown">
-						<a
-							class="dropdown-toggle text-dark"
-							href="#"
-							role="button"
-							id="userDropdown"
-							data-bs-toggle="dropdown"
-							aria-expanded="false"
-						>
-							<i class="fas fa-user-check"></i>
-						</a>
-						<ul
-							class="dropdown-menu dropdown-menu-end"
-							aria-labelledby="userDropdown"
-						>
-							<li>
-								<a class="dropdown-item" href="#">Profile</a>
-							</li>
-							<li>
-								<a class="dropdown-item" href="#">Orders</a>
-							</li>
-							<li>
-								<hr class="dropdown-divider" />
-							</li>
-							<li>
-								<a class="dropdown-item" href="#" id="logoutBtn">Logout</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</nav>
-		<!-- End Nav Bar -->
+                    <!-- Dropdown User  -->
+                    <div class="dropdown user-dropdown">
+                        <a
+                            class="dropdown-toggle text-dark"
+                            href="#"
+                            role="button"
+                            id="userDropdown"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                        >
+                            <i class="fas fa-user-check"></i>
+                        </a>
+                        <ul
+                            class="dropdown-menu dropdown-menu-end"
+                            aria-labelledby="userDropdown"
+                        >
+                            <li>
+                                <a class="dropdown-item" href="#">Profile</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">Orders</a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider" />
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#" id="logoutBtn">Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!-- End Nav Bar -->
 
-		<!-- Login Form -->
-		<div class="container">
-			<div class="login-container">
-				<div class="login-logo">SOUKORI</div>
+        <!-- Login Form -->
+        <div class="container">
+            <div class="login-container">
+                <div class="login-logo">SOUKORI</div>
 
-				<h2 class="text-center mb-4">Log in to your account</h2>
+                <h2 class="text-center mb-4">Log in to your account</h2>
 
-				<div class="social-login">
-					<a
-						href="#"
-						class="social-btn"
-						id="googleLogin"
-						style="background-color: #db4437"
-					>
-						<i class="fab fa-google"></i>
-					</a>
-				</div>
+                <div class="social-login">
+                    <a
+                        href="#"
+                        class="social-btn"
+                        id="googleLogin"
+                        style="background-color: #db4437"
+                    >
+                        <i class="fab fa-google"></i>
+                    </a>
+                </div>
 
-				<div class="divider">
-					<span class="divider-text">Or</span>
-				</div>
-				<div
-					id="loginError"
-					class="alert alert-danger mt-3"
-					style="display: none"
-				></div>
-				<form id="loginForm">
-					<div class="mb-3">
-						<label for="email" class="form-label">Email address</label>
-						<input
-							type="email"
-							class="form-control"
-							id="email"
-							placeholder="Enter your email"
-							required
-						/>
-					</div>
+                <div class="divider">
+                    <span class="divider-text">Or</span>
+                </div>
+                <div
+                    id="loginError"
+                    class="alert alert-danger mt-3"
+                    style="display: none"
+                ></div>
+                <form id="loginForm">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input
+                            type="email"
+                            class="form-control"
+                            id="email"
+                            placeholder="Enter your email"
+                            required
+                        />
+                    </div>
 
-					<div class="mb-3">
-						<label for="password" class="form-label">Password</label>
-						<input
-							type="password"
-							class="form-control"
-							id="password"
-							placeholder="Enter your password"
-							required
-						/>
-					</div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input
+                            type="password"
+                            class="form-control"
+                            id="password"
+                            placeholder="Enter your password"
+                            required
+                        />
+                    </div>
 
-					<div class="mb-3 form-check">
-						<input type="checkbox" class="form-check-input" id="remember" />
-						<label class="form-check-label" for="remember">Remember me</label>
-						<a href="forgot-password.html" class="float-end"
-							>Forgot password?</a
-						>
-					</div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="remember" />
+                        <label class="form-check-label" for="remember">Remember me</label>
+                        <a href="forgot-password.html" class="float-end">Forgot password?</a>
+                    </div>
 
-					<button type="submit" class="login-btn" id="loggingInBtn">
-						Login
-					</button>
-				</form>
+                    <button type="submit" class="login-btn" id="loggingInBtn">
+                        Login
+                    </button>
+                </form>
 
-				<div class="login-footer">
-					<p>Don't have an account? <a href="register.html">Sign up</a></p>
-				</div>
-				<div class="adminLogin">
-					<p><a href="../admin/auth/login.html">Admin Login</a></p>
-				</div>
-			</div>
-		</div>
+                <div class="login-footer">
+                    <p>Don't have an account? <a href="register.html">Sign up</a></p>
+                </div>
+                <!-- Admin login link removed -->
+            </div>
+        </div>
 
-		<script src="../../javascripts/Bootstrap/bootstrap.bundle.min.js"></script>
-		<script src="../../javascripts/Auth/auth.js" type="module"></script>
-		<script src="../../javascripts/General/main.js" type="module"></script>
-	</body>
+        <script src="../../javascripts/Bootstrap/bootstrap.bundle.min.js"></script>
+        <script src="../../javascripts/Auth/auth.js" type="module"></script>
+        <script src="../../javascripts/General/main.js" type="module"></script>
+    </body>
 </html>

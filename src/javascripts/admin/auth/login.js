@@ -169,7 +169,7 @@ async function logout() {
 		localStorage.removeItem("userRole");
 		localStorage.removeItem("userName");
 		console.log("User logged out successfully");
-		window.location.href = "/src/pages/admin/auth/login.html";
+		window.location.href = "/src/pages/Auth/login.html";
 	} catch (error) {
 		console.error("Logout error:", error);
 		showError("Logout failed: " + error.message);

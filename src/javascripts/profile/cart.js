@@ -1,6 +1,6 @@
-import { doc, getDoc, updateDoc, setDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/9.6.5/firebase-firestore.js";
-import { db, auth } from "../Auth/firebase-config.js"; // your firebase init file
-import { onAuthStateChanged, sendEmailVerification, updateEmail, verifyBeforeUpdateEmail } from "https://www.gstatic.com/firebasejs/9.6.5/firebase-auth.js";
+import { doc, getDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.5/firebase-firestore.js";
+import { db, auth } from "../Auth/firebase-config.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.5/firebase-auth.js";
 
 // Elements
 const promoInput = document.getElementById("promoCode");
@@ -12,144 +12,52 @@ const orderSummary = document.getElementById("order_summary");
 const cartDetails = document.getElementById('cartItems');
 const checkoutBTN = document.getElementById('checkoutBTN');
 const backToCartBtn = document.getElementById('backToCartBtn');
-const cartContainer = document.getElementById('cartContainer');
 const checkoutForm = document.getElementById('checkoutForm');
 const hide_for_checkout = document.querySelectorAll('.delete_for_checkout');
 const placeorderbtn = document.getElementById('placeorder');
 const tax = document.getElementById('tax');
+const checkoutDetails = document.getElementById('checkoutDetails');
 
-let storedCart = safeGetCart();
+
 let subTotal = 0;
 let appliedDiscount = 0;
-let cartId = 0;
+let cartId = null;
 let isCartLoaded = false;
-let userID;
-// Show checkout form
-function showCheckoutForm() {
-  cartCheckoutWrapper.classList.add('slide-to-checkout');
-  checkoutForm.classList.remove('d-none');
-}
 
-// Show cart
-function showCart() {
-  cartCheckoutWrapper.classList.remove('slide-to-checkout');
-  setTimeout(() => {
-    checkoutForm.classList.add('d-none');
-  }, 500); // Match transition duration
-  checkoutBTN.disabled = false; // Re-enable checkout button
-}
-
-
-// Helper: render "not logged in"
-function showItemsFromCart() {
-  storedCart = safeGetCart();
-  let html = "";
-  if (storedCart.length === 0) {
-    syncFireStoreWithLocalStorage();
-    cartDetails.innerHTML = `
-      <div class="text-center">
-        <p>Your cart is empty.</p>
-      </div>
-    `;
-    checkoutBTN.disabled = true
-    isCartLoaded = true;
-    return;
-  }
-  let index = 0;
+function getLocalStorageCart() {
   try {
-    for (const item of storedCart) {
-      const price = item.price;
-      const itemTotal = price * item.quantity;
-      subTotal += itemTotal;
-      subTotal = Number(subTotal.toFixed(2));
-      html += `
-          <div class="row align-items-center justify-content-center mb-3" data-cart-id="${0}" data-item-index="${index}">
-            <div class="col-12 col-md-4 text-center">
-              <img src="${item.image || 'placeholder.jpg'}" alt="${item.name}" class="img-fluid" style="width: 150px; height: 150px; object-fit: cover; border-radius: 10px;">
-            </div>
-            <div class="col-12 col-md-4 text-md-start text-center">
-              <h5 class="fw-bold">${item.name}</h5>
-              <p class="mb-1">Size: ${item.size}</p>
-              <p class="mb-1">Color:<span style="display:inline-block;width:20px;height:20px;border-radius:50%;box-shadow:0 0 0 1px #ddd;cursor:pointer;background-color:${item.color};margin-left:5px;"></span></p>
-              <p class="mb-1 fw-semibold">Price: $${price.toFixed(2)}</p>
-            </div>
-            <div class="col-12 col-md-4 d-flex justify-content-center align-items-center text-center">
-              <button class="btn btn-outline-danger btn-sm me-2 delete-item-btn">
-                <i class="fas fa-trash"></i>
-              </button>
-              <div class="input-group input-group-sm" style="width: 100px;">
-                <button class="btn btn-outline-secondary decrement-btn" type="button" data-price="${price}">-</button>
-                <input type="text" class="form-control text-center quantity" value="${item.quantity}" min="1" readonly>
-                <button class="btn btn-outline-secondary increment-btn" type="button" data-price="${price}">+</button>
-              </div>
-            </div>
-          </div>`;
+    const data = localStorage.getItem("carts");
+    return data ? JSON.parse(data) : [];
+  } catch (err) {
+    console.warn("Corrupted cart in LS, resetting", err);
+    localStorage.setItem("carts", JSON.stringify([]));
+    return [];
+  }
+}
 
-      index++;
-    }
-  } catch { } finally { cartDetails.innerHTML = html; isCartLoaded = true; }
+function setLocalStorageCart(cart) {
+  localStorage.setItem("carts", JSON.stringify(cart));
+}
 
-  // Attach event listeners for delete and quantity buttons
-  const cartRows = cartDetails.querySelectorAll('.row[data-cart-id]');
-  cartRows.forEach(row => {
-    const index = parseInt(row.dataset.itemIndex);
-    const quantityInput = row.querySelector('.quantity');
-    let currentQuantity = parseInt(quantityInput.value);
-
-    // Delete button
-    const deleteBtn = row.querySelector('.delete-item-btn');
-    deleteBtn.addEventListener('click', () => {
-      deleteItemFromLocal(index);
-      subTotal = Number((subTotal - parseFloat(decrementBtn.dataset.price) * currentQuantity).toFixed(2));
-      updateSummary();
-    });
-
-    // Quantity buttons
-    const decrementBtn = row.querySelector('.decrement-btn');
-    const incrementBtn = row.querySelector('.increment-btn');
-
-    decrementBtn.addEventListener('click', async () => {
-      let currentQuantity = parseInt(quantityInput.value);
-      if (currentQuantity > 1) {
-        currentQuantity--;
-        const price = parseFloat(decrementBtn.dataset.price);
-        subTotal = Number((subTotal - price).toFixed(2));
-        quantityInput.value--;
-        changeCountInLocal(index, -1);
-        updateSummary();
-        syncFireStoreWithLocalStorage()
-      }
-    });
-
-    incrementBtn.addEventListener('click', async () => {
-      let currentQuantity = parseInt(quantityInput.value);
-      currentQuantity++;
-      const price = parseFloat(incrementBtn.dataset.price);
-      subTotal = Number((subTotal + price).toFixed(2));
-      quantityInput.value++;
-      changeCountInLocal(index, 1);
-      updateSummary();
-      syncFireStoreWithLocalStorage();
-    });
-  });
-  updateSummary();
-  syncFireStoreWithLocalStorage();
+function recalcSubtotal() {
+  const cart = getLocalStorageCart();
+  subTotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 }
 
 function updateSummary() {
   recalcSubtotal();
   const deliveryFee = subTotal * 0.01;
   const taxes = subTotal * 0.14;
-  const total = subTotal * (1 + 0.14) * (1 - appliedDiscount) * 1.01; // Match first calc’s order
+  const total = subTotal * (1 + 0.14 + 0.01) * (1 - appliedDiscount);
+
   subtotalEl.textContent = `$${subTotal.toFixed(2)}`;
-  discountEl.textContent = `${appliedDiscount*100}%`;
+  discountEl.textContent = `${appliedDiscount * 100}%`;
   tax.textContent = `$${taxes.toFixed(2)}`;
-  document.getElementById('deliveryFee').textContent = `$${deliveryFee.toFixed(2)}`;
+  document.getElementById("deliveryFee").textContent = `$${deliveryFee.toFixed(2)}`;
   totalEl.textContent = `$${total.toFixed(2)}`;
 }
 
 function showMessage(msg, type = "info") {
-  // Remove old message if it exists
   const oldMsg = document.getElementById("promoMessage");
   if (oldMsg) oldMsg.remove();
 
@@ -157,19 +65,14 @@ function showMessage(msg, type = "info") {
   msgDiv.id = "promoMessage";
   msgDiv.className = `alert alert-${type} rounded-2`;
   msgDiv.textContent = msg;
-
-  // Position absolutely inside orderSummary
   msgDiv.style.position = "absolute";
   msgDiv.style.top = "10%";
   msgDiv.style.left = "50%";
   msgDiv.style.transform = "translateX(-50%)";
   msgDiv.style.zIndex = "1000";
-  // Make it fit message in one line
   msgDiv.style.display = "inline-block";
   msgDiv.style.whiteSpace = "nowrap";
-  msgDiv.style.padding = "0.5rem 1rem"; // optional for spacing
-
-  // Make sure parent is relative so absolute positioning works
+  msgDiv.style.padding = "0.5rem 1rem";
   orderSummary.style.position = "relative";
   orderSummary.appendChild(msgDiv);
 
@@ -178,119 +81,251 @@ function showMessage(msg, type = "info") {
   }, 1000);
 }
 
-async function deleteItemFromLocal(index) {
-  const targetDiv = document.querySelector(`div[data-item-index="${index}"]`);
-  targetDiv.remove();
-  const storedCartLocal = safeGetCart();
-  const idx = storedCartLocal.findIndex(item =>
-    item.id === storedCart[index].id &&
-    item.name === storedCart[index].name &&
-    item.price === storedCart[index].price &&
-    item.color === storedCart[index].color &&
-    item.timestamp === storedCart[index].timestamp
-  );
-  if (idx !== -1) {
-    storedCartLocal.splice(idx, 1);
-    localStorage.setItem("carts", JSON.stringify(storedCartLocal));
-    if (cartDetails.textContent.trim() === '') {
-      cartDetails.innerHTML = `
-      <div class="text-center">
-        <p>Your cart is empty.</p>
+function showCheckoutForm() {
+  cartCheckoutWrapper.classList.add('slide-to-checkout');
+  checkoutForm.classList.remove('d-none');
+}
+
+function showCart() {
+  checkoutForm.classList.add('d-none');
+  cartCheckoutWrapper.classList.remove('slide-to-checkout');
+}
+
+/* FIRESTORE SYNC */
+async function saveLStoFS() {
+  if (!cartId) return;
+  try {
+    const cartRef = doc(db, "carts", cartId);
+    const cartLS = getLocalStorageCart();
+    await updateDoc(cartRef, {
+      items: cartLS,
+      updatedAt: serverTimestamp(),
+    });
+  } catch (err) {
+    console.error("Failed LS → FS sync:", err);
+  }
+}
+
+async function mergeFS_LS(cartId) {
+  const cartRef = doc(db, "carts", cartId);
+  const cartSnap = await getDoc(cartRef);
+
+  let cartFS = [];
+  if (cartSnap.exists()) cartFS = cartSnap.data().items || [];
+
+  let cartLS = getLocalStorageCart();
+
+  // Merge: FS quantity wins over LS if they have the same items 
+  let merged = [...cartFS];
+
+  cartLS.forEach(itemLS => {
+    const idx = merged.findIndex(itemFS =>
+      itemFS.id === itemLS.id &&
+      itemFS.color === itemLS.color &&
+      itemFS.size === itemLS.size
+    );
+    if (idx === -1) {
+      merged.push(itemLS);
+    }
+  });
+
+  setLocalStorageCart(merged);
+
+  // Sync merged back to FS
+  await updateDoc(cartRef, {
+    items: merged,
+    updatedAt: serverTimestamp(),
+  });
+
+  showItemsFromCart();
+}
+
+/* RENDER CART */
+function showItemsFromCart() {
+  const cart = getLocalStorageCart();
+  let html = "";
+
+  if (cart.length === 0) {
+    cartDetails.innerHTML = `<div class="text-center"><p>Your cart is empty.</p></div>`;
+    checkoutBTN.disabled = true;
+    isCartLoaded = true;
+    updateSummary();
+    return;
+  }
+
+  cart.forEach((item, index) => {
+    console.log('index', index);
+    console.log('cart.length', cart.length);
+
+    
+    html += `
+      <div class="row align-items-center mb-3 pb-3 ${index === cart.length - 1 ? '' : 'border-bottom border-secondary-subtle'}" data-index="${index}">
+        <div class="col-4 text-center">
+          <img src="${item.image || 'placeholder.jpg'}" alt="${item.name}" class="img-fluid" style="width: 120px; height: 120px; object-fit: cover; border-radius: 10px;">
+        </div>
+        <div class="col-4">
+          <h5>${item.name}</h5>
+          <p>Size: ${item.size}</p>
+          <p>Color: <span style="display:inline-block;width:20px;height:20px;border-radius:50%;background:${item.color};"></span></p>
+          <p>Price: $${item.price.toFixed(2)}</p>
+        </div>
+        <div class="col-4 d-flex align-items-center">
+          <button class="btn btn-outline-danger btn-sm me-2 delete-btn">🗑</button>
+          <div class="input-group input-group-sm" style="width: 100px;">
+            <button class="btn btn-outline-secondary decrement-btn" type="button">-</button>
+            <input type="text" class="form-control text-center quantity" value="${item.quantity}" readonly>
+            <button class="btn btn-outline-secondary increment-btn" type="button">+</button>
+          </div>
+        </div>
       </div>
     `;
-    }
-    if (cartId && cartId !== 0) {
-      try {
-        const cartRef = doc(db, "carts", cartId);
-        await updateDoc(cartRef, {
-          items: storedCartLocal 
-        });
-      } catch (err) {
-        console.error("Failed to delete from Firestore:", err);
+  });
+
+  cartDetails.innerHTML = html;
+  isCartLoaded = true;
+  attachCartEvents();
+  updateSummary();
+}
+
+/* CART EVENTS */
+function attachCartEvents() {
+  const cart = getLocalStorageCart();
+
+  cartDetails.querySelectorAll(".row[data-index]").forEach(row => {
+    const index = parseInt(row.dataset.index);
+    const deleteBtn = row.querySelector(".delete-btn");
+    const decrementBtn = row.querySelector(".decrement-btn");
+    const incrementBtn = row.querySelector(".increment-btn");
+    const quantityInput = row.querySelector(".quantity");
+
+    deleteBtn.addEventListener("click", () => {
+      cart.splice(index, 1);
+      setLocalStorageCart(cart);
+      saveLStoFS();
+      showItemsFromCart();
+    });
+
+    decrementBtn.addEventListener("click", () => {
+      if (cart[index].quantity > 1) {
+        cart[index].quantity--;
+        setLocalStorageCart(cart);
+        saveLStoFS();
+        quantityInput.value = cart[index].quantity;
+        updateSummary();
       }
+    });
+
+    incrementBtn.addEventListener("click", () => {
+      cart[index].quantity++;
+      setLocalStorageCart(cart);
+      saveLStoFS();
+      quantityInput.value = cart[index].quantity;
+      updateSummary();
+    });
+  });
+}
+
+function itemMessages(msg, index) {
+  const msgDiv = document.createElement("div");
+  msgDiv.id = "itemMessage";
+  msgDiv.className = `alert alert-warning rounded-2 text-center fs-5`;
+  msgDiv.textContent = msg;
+  msgDiv.style.position = "absolute";
+  msgDiv.style.top = "30%";
+  msgDiv.style.left = "50%";
+  msgDiv.style.transform = "translateX(-50%)";
+  msgDiv.style.zIndex = "1000";
+  msgDiv.style.display = "inline-block";
+  msgDiv.style.whiteSpace = "nowrap";
+  msgDiv.style.padding = "0.5rem 1rem";
+  const selectedChild = cartDetails.children[index];
+  selectedChild.style.position = 'relative';
+  selectedChild.appendChild(msgDiv)
+
+  setTimeout(() => {
+    msgDiv.remove();
+  }, 2000);
+}
+
+/* STOCK CHECK*/
+async function stockCheck(cartLS) {
+  let errors = [];
+  let checkResult = 1;
+  for (let index = 0; index < cartLS.length; index++) {
+    const item = cartLS[index];
+    const productRef = doc(db, "products", item.id);
+    const productSnap = await getDoc(productRef);
+    if (!productSnap.exists()) {
+      errors.push("There was a problem with this product!", index)
+      checkResult = -1;
     }
 
-  }
-}
+    const variants = productSnap.data().variants;
+    const variantINDEX = variants.findIndex(m => m.color === item.color);
+    if (variantINDEX === -1) {
+      errors.push("There was a problem with this product!", index)
+      checkResult = -1;
+    }
 
-function changeCountInLocal(index, change) {
-  const storedCartLocal = safeGetCart();
-  const idx = storedCartLocal.findIndex(item =>
-    item.id === storedCart[index].id &&
-    item.name === storedCart[index].name &&
-    item.price === storedCart[index].price &&
-    item.color === storedCart[index].color &&
-    item.timestamp === storedCart[index].timestamp
-  );
-  if (idx !== -1) {
-    storedCartLocal[idx].quantity += change;
-    localStorage.setItem("carts", JSON.stringify(storedCartLocal));
-  }
-}
+    const variantSizes = variants[variantINDEX].sizes;
+    const sizeIndex = variantSizes.findIndex(m => m.size === item.size);
+    if (sizeIndex === -1) {
+      errors.push("There was a problem with this product!", index)
+      checkResult = -1;
+    }
 
-async function syncFireStoreWithLocalStorage() {
-  if (cartId && cartId !== 0) {
-    try {
-      const storedCartLocal = safeGetCart();
-      const cartRef = doc(db, "carts", cartId);
-      if (storedCartLocal.length !== 0) {
-        await updateDoc(cartRef, {
-          items: storedCartLocal 
-        });
-      } else {
-        const cartSnap = await getDoc(cartRef);
-        if (cartSnap.exists()) {
-          const cartItemsFS = cartSnap.data().items || [];
-          localStorage.setItem("carts", JSON.stringify(cartItemsFS));
-          storedCart = cartItemsFS;;
-        } else {
-          console.log("No cart found in Firestore for this user");
-        }
-      }
-
-    } catch (err) {
-      console.error("Failed to sync with Firestore:", err);
+    const stockQuantity = variantSizes[sizeIndex].quantity;
+    if (item.quantity > stockQuantity) {
+      errors.push(`Only ${stockQuantity} left in stock`, index)
+      checkResult = -1;
     }
   }
+console.log(errors);
+  for (let i = 0 ;i<errors.length;i+=2) {
+    itemMessages(errors[i],errors[i+1])
+    
+    
+  }
+
+  return checkResult;
 }
 
-function recalcSubtotal() {
-  const storedCartLocal = safeGetCart();
-  let total = 0;
-  for (const item of storedCartLocal) {
-    total += item.price * item.quantity;
+/* CHECKOUT*/
+checkoutBTN.addEventListener('click', async () => {
+  checkoutBTN.disabled = true;
+  const originalText = checkoutBTN.innerHTML;
+  checkoutBTN.innerHTML = 'Loading Cart...<span class="spinner"><span>';
+  if (!isCartLoaded) {
+    showMessage('Please wait for the cart to load', 'warning');
+    checkoutBTN.innerHTML = originalText;
+    checkoutBTN.disabled = false;
+    return;
   }
-  subTotal = Number(total);
-}
-
-onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    const userRef = doc(db, "users", user.uid);
-    const userSnap = await getDoc(userRef);
-    if (userSnap.exists()) {
-      cartId = userSnap.data().cartID;
-      userID = user.uid;
-      if (userSnap.data().phone.length !== 0)
-        document.getElementById('phoneNumber').value = userSnap.data().phone;
-    }
-  } else {
-    cartId = 0;
+  const user = auth.currentUser;
+  checkoutBTN.innerHTML = 'Checking user...<span class="spinner"><span>';
+  if (!user) {
+    // Not logged in
+    showMessage('⚠️ You must log in before checkout', 'danger');
+    checkoutBTN.innerHTML = originalText;
+    checkoutBTN.disabled = false;
+    return;
   }
-  showItemsFromCart();
-
+  checkoutBTN.innerHTML = 'Checking stock...<span class="spinner"><span>';
+  // check stock before placing order
+  const stockStatus = await stockCheck(getLocalStorageCart());
+  console.log('stockStatus: ',stockStatus);
+  
+  if (stockStatus === 1) {
+    hide_for_checkout.forEach((item) => {
+      item.classList.add('d-none');
+    })
+    showCheckoutForm();
+  }
+  checkoutBTN.innerHTML = originalText;
+  checkoutBTN.disabled = false;
 })
 
-// Helper: render loading spinner
-function showLoading() {
-  cartDetails.innerHTML = `
-    <div class="d-flex justify-content-center align-items-center p-5">
-      <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-    </div>
-  `;
-}
-
+/* PROMO BUTTON */
 promoBtn.addEventListener("click", async () => {
   const code = promoInput.value.trim().toUpperCase();
 
@@ -335,7 +370,7 @@ promoBtn.addEventListener("click", async () => {
 
       // Apply discount
       appliedDiscount = promo.discountPercent / 100;
-      showMessage(`✅ Promo applied! ${appliedDiscount*100}% off`, "success");
+      showMessage(`✅ Promo applied! ${appliedDiscount * 100}% off`, "success");
       updateSummary();
 
     } catch (err) {
@@ -352,30 +387,7 @@ promoBtn.addEventListener("click", async () => {
   }
 });
 
-
-checkoutBTN.addEventListener('click', () => {
-  checkoutBTN.disabled = true;
-  const originalText = checkoutBTN.innerHTML;
-  if (!isCartLoaded) {
-    showMessage('Please wait for the cart to load', 'warning');
-    checkoutBTN.disabled = false;
-    return;
-  }
-  const user = auth.currentUser;
-  if (!user) {
-    // Not logged in
-    showMessage('⚠️ You must log in before checkout', 'danger');
-    checkoutBTN.disabled = false;
-    return;
-  } else {
-    console.log(hide_for_checkout)
-    hide_for_checkout.forEach((item) => {
-      item.classList.add('d-none');
-    })
-    showCheckoutForm();
-  }
-})
-
+/* BACK TO CART BUTTON */
 backToCartBtn.addEventListener('click', (e) => {
   e.preventDefault();
   hide_for_checkout.forEach((item) => {
@@ -384,100 +396,8 @@ backToCartBtn.addEventListener('click', (e) => {
   showCart();
 });
 
-// Handle checkout form submission
-/* document.getElementById('checkoutDetails').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  placeorderbtn.disabled = true;
-  const originalText = placeorderbtn.innerHTML;
-  placeorderbtn.innerHTML = `placing order..<span class="spinner"></span>`;
-  try {
-    // Collect address fields
-
-    // Save order to Firestore
-    const orderId = `${Date.now()}`;
-    const orderRef = doc(db, 'orders', orderId);
-    await setDoc(orderRef, {
-      userId: auth.currentUser.uid,
-      cart: safeGetCart(),
-      total: totalEl.textContent.replace('$', ''),
-      address: {
-        streetAddress,
-        city,
-        state,
-        zipCode,
-        country,
-        phoneNumber
-      },
-      timestamp: new Date(),
-      cardLastFour: lastFourDigits,
-    });
-
-    // Update user's orders array
-    const userRef = doc(db, 'users', auth.currentUser.uid);
-    await updateDoc(userRef, {
-      orders: arrayUnion(orderId)
-    }).catch(async (error) => {
-      // If user document doesn't exist, create it with the orders array
-      if (error.code === 'not-found') {
-        await setDoc(userRef, {
-          orders: [orderId]
-        });
-      } else {
-        throw error; // Re-throw other errors
-      }
-    });
-
-
-    // Clear cart
-    localStorage.setItem('carts', JSON.stringify([]));
-    await updateDoc(doc(db, 'carts', cartId), { items: [] });
-    hide_for_checkout.forEach((item) => {
-      item.classList.remove('d-none');
-    })
-    showItemsFromCart();
-    updateSummary();
-    showCart()
-    const modal = new bootstrap.Modal(document.getElementById('orderSuccessModal'));
-    modal.show();
-    document.getElementById('goToOrders').addEventListener('click', () => {
-      window.location.href = "./orders.html";
-    })
-  } catch (err) {
-    console.error('Checkout error:', err);
-    alert('Failed to place order');
-  }
-}); */
-
-
-/*
-ORDERS TABLE
-  userId,
-  userAddress,
-  items,
-  total,
-  phone,
-  payment_method,
-  promocode,
-  currency,
-  status (FAILED, PAID, SHIPPED, DELIVERED),
-  createdAt,
-  transactionNumber (from stripe),
- 
-TRANSACTION TABLE ()
-  orderId,
-  transactionNumber (from stripe),
-  paymentResult,
-  payment_method,
-  createdAt,
-  failureReason
-
-  create order document for orders (both succesful and failed)
-  create transcation document for failed orders
-  
-  
-*/
-
-document.getElementById("checkoutDetails").addEventListener("submit", async (e) => {
+/* PLACING ORDERS */
+checkoutDetails.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   // check if user is logged in
@@ -504,7 +424,7 @@ document.getElementById("checkoutDetails").addEventListener("submit", async (e) 
   const phoneNumber = document.getElementById('phoneNumber').value;
 
   const orderId = `${Date.now()}`;
-  const cartItems = safeGetCart();
+  const cartItems = getLocalStorageCart();
   const userId = user.uid;
   const discount = appliedDiscount;
 
@@ -536,22 +456,21 @@ document.getElementById("checkoutDetails").addEventListener("submit", async (e) 
   }
 });
 
+/* INIT */
+document.addEventListener("DOMContentLoaded", () => {
+  showItemsFromCart();
+});
 
-
-
-
-showLoading();
-
-function safeGetCart() {
-  try {
-    const data = localStorage.getItem("carts");
-    if (!data) return [];
-    const parsed = JSON.parse(data);
-    if (!Array.isArray(parsed)) throw new Error("Cart is not an array");
-    return parsed;
-  } catch (err) {
-    console.warn("Corrupted cart in localStorage, resetting...", err);
-    localStorage.setItem("carts", JSON.stringify([]));
-    return [];
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    const userRef = doc(db, "users", user.uid);
+    const userSnap = await getDoc(userRef);
+    if (userSnap.exists()) {
+      cartId = userSnap.data().cartID;
+      await mergeFS_LS(cartId);
+    }
+  } else {
+    cartId = null; // guest cart only
+    showItemsFromCart();
   }
-}
+});

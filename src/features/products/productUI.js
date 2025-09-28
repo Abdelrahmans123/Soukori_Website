@@ -278,10 +278,11 @@ function generatePageNumbers(currentPage, totalPages) {
 function addProductEventListeners() {
 	document.querySelectorAll(".addToCartBtn").forEach((btn) => {
 		btn.addEventListener("click", function (e) {
+			console.log('yeb')
 			e.preventDefault();
 			const productId = this.dataset.productId;
 			// go to product details page
-			window.location.href = `/pages/Product/productDetails.html?id=${productId}`;
+			window.location.href = `./productDetails.html?id=${productId}`;
 			this.innerHTML = '<i class="fas fa-check me-2"></i>Check Options!';
 			this.style.backgroundColor = "#28a745";
 			setTimeout(() => {
@@ -310,7 +311,7 @@ function addProductEventListeners() {
 			e.preventDefault();
 			const productId = this.dataset.productId;
 			// go to product details page
-			window.location.href = `/pages/Product/productDetails.html?id=${productId}`;
+			window.location.href = `./productDetails.html?id=${productId}`;
 		});
 	});
 }

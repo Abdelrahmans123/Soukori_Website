@@ -13,6 +13,7 @@ import {
 	setDoc,
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 import db from "../../config/firebase.js";
+import { auth } from "../../javascripts/Auth/firebase-config.js";
 export const getProductById = async (productId) => {
 	const productRef = doc(db, "products", productId);
 	const productSnap = await getDoc(productRef);

@@ -16,14 +16,14 @@
 }
 /* Ensure the main container allows for overflow control */
 main.container {
-  overflow-x: hidden; /* Prevent horizontal scrollbar on main container */
+  overflow-x: hidden; 
 }
 
 /* Wrapper for cart and checkout form */
 .cart-checkout-wrapper {
   position: relative;
   width: 100%;
-  min-height: 400px; /* Ensure wrapper has enough height for content */
+  min-height: 400px; 
 }
 
 /* Cart container */
@@ -31,33 +31,33 @@ main.container {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem; /* Add gap between cart items and order summary */
+  gap: 0.5rem; 
 }
 
 #cartContainer .col-12.col-lg-8,
 #cartContainer .col-12.col-lg-4 {
-  padding: 0; /* Remove default Bootstrap padding if needed */
+  padding: 0; 
 }
 
 /* Checkout form */
 .checkout-form {
   width: 100%;
-  display: none; /* Hidden by default */
+  display: none; 
 }
 
 /* Show checkout form when active */
 .cart-checkout-wrapper.slide-to-checkout .checkout-form {
-  display: block; /* Show checkout form when active */
+  display: block; 
 }
 
 /* Hide cart when checkout is shown */
 .cart-checkout-wrapper.slide-to-checkout #cartContainer {
-  display: none; /* Hide cart completely when checkout is shown */
+  display: none; 
 }
 
 /* Prevent horizontal overflow in checkout form */
 .checkout-form .p-3 {
-  overflow-x: hidden; /* Prevent scrollbar within checkout form */
+  overflow-x: hidden; 
   box-sizing: border-box;
 }
 
@@ -71,41 +71,41 @@ main.container > footer {
 /* Inline form group styling */
 .form-group-inline {
   display: flex;
-  align-items: center; /* Vertically align label and input */
-  gap: 1rem; /* Space between label and input */
+  align-items: center; 
+  gap: 1rem; 
 }
 
 /* Ensure label width is consistent */
 .form-group-inline .form-label {
-  flex: 0 0 auto; /* Prevent label from stretching */
-  width: 150px; /* Fixed width for labels; adjust as needed */
-  margin-bottom: 0; /* Remove default margin from Bootstrap's form-label */
+  flex: 0 0 auto; 
+  width: 150px; 
+  margin-bottom: 0; 
 }
 
-/* Ensure input takes remaining space */
+
 .form-group-inline .form-control {
-  flex: 1; /* Input takes remaining width */
+  flex: 1; 
 }
 
 /* Responsive adjustments for smaller screens */
 @media (max-width: 576px) {
   .form-group-inline {
-    flex-direction: column; /* Stack label and input on small screens */
-    align-items: stretch; /* Stretch items to full width */
+    flex-direction: column; 
+    align-items: stretch; 
   }
   .form-group-inline .form-label {
-    width: auto; /* Remove fixed width on small screens */
-    margin-bottom: 0.25rem; /* Small margin for stacked layout */
+    width: auto; 
+    margin-bottom: 0.25rem; 
   }
   .form-group-inline .form-control {
-    width: 100%; /* Ensure input takes full width */
+    width: 100%; 
   }
 }
 
 /* Responsive adjustments */
 @media (min-width: 992px) {
   #cartContainer {
-    display: flex; /* Maintain flex for cart items and order summary */
+    display: flex; 
     flex-wrap: wrap;
   }
   .checkout-form {

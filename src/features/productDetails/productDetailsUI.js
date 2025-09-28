@@ -30,17 +30,16 @@ let productData = null;
 let userId;
 
 const cartBadge = document.querySelector(
-  ".badge.rounded-pill.bg-danger"
+	".badge.rounded-pill.bg-danger"
 );
 
 function updateCartBadge() {
-  const carts = JSON.parse(localStorage.getItem("carts")) || [];
-
-  if (carts.length > 0) {
-    cartBadge.textContent = `${carts.length + 1}`; // make sure it’s visible
-  } else {
-    cartBadge.textContent = "";
-  }
+	const carts = JSON.parse(localStorage.getItem("carts")) || [];
+	if (carts.length > 0) {
+		cartBadge.textContent = `${carts.length}`; // make sure it’s visible
+	} else {
+		cartBadge.textContent = "";
+	}
 }
 
 export class ProductPage {
@@ -135,9 +134,8 @@ export class ProductPage {
 
 		productData.variants.forEach((variant, index) => {
 			const colorOption = document.createElement("div");
-			colorOption.className = `colorOption ${
-				index === 0 ? "active" : ""
-			} shadow`;
+			colorOption.className = `colorOption ${index === 0 ? "active" : ""
+				} shadow`;
 			colorOption.style.backgroundColor = variant.color;
 
 			// If it's the first color, add a check icon right away
@@ -201,9 +199,8 @@ export class ProductPage {
 
 		sizes.forEach((sizeInfo) => {
 			const sizeOption = document.createElement("div");
-			sizeOption.className = `sizeOption ${
-				sizeInfo.quantity === 0 ? "out-of-stock" : ""
-			}`;
+			sizeOption.className = `sizeOption ${sizeInfo.quantity === 0 ? "out-of-stock" : ""
+				}`;
 			sizeOption.innerHTML = `<p>${sizeInfo.size}</p>`;
 			sizeOption.dataset.size = sizeInfo.size;
 			sizeOption.dataset.quantity = sizeInfo.quantity;
@@ -319,7 +316,6 @@ export class ProductPage {
 			this.showNotification("Not enough stock available", "error");
 			return;
 		}
-		updateCartBadge();
 
 		const cartItem = {
 			id: productData.id,
@@ -339,21 +335,32 @@ export class ProductPage {
 
 			if (!user) {
 				// Handle guest cart (local storage only)
-				cart.push(cartItem);
+				const index = cart.findIndex(item => item.id === cartItem.id && item.color === cartItem.color && item.size === cartItem.size);
+				if (index > -1) {
+					cart[index].quantity += cartItem.quantity || 0;
+				} else {
+					cart.push(cartItem)
+				}
 				localStorage.setItem("carts", JSON.stringify(cart));
 				this.showNotification("Added to cart", "success");
 				return;
 			}
 
 			console.log("Adding to cart for user:", user.uid);
-
+			const cartId = localStorage.getItem('cartId');
+			
 			// Add to Firestore cart using the utility function
-			await addCartToFirestore(cartItem, new Date(), user.uid);
+			await addCartToFirestore(cartItem, new Date(), cartId);
 
 			// Update local cart copy
-			cart.push(cartItem);
+			const index = cart.findIndex(item => item.id === cartItem.id && item.color === cartItem.color && item.size === cartItem.size);
+			if (index > -1) {
+				cart[index].quantity += cartItem.quantity || 0;
+			} else {
+				cart.push(cartItem)
+			}
 			localStorage.setItem("carts", JSON.stringify(cart));
-
+			updateCartBadge();
 			this.showNotification("Cart updated successfully!", "success");
 
 			// Update stock locally
@@ -494,8 +501,8 @@ export class ProductPage {
                             </div>
                             <p class="card-text">${review.comment}</p>
                             <p class="postDate">Posted on ${new Date(
-															review.createdAt.seconds * 1000
-														).toLocaleDateString()}</p>
+			review.createdAt.seconds * 1000
+		).toLocaleDateString()}</p>
                         </div>
                     </div>
                 `;

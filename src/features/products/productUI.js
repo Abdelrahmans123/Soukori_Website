@@ -552,16 +552,23 @@ function generatePageNumbers(currentPage, totalPages) {
 
     return pagesHTML;
 }
-
 function addProductEventListeners() {
     // Add to cart buttons
     document.querySelectorAll(".addToCartBtn").forEach((btn) => {
         btn.addEventListener("click", function (e) {
             e.preventDefault();
             const productId = this.dataset.productId;
-            
+
             // Navigate to product details page
             window.location.href = `./productDetails.html?id=${productId}`;
+
+            // Temporary UI feedback
+            this.innerHTML = '<i class="fas fa-check me-2"></i>Check Options!';
+            this.style.backgroundColor = "#28a745";
+            setTimeout(() => {
+                this.innerHTML = '<i class="fas fa-shopping-cart me-2"></i>Add to Cart';
+                this.style.backgroundColor = "";
+            }, 2000);
         });
     });
 
@@ -589,7 +596,6 @@ function addProductEventListeners() {
         btn.addEventListener("click", function (e) {
             e.preventDefault();
             const productId = this.dataset.productId;
-            
             // Navigate to product details page
             window.location.href = `./productDetails.html?id=${productId}`;
         });

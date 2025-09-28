@@ -188,13 +188,13 @@ function showItemsFromCart() {
 }
 
 function updateCartBadge() {
-    const carts = JSON.parse(localStorage.getItem("carts")) || [];
-    const cartBadge = document.querySelector(".badge.rounded-pill.bg-danger");
-    if (carts.length > 0) {
-        cartBadge.textContent = `${carts.length}`; // make sure it's visible
-    } else {
-        cartBadge.textContent = "";
-    }
+  const carts = JSON.parse(localStorage.getItem("carts")) || [];
+  const cartBadge = document.querySelector(".badge.rounded-pill.bg-danger");
+  if (carts.length > 0) {
+    cartBadge.textContent = `${carts.length}`; // make sure it's visible
+  } else {
+    cartBadge.textContent = "";
+  }
 }
 
 /* CART EVENTS */
@@ -314,6 +314,12 @@ checkoutBTN.addEventListener('click', async () => {
   if (!user) {
     // Not logged in
     showMessage('⚠️ You must log in before checkout', 'danger');
+    checkoutBTN.innerHTML = originalText;
+    checkoutBTN.disabled = false;
+    return;
+  }
+  if (!user.emailVerified) {
+    showMessage('⚠️ Please verify your email before checkout', 'danger');
     checkoutBTN.innerHTML = originalText;
     checkoutBTN.disabled = false;
     return;

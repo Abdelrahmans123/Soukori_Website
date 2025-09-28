@@ -555,13 +555,11 @@ export class CategoriesPage {
 				}));
 
 				if (selectedCategories.length === 0) {
-					alert("Please select categories to perform bulk action.");
-					e.target.value = "";
-					return;
-				}
-
-				const confirmMessage = `Are you sure you want to ${action} ${selectedCategories.length} category(ies)?`;
-				if (!confirm(confirmMessage)) {
+					Swal.fire({
+						icon: "warning",
+						title: "No Categories Selected",
+						text: "Please select categories to perform bulk action.",
+					});
 					e.target.value = "";
 					return;
 				}
@@ -600,7 +598,11 @@ export class CategoriesPage {
 					);
 				} catch (error) {
 					console.error(`Error performing bulk ${action}:`, error);
-					alert(`Failed to ${action} categories. Please try again.`);
+					Swal.fire({
+						icon: "error",
+						title: "Action Failed",
+						text: `Failed to ${action} categories. Please try again.`,
+					});
 				} finally {
 					e.target.disabled = false;
 					e.target.value = "";
@@ -669,7 +671,11 @@ export class CategoriesPage {
 			this.showSuccessMessage("Category updated successfully!");
 		} catch (error) {
 			console.error("Error updating category:", error);
-			alert("Failed to update category. Please try again.");
+			Swal.fire({
+				icon: "error",
+				title: "Update Failed",
+				text: "Failed to update category. Please try again.",
+			});
 		} finally {
 			updateBtn.disabled = false;
 			spinner.classList.add("d-none");
@@ -795,17 +801,35 @@ export class CategoriesPage {
 	}
 
 	async deleteCategory(categoryId) {
-		if (confirm("Are you sure you want to delete this category?")) {
-			await deleteCategoryById(categoryId);
-			this.showSuccessMessage("Category deleted successfully!");
-			// Re-render the page to reflect deletion
-			const newContainer = await this.renderCategories();
-			const mainContent = document.getElementById("main-content");
-			if (mainContent) {
-				mainContent.innerHTML = "";
-				mainContent.appendChild(newContainer);
+		Swal.fire({
+			title: "Are you sure?",
+			text: "This action cannot be undone.",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonText: "Yes, delete it!",
+			cancelButtonText: "Cancel",
+		}).then(async (result) => {
+			if (result.isConfirmed) {
+				try {
+					await deleteCategoryById(categoryId);
+					// Remove the row from the table
+					const row = document.querySelector(
+						`tr[data-category-id="${categoryId}"]`
+					);
+					if (row) {
+						row.remove();
+					}
+					this.showSuccessMessage("Category deleted successfully!");
+				} catch (error) {
+					console.error("Error deleting category:", error);
+					Swal.fire({
+						icon: "error",
+						title: "Delete Failed",
+						text: "Failed to delete category. Please try again.",
+					});
+				}
 			}
-		}
+		});
 	}
 
 	populateAddModalParentOptions(categories, container) {
@@ -889,7 +913,11 @@ export class CategoriesPage {
 			}
 		} catch (error) {
 			console.error("Error adding category:", error);
-			alert("Failed to add category. Please try again.");
+			Swal.fire({
+				icon: "error",
+				title: "Add Failed",
+				text: "Failed to add category. Please try again.",
+			});
 		} finally {
 			saveBtn.disabled = false;
 			spinner.classList.add("d-none");
@@ -897,23 +925,11 @@ export class CategoriesPage {
 	}
 
 	showSuccessMessage(message) {
-		const alertDiv = document.createElement("div");
-		alertDiv.className = "alert alert-success alert-dismissible fade show mt-3";
-		alertDiv.innerHTML = `
-			${message}
-			<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-		`;
-
-		const container = document.querySelector(".categories-page");
-		if (container) {
-			container.insertBefore(alertDiv, container.firstChild.nextSibling);
-
-			setTimeout(() => {
-				if (alertDiv && alertDiv.parentNode) {
-					alertDiv.remove();
-				}
-			}, 3000);
-		}
+		Swal.fire({
+			icon: "success",
+			title: "Success",
+			text: message,
+		});
 	}
 
 	renderEmptyState() {

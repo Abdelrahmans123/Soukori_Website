@@ -22,8 +22,78 @@ export class ReviewsPage {
 		this.currentReviews = [];
 		this.reviewStats = null;
 		this.pagination = new Pagination(10, "reviews");
+		this.currentStatusFilter = "";
+	}
+	async applyStatusFilter(status) {
+		try {
+			console.log("Applying status filter:", status);
+			this.currentStatusFilter = status;
+			this.currentReviews = [];
+			await this.refreshCurrentView();
+		} catch (error) {
+			console.error("Error applying status filter:", error);
+			this.hideLoading();
+			Swal.fire({
+				icon: "error",
+				title: "Filter Error",
+				text: "Failed to apply status filter. Please try again.",
+			});
+		}
 	}
 
+	// Add this method to show empty state for filters
+	renderFilteredEmptyState(status) {
+		const container = document.createElement("div");
+		container.className = "reviews-page";
+
+		const statusText = status.charAt(0).toUpperCase() + status.slice(1);
+
+		container.innerHTML = `
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>${this.pageTitle}</h1>
+            <div class="d-flex align-items-center gap-3">
+                <div class="filter-dropdown">
+                    <select id="statusFilter" class="form-select">
+                        <option value="">All Reviews</option>
+                        <option value="approved" ${
+													status === "approved" ? "selected" : ""
+												}>Approved</option>
+                        <option value="pending" ${
+													status === "pending" ? "selected" : ""
+												}>Pending</option>
+                        <option value="refused" ${
+													status === "refused" ? "selected" : ""
+												}>Refused</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="text-center py-5">
+            <div class="mb-3">
+                <i class="fa fa-filter fa-3x text-muted"></i>
+            </div>
+            <h4>No ${statusText} Reviews Found</h4>
+            <p class="text-muted">No reviews match the selected "${statusText}" status filter.</p>
+            <button class="btn btn-outline-primary" id="clearFilterBtn">
+                <i class="fa fa-times"></i> Clear Filter
+            </button>
+        </div>
+    `;
+
+		// Add event listeners
+		this.addEventListeners(container);
+
+		const mainContent = document.getElementById("main-content");
+		if (mainContent) {
+			mainContent.innerHTML = "";
+			mainContent.appendChild(container);
+			mainContent.style.display = "block";
+		}
+
+		this.hideLoading();
+	}
+
+	// Updated renderReviews method with client-side filter support
 	async renderReviews() {
 		console.log("=== RENDER REVIEWS START ===");
 		this.showLoading();
@@ -70,10 +140,28 @@ export class ReviewsPage {
 				}
 			}
 
-			// Double-check we have reviews
-			if (!this.currentReviews || this.currentReviews.length === 0) {
-				console.log("Still no reviews after loading attempt");
+			// Apply client-side filtering if needed
+			let displayReviews = this.currentReviews;
+			if (this.currentStatusFilter) {
+				console.log("Applying client-side filter:", this.currentStatusFilter);
+				displayReviews = this.currentReviews.filter(
+					(review) => review.status === this.currentStatusFilter
+				);
+
+				if (displayReviews.length === 0) {
+					console.log("No reviews match filter:", this.currentStatusFilter);
+					this.hideLoading();
+					return this.renderFilteredEmptyState(this.currentStatusFilter);
+				}
+			}
+
+			// Double-check we have reviews to display
+			if (!displayReviews || displayReviews.length === 0) {
+				console.log("Still no reviews after loading/filtering attempt");
 				this.hideLoading();
+				if (this.currentStatusFilter) {
+					return this.renderFilteredEmptyState(this.currentStatusFilter);
+				}
 				return this.renderEmptyState();
 			}
 
@@ -81,7 +169,7 @@ export class ReviewsPage {
 
 			// Fetch user and product data for each review
 			const reviewsWithDetails = await Promise.all(
-				this.currentReviews.map(async (review) => {
+				displayReviews.map(async (review) => {
 					const [user, product] = await Promise.all([
 						getUserById(review.userId),
 						getProductById(review.productId),
@@ -105,7 +193,10 @@ export class ReviewsPage {
 			const paginationInfo = this.pagination.getPaginationInfo();
 			console.log("Pagination info:", paginationInfo);
 
-			const totalReviewsDisplay = paginationInfo.total;
+			// Adjust total count display for filtered results
+			const totalReviewsDisplay = this.currentStatusFilter
+				? reviewsWithDetails.length
+				: paginationInfo.total;
 
 			// Generate modals with enhanced data
 			const editModalsHTML = reviewsWithDetails
@@ -121,173 +212,205 @@ export class ReviewsPage {
 				.join("");
 
 			container.innerHTML = `
-			<div class="d-flex justify-content-between align-items-center mb-4">
-				<h1>${this.pageTitle}</h1>
-				<div class="d-flex align-items-center gap-3">
-					<div class="text-muted">
-						<small>Page ${paginationInfo.currentPage} of ${
-				paginationInfo.totalPages
-			} (${totalReviewsDisplay} total reviews)</small>
-					</div>
-					<div class="bulk-actions">
-						<select id="bulkAction" class="form-select">
-							<option value="" selected disabled>Bulk Actions</option>
-							<option value="approved">Mark as Approved</option>
-							<option value="pending">Mark as Pending</option>
-							<option value="flagged">Mark as Flagged</option>
-							<option value="delete">Delete</option>
-						</select>
-					</div>
-					<div class="filter-dropdown">
-						<select id="statusFilter" class="form-select">
-							<option value="">All Reviews</option>
-							<option value="approved">Approved</option>
-							<option value="pending">Pending</option>
-							<option value="flagged">Flagged</option>
-						</select>
-					</div>
-				</div>
-			</div>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>${this.pageTitle}</h1>
+            <div class="d-flex align-items-center gap-3">
+                <div class="text-muted">
+                    <small>
+                        ${
+													this.currentStatusFilter
+														? `Showing ${reviewsWithDetails.length} ${this.currentStatusFilter} reviews`
+														: `Page ${paginationInfo.currentPage} of ${paginationInfo.totalPages} (${totalReviewsDisplay} total reviews)`
+												}
+                    </small>
+                </div>
+                <div class="bulk-actions">
+                    <select id="bulkAction" class="form-select">
+                        <option value="" selected disabled>Bulk Actions</option>
+                        <option value="approved">Mark as Approved</option>
+                        <option value="pending">Mark as Pending</option>
+                        <option value="refused">Mark as Refused</option>
+                        <option value="delete">Delete</option>
+                    </select>
+                </div>
+                <div class="filter-dropdown">
+                    <select id="statusFilter" class="form-select">
+                        <option value="" ${
+													!this.currentStatusFilter ? "selected" : ""
+												}>All Reviews</option>
+                        <option value="approved" ${
+													this.currentStatusFilter === "approved"
+														? "selected"
+														: ""
+												}>Approved</option>
+                        <option value="pending" ${
+													this.currentStatusFilter === "pending"
+														? "selected"
+														: ""
+												}>Pending</option>
+                        <option value="refused" ${
+													this.currentStatusFilter === "refused"
+														? "selected"
+														: ""
+												}>Refused</option>
+                    </select>
+                </div>
+            </div>
+        </div>
 
-			
-			
-			<div class="card">
-				<div class="card-header">
-					<h5 class="mb-0">All Reviews</h5>
-				</div>
-				<div class="card-body p-0">
-					<div class="table-responsive">
-						<table class="table table-hover mb-0">
-							<thead class="table-light">
-								<tr>
-									<th scope="col">
-										<input type="checkbox" class="form-check-input" id="selectAll">
-									</th>
-									<th scope="col">Customer</th>
-									<th scope="col">Product</th>
-									<th scope="col">Rating</th>
-									<th scope="col">Review</th>
-									<th scope="col">Status</th>
-									<th scope="col">Date</th>
-									<th scope="col">Actions</th>
-								</tr>
-							</thead>
-							<tbody>
-								${reviewsWithDetails
-									.map((review, index) => this.generateReviewRow(review, index))
-									.join("")}
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    ${
+											this.currentStatusFilter
+												? `${
+														this.currentStatusFilter.charAt(0).toUpperCase() +
+														this.currentStatusFilter.slice(1)
+												  } Reviews`
+												: "All Reviews"
+										}
+                </h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th scope="col">
+                                    <input type="checkbox" class="form-check-input" id="selectAll">
+                                </th>
+                                <th scope="col">Customer</th>
+                                <th scope="col">Product</th>
+                                <th scope="col">Rating</th>
+                                <th scope="col">Review</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${reviewsWithDetails
+															.map((review, index) =>
+																this.generateReviewRow(review, index)
+															)
+															.join("")}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
-			<!-- Pagination Controls -->
-			${
-				paginationInfo.totalPages > 1
-					? `
-			<div class="d-flex justify-content-between align-items-center mt-4">
-				<div class="text-muted">
-					Showing ${reviewsWithDetails.length} reviews on page ${
-							paginationInfo.currentPage
-					  } of ${Math.max(1, paginationInfo.totalPages)}
-				</div>
-				<nav aria-label="Reviews pagination">
-					<ul class="pagination pagination-sm mb-0">
-						<li class="page-item ${
-							!paginationInfo.hasPrev || paginationInfo.currentPage <= 1
-								? "disabled"
-								: ""
-						}">
-							<button class="page-link" id="firstPageBtn">
-								<i class="fa fa-angle-double-left"></i> First
-							</button>
-						</li>
-						<li class="page-item ${
-							!paginationInfo.hasPrev || paginationInfo.currentPage <= 1
-								? "disabled"
-								: ""
-						}">
-							<button class="page-link" id="prevPageBtn">
-								<i class="fa fa-angle-left"></i> Previous
-							</button>
-						</li>
-						
-						${this.generatePageNumbers(
-							paginationInfo.currentPage,
-							paginationInfo.totalPages
-						)}
-						
-						<li class="page-item ${
-							!paginationInfo.hasNext ||
-							paginationInfo.currentPage >= paginationInfo.totalPages
-								? "disabled"
-								: ""
-						}">
-							<button class="page-link" id="nextPageBtn">
-								Next <i class="fa fa-angle-right"></i>
-							</button>
-						</li>
-						<li class="page-item ${
-							!paginationInfo.hasNext ||
-							paginationInfo.currentPage >= paginationInfo.totalPages
-								? "disabled"
-								: ""
-						}">
-							<button class="page-link" id="lastPageBtn">
-								Last <i class="fa fa-angle-double-right"></i>
-							</button>
-						</li>
-					</ul>
-				</nav>
-			</div>
-            <!-- Stats Cards -->
-			<div class="row mt-4">
-				<div class="col-md-3">
-					<div class="card bg-primary text-white">
-						<div class="card-body">
-							<h5 class="card-title">Total Reviews</h5>
-							<h3 class="mb-0">${this.reviewStats?.total || 0}</h3>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3">
-					<div class="card bg-success text-white">
-						<div class="card-body">
-							<h5 class="card-title">Approved</h5>
-							<h3 class="mb-0">${this.reviewStats?.approved || 0}</h3>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3">
-					<div class="card bg-warning text-white">
-						<div class="card-body">
-							<h5 class="card-title">Pending</h5>
-							<h3 class="mb-0">${this.reviewStats?.pending || 0}</h3>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3">
-					<div class="card bg-info text-white">
-						<div class="card-body">
-							<h5 class="card-title">Average Rating</h5>
-							<h3 class="mb-0">${this.reviewStats?.averageRating || 0}/5</h3>
-						</div>
-					</div>
-				</div>
-			</div>
-			`
-					: ""
-			}
+        <!-- Pagination Controls - Hide when filtering -->
+        ${
+					!this.currentStatusFilter && paginationInfo.totalPages > 1
+						? `
+        <div class="d-flex justify-content-between align-items-center mt-4">
+            <div class="text-muted">
+                Showing ${reviewsWithDetails.length} reviews on page ${
+								paginationInfo.currentPage
+						  } of ${Math.max(1, paginationInfo.totalPages)}
+            </div>
+            <nav aria-label="Reviews pagination">
+                <ul class="pagination pagination-sm mb-0">
+                    <li class="page-item ${
+											!paginationInfo.hasPrev || paginationInfo.currentPage <= 1
+												? "disabled"
+												: ""
+										}">
+                        <button class="page-link" id="firstPageBtn">
+                            <i class="fa fa-angle-double-left"></i> First
+                        </button>
+                    </li>
+                    <li class="page-item ${
+											!paginationInfo.hasPrev || paginationInfo.currentPage <= 1
+												? "disabled"
+												: ""
+										}">
+                        <button class="page-link" id="prevPageBtn">
+                            <i class="fa fa-angle-left"></i> Previous
+                        </button>
+                    </li>
+                    
+                    ${this.generatePageNumbers(
+											paginationInfo.currentPage,
+											paginationInfo.totalPages
+										)}
+                    
+                    <li class="page-item ${
+											!paginationInfo.hasNext ||
+											paginationInfo.currentPage >= paginationInfo.totalPages
+												? "disabled"
+												: ""
+										}">
+                        <button class="page-link" id="nextPageBtn">
+                            Next <i class="fa fa-angle-right"></i>
+                        </button>
+                    </li>
+                    <li class="page-item ${
+											!paginationInfo.hasNext ||
+											paginationInfo.currentPage >= paginationInfo.totalPages
+												? "disabled"
+												: ""
+										}">
+                        <button class="page-link" id="lastPageBtn">
+                            Last <i class="fa fa-angle-double-right"></i>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        `
+						: ""
+				}
 
-			<!-- Modals -->
-			${editModalsHTML}
-			${showModalsHTML}
-			${replyModalsHTML}
-		`;
+        <!-- Stats Cards -->
+        <div class="row mt-4">
+            <div class="col-md-3">
+                <div class="card bg-primary text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Reviews</h5>
+                        <h3 class="mb-0">${this.reviewStats?.total || 0}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Approved</h5>
+                        <h3 class="mb-0">${this.reviewStats?.approved || 0}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-warning text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Pending</h5>
+                        <h3 class="mb-0">${this.reviewStats?.pending || 0}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-info text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Average Rating</h5>
+                        <h3 class="mb-0">${
+													this.reviewStats?.averageRating || 0
+												}/5</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modals -->
+        ${editModalsHTML}
+        ${showModalsHTML}
+        ${replyModalsHTML}
+    `;
 
 			this.addEventListeners(container);
-			this.addPaginationEventListeners(container);
+			if (!this.currentStatusFilter) {
+				this.addPaginationEventListeners(container);
+			}
 
 			console.log("Hiding loading and returning container");
 			this.hideLoading();
@@ -302,73 +425,91 @@ export class ReviewsPage {
 		}
 	}
 
-	// ========== PAGINATION METHODS ==========
-
-	generatePageNumbers(currentPage, totalPages) {
-		if (totalPages <= 1) {
-			return "";
-		}
-
-		let pages = "";
-		const maxVisiblePages = 5;
-		let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-		let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-
-		// Adjust start page if we don't have enough pages at the end
-		if (endPage - startPage + 1 < maxVisiblePages) {
-			startPage = Math.max(1, endPage - maxVisiblePages + 1);
-		}
-
-		for (let i = startPage; i <= endPage; i++) {
-			pages += `
-				<li class="page-item ${i === currentPage ? "active" : ""}">
-					<button class="page-link page-number-btn" data-page="${i}">
-						${i}
-					</button>
-				</li>
-			`;
-		}
-		return pages;
-	}
-
+	// Update pagination methods to work with filters
 	async goToFirstPage() {
 		try {
 			this.showLoading();
 			this.pagination.reset();
-			await this.pagination.getTotalCount();
-			const result = await this.pagination.getFirstPage();
+
+			let result;
+			if (this.currentStatusFilter) {
+				await this.pagination.getTotalCountWithFilter(
+					"status",
+					this.currentStatusFilter
+				);
+				result = await this.pagination.getFirstPageWithFilter(
+					"status",
+					this.currentStatusFilter
+				);
+			} else {
+				await this.pagination.getTotalCount();
+				result = await this.pagination.getFirstPage();
+			}
+
 			this.currentReviews = result.content;
 			await this.refreshCurrentView();
 		} catch (error) {
 			console.error("Error going to first page:", error);
 			this.hideLoading();
-			alert("Failed to load first page. Please try again.");
+			Swal.fire({
+				icon: "error",
+				title: "Error",
+				text: "Failed to load first page. Please try again.",
+			});
 		}
 	}
 
 	async goToPreviousPage() {
 		try {
 			this.showLoading();
-			const result = await this.pagination.getPreviousPage();
+
+			let result;
+			if (this.currentStatusFilter) {
+				result = await this.pagination.getPreviousPageWithFilter(
+					"status",
+					this.currentStatusFilter
+				);
+			} else {
+				result = await this.pagination.getPreviousPage();
+			}
+
 			this.currentReviews = result.content;
 			await this.refreshCurrentView();
 		} catch (error) {
 			console.error("Error going to previous page:", error);
 			this.hideLoading();
-			alert("Failed to load previous page. Please try again.");
+			Swal.fire({
+				icon: "error",
+				title: "Error",
+				text: "Failed to load previous page. Please try again.",
+			});
 		}
 	}
 
 	async goToNextPage() {
 		try {
 			this.showLoading();
-			const result = await this.pagination.getNextPage();
+
+			let result;
+			if (this.currentStatusFilter) {
+				result = await this.pagination.getNextPageWithFilter(
+					"status",
+					this.currentStatusFilter
+				);
+			} else {
+				result = await this.pagination.getNextPage();
+			}
+
 			this.currentReviews = result.content;
 			await this.refreshCurrentView();
 		} catch (error) {
 			console.error("Error going to next page:", error);
 			this.hideLoading();
-			alert("Failed to load next page. Please try again.");
+			Swal.fire({
+				icon: "error",
+				title: "Error",
+				text: "Failed to load next page. Please try again.",
+			});
 		}
 	}
 
@@ -377,29 +518,55 @@ export class ReviewsPage {
 			this.showLoading();
 			const paginationInfo = this.pagination.getPaginationInfo();
 			if (paginationInfo.totalPages > 0) {
-				const result = await this.pagination.goToPage(
-					paginationInfo.totalPages
-				);
+				let result;
+				if (this.currentStatusFilter) {
+					result = await this.pagination.goToPageWithFilter(
+						paginationInfo.totalPages,
+						"status",
+						this.currentStatusFilter
+					);
+				} else {
+					result = await this.pagination.goToPage(paginationInfo.totalPages);
+				}
 				this.currentReviews = result.content;
 				await this.refreshCurrentView();
 			}
 		} catch (error) {
 			console.error("Error going to last page:", error);
 			this.hideLoading();
-			alert("Failed to load last page. Please try again.");
+			Swal.fire({
+				icon: "error",
+				title: "Error",
+				text: "Failed to load last page. Please try again.",
+			});
 		}
 	}
 
 	async goToPage(pageNumber) {
 		try {
 			this.showLoading();
-			const result = await this.pagination.goToPage(pageNumber);
+
+			let result;
+			if (this.currentStatusFilter) {
+				result = await this.pagination.goToPageWithFilter(
+					pageNumber,
+					"status",
+					this.currentStatusFilter
+				);
+			} else {
+				result = await this.pagination.goToPage(pageNumber);
+			}
+
 			this.currentReviews = result.content;
 			await this.refreshCurrentView();
 		} catch (error) {
 			console.error(`Error going to page ${pageNumber}:`, error);
 			this.hideLoading();
-			alert(`Failed to load page ${pageNumber}. Please try again.`);
+			Swal.fire({
+				icon: "error",
+				title: "Error",
+				text: `Failed to load page ${pageNumber}. Please try again.`,
+			});
 		}
 	}
 
@@ -518,7 +685,21 @@ export class ReviewsPage {
 				}
 			}
 		});
+		// Handle clear filter button
+		container.addEventListener("click", (e) => {
+			if (e.target && e.target.id === "clearFilterBtn") {
+				const statusFilter = container.querySelector("#statusFilter");
+				console.log(
+					"🚀 ~ ReviewsPage ~ addEventListeners ~ statusFilter:",
+					statusFilter
+				);
 
+				if (statusFilter) {
+					statusFilter.value = "";
+					this.applyStatusFilter("");
+				}
+			}
+		});
 		// Handle update review buttons
 		container.addEventListener("click", (e) => {
 			if (e.target.id && e.target.id.startsWith("updateReviewBtn")) {
@@ -548,17 +729,14 @@ export class ReviewsPage {
 				}));
 
 				if (selectedReviews.length === 0) {
-					alert("Please select reviews to perform bulk action.");
+					Swal.fire({
+						icon: "warning",
+						title: "No Reviews Selected",
+						text: "Please select reviews to perform bulk action.",
+					});
 					e.target.value = "";
 					return;
 				}
-
-				const confirmMessage = `Are you sure you want to ${action} ${selectedReviews.length} review(s)?`;
-				if (!confirm(confirmMessage)) {
-					e.target.value = "";
-					return;
-				}
-
 				try {
 					e.target.disabled = true;
 					const reviewIds = selectedReviews.map((item) => item.reviewId);
@@ -576,11 +754,11 @@ export class ReviewsPage {
 							);
 							this.updateReviewRows(container, selectedReviews, "pending");
 							break;
-						case "flagged":
+						case "refused":
 							await Promise.all(
-								reviewIds.map((id) => updateReviewStatus(id, "flagged"))
+								reviewIds.map((id) => updateReviewStatus(id, "refused"))
 							);
-							this.updateReviewRows(container, selectedReviews, "flagged");
+							this.updateReviewRows(container, selectedReviews, "refused");
 							break;
 						case "delete":
 							await Promise.all(reviewIds.map((id) => deleteReviewById(id)));
@@ -599,17 +777,24 @@ export class ReviewsPage {
 					);
 				} catch (error) {
 					console.error(`Error performing bulk ${action}:`, error);
-					alert(`Failed to ${action} reviews. Please try again.`);
+					Swal.fire({
+						icon: "error",
+						title: "Error",
+						text: `Failed to ${action} reviews. Please try again.`,
+					});
 				} finally {
 					e.target.disabled = false;
 					e.target.value = "";
 				}
 			}
+			if (e.target && e.target.id === "statusFilter") {
+				const status = e.target.value;
+				await this.applyStatusFilter(status);
+			}
 		};
 
 		document.addEventListener("change", this.actionHandler);
 	}
-
 	// ========== HTML GENERATORS ==========
 
 	generateReviewRow(review, index) {
@@ -722,9 +907,9 @@ export class ReviewsPage {
 												<option value="approved" ${
 													review.status === "approved" ? "selected" : ""
 												}>Approved</option>
-												<option value="flagged" ${
-													review.status === "flagged" ? "selected" : ""
-												}>Flagged</option>
+												<option value="refused" ${
+													review.status === "refused" ? "selected" : ""
+												}>Refused</option>
 											</select>
 										</div>
 									</div>
@@ -931,9 +1116,9 @@ export class ReviewsPage {
 				return '<span class="badge bg-success">● Approved</span>';
 			case "pending":
 				return '<span class="badge bg-warning">● Pending</span>';
-			case "flagged":
+			case "refused":
 			case "rejected":
-				return '<span class="badge bg-danger">● Flagged</span>';
+				return '<span class="badge bg-danger">● Refused</span>';
 			case "archived":
 				return '<span class="badge bg-secondary">● Archived</span>';
 			default:
@@ -1045,7 +1230,11 @@ export class ReviewsPage {
 			this.showSuccessMessage("Review updated successfully!");
 		} catch (error) {
 			console.error("Error updating review:", error);
-			alert("Failed to update review. Please try again.");
+			Swal.fire({
+				icon: "error",
+				title: "Error",
+				text: "Failed to update review. Please try again.",
+			});
 		} finally {
 			updateBtn.disabled = false;
 			spinner.classList.add("d-none");
@@ -1092,7 +1281,11 @@ export class ReviewsPage {
 			await this.refreshCurrentView();
 		} catch (error) {
 			console.error("Error replying to review:", error);
-			alert("Failed to send reply. Please try again.");
+			Swal.fire({
+				icon: "error",
+				title: "Error",
+				text: "Failed to send reply. Please try again.",
+			});
 		} finally {
 			replyBtn.disabled = false;
 			spinner.classList.add("d-none");
@@ -1147,7 +1340,14 @@ export class ReviewsPage {
 			}
 		});
 	}
-
+	showErrorAlert(message) {
+		Swal.fire({
+			title: "Error",
+			text: message,
+			icon: "error",
+			confirmButtonText: "OK",
+		});
+	}
 	async deleteReview(reviewId) {
 		console.log("Attempting to delete review:", reviewId);
 
@@ -1242,6 +1442,9 @@ export class ReviewsPage {
 			icon: "success",
 			confirmButtonText: "OK",
 		});
+	}
+	getReviewByStatus(status) {
+		return this.currentReviews.filter((review) => review.status === status);
 	}
 
 	// ========== EMPTY STATE & ERROR HANDLING ==========

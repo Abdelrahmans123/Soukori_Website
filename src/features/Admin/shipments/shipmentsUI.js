@@ -7,7 +7,7 @@ import {
 } from "./firebase.js";
 import { Pagination } from "../../Pagination/firebase.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
-const auth=getAuth();
+const auth = getAuth();
 export class ShipmentsPage {
 	constructor() {
 		this.pageTitle = "Shipments";
@@ -53,7 +53,7 @@ export class ShipmentsPage {
 						return this.renderError(new Error("Invalid pagination result"));
 					}
 
-					this.currentShipments = paginatedResult.content; 
+					this.currentShipments = paginatedResult.content;
 					console.log("Shipments assigned:", this.currentShipments.length);
 				} catch (loadError) {
 					console.error("Error loading shipments:", loadError);
@@ -339,12 +339,16 @@ export class ShipmentsPage {
 			this.pagination.reset();
 			await this.pagination.getTotalCount();
 			const result = await this.pagination.getFirstPage();
-			this.currentShipments = result.content; // ✅ FIXED: Use currentShipments
+			this.currentShipments = result.content;
 			await this.refreshCurrentView();
 		} catch (error) {
 			console.error("Error going to first page:", error);
 			this.hideLoading();
-			alert("Failed to load first page. Please try again.");
+			Swal.fire({
+				icon: "error",
+				title: "Load Failed",
+				text: "Failed to load first page. Please try again.",
+			});
 		}
 	}
 
@@ -357,7 +361,11 @@ export class ShipmentsPage {
 		} catch (error) {
 			console.error("Error going to previous page:", error);
 			this.hideLoading();
-			alert("Failed to load previous page. Please try again.");
+			Swal.fire({
+				icon: "error",
+				title: "Load Failed",
+				text: "Failed to load previous page. Please try again.",
+			});
 		}
 	}
 
@@ -370,7 +378,11 @@ export class ShipmentsPage {
 		} catch (error) {
 			console.error("Error going to next page:", error);
 			this.hideLoading();
-			alert("Failed to load next page. Please try again.");
+			Swal.fire({
+				icon: "error",
+				title: "Load Failed",
+				text: "Failed to load next page. Please try again.",
+			});
 		}
 	}
 
@@ -382,13 +394,17 @@ export class ShipmentsPage {
 				const result = await this.pagination.goToPage(
 					paginationInfo.totalPages
 				);
-				this.currentShipments = result.content; // ✅ FIXED: Use currentShipments
+				this.currentShipments = result.content;
 				await this.refreshCurrentView();
 			}
 		} catch (error) {
 			console.error("Error going to last page:", error);
 			this.hideLoading();
-			alert("Failed to load last page. Please try again.");
+			Swal.fire({
+				icon: "error",
+				title: "Load Failed",
+				text: "Failed to load last page. Please try again.",
+			});
 		}
 	}
 
@@ -396,12 +412,16 @@ export class ShipmentsPage {
 		try {
 			this.showLoading();
 			const result = await this.pagination.goToPage(pageNumber);
-			this.currentShipments = result.content; // ✅ FIXED: Use currentShipments
+			this.currentShipments = result.content;
 			await this.refreshCurrentView();
 		} catch (error) {
 			console.error(`Error going to page ${pageNumber}:`, error);
 			this.hideLoading();
-			alert(`Failed to load page ${pageNumber}. Please try again.`);
+			Swal.fire({
+				icon: "error",
+				title: "Load Failed",
+				text: `Failed to load page ${pageNumber}. Please try again.`,
+			});
 		}
 	}
 
@@ -556,17 +576,14 @@ export class ShipmentsPage {
 				}));
 
 				if (selectedShipments.length === 0) {
-					alert("Please select shipments to perform bulk action.");
+					Swal.fire({
+						icon: "warning",
+						title: "No Shipments Selected",
+						text: "Please select shipments to perform bulk action.",
+					});
 					e.target.value = "";
 					return;
 				}
-
-				const confirmMessage = `Are you sure you want to ${action} ${selectedShipments.length} shipment(s)?`;
-				if (!confirm(confirmMessage)) {
-					e.target.value = "";
-					return;
-				}
-
 				try {
 					e.target.disabled = true;
 					const shipmentIds = selectedShipments.map((item) => item.shipmentId);
@@ -611,7 +628,11 @@ export class ShipmentsPage {
 					);
 				} catch (error) {
 					console.error(`Error performing bulk ${action}:`, error);
-					alert(`Failed to ${action} shipments. Please try again.`);
+					Swal.fire({
+						icon: "error",
+						title: "Action Failed",
+						text: `Failed to ${action} shipments. Please try again.`,
+					});
 				} finally {
 					e.target.disabled = false;
 					e.target.value = "";
@@ -1069,7 +1090,11 @@ export class ShipmentsPage {
 			await this.refreshCurrentView();
 		} catch (error) {
 			console.error("Error adding shipment:", error);
-			alert("Failed to create shipment. Please try again.");
+			Swal.fire({
+				icon: "error",
+				title: "Creation Failed",
+				text: "Failed to create shipment. Please try again.",
+			});
 		} finally {
 			saveBtn.disabled = false;
 			spinner.classList.add("d-none");
@@ -1134,7 +1159,11 @@ export class ShipmentsPage {
 			this.showSuccessMessage("Shipment updated successfully!");
 		} catch (error) {
 			console.error("Error updating shipment:", error);
-			alert("Failed to update shipment. Please try again.");
+			Swal.fire({
+				icon: "error",
+				title: "Update Failed",
+				text: "Failed to update shipment. Please try again.",
+			});
 		} finally {
 			updateBtn.disabled = false;
 			spinner.classList.add("d-none");
@@ -1191,36 +1220,34 @@ export class ShipmentsPage {
 	}
 
 	async deleteShipment(shipmentId) {
-		if (confirm("Are you sure you want to delete this shipment?")) {
-			try {
-				await deleteShipmentById(shipmentId);
-				this.showSuccessMessage("Shipment deleted successfully!");
-				await this.refreshCurrentView();
-			} catch (error) {
-				console.error("Error deleting shipment:", error);
-				alert("Failed to delete shipment. Please try again.");
+		Swal.fire({
+			title: "Are you sure you want to delete this shipment?",
+			icon: "warning",
+			showCancelButton: true,
+		}).then(async (result) => {
+			if (result.isConfirmed) {
+				try {
+					await deleteShipmentById(shipmentId);
+					this.showSuccessMessage("Shipment deleted successfully!");
+					await this.refreshCurrentView();
+				} catch (error) {
+					console.error("Error deleting shipment:", error);
+					Swal.fire({
+						icon: "error",
+						title: "Deletion Failed",
+						text: "Failed to delete shipment. Please try again.",
+					});
+				}
 			}
-		}
+		});
 	}
 
 	showSuccessMessage(message) {
-		const alertDiv = document.createElement("div");
-		alertDiv.className = "alert alert-success alert-dismissible fade show mt-3";
-		alertDiv.innerHTML = `
-			${message}
-			<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-		`;
-
-		const container = document.querySelector(".shipments-page");
-		if (container) {
-			container.insertBefore(alertDiv, container.firstChild.nextSibling);
-
-			setTimeout(() => {
-				if (alertDiv && alertDiv.parentNode) {
-					alertDiv.remove();
-				}
-			}, 3000);
-		}
+		Swal.fire({
+			icon: "success",
+			title: "Success",
+			text: message,
+		});
 	}
 
 	// ========== EMPTY STATE & ERROR HANDLING ==========

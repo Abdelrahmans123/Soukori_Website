@@ -170,9 +170,9 @@ export const getReviewStats = async () => {
 		const reviewsRef = collection(db, "reviews");
 		const [
 			totalSnapshot,
-			publishedSnapshot,
+			approvedSnapshot,
 			pendingSnapshot,
-			flaggedSnapshot,
+			refusedSnapshot,
 			fiveStarSnapshot,
 			fourStarSnapshot,
 			threeStarSnapshot,
@@ -180,9 +180,9 @@ export const getReviewStats = async () => {
 			oneStarSnapshot,
 		] = await Promise.all([
 			getCountFromServer(reviewsRef),
-			getCountFromServer(query(reviewsRef, where("status", "==", "published"))),
+			getCountFromServer(query(reviewsRef, where("status", "==", "approved"))),
 			getCountFromServer(query(reviewsRef, where("status", "==", "pending"))),
-			getCountFromServer(query(reviewsRef, where("status", "==", "flagged"))),
+			getCountFromServer(query(reviewsRef, where("status", "==", "refused"))),
 			getCountFromServer(query(reviewsRef, where("rating", "==", 5))),
 			getCountFromServer(query(reviewsRef, where("rating", "==", 4))),
 			getCountFromServer(query(reviewsRef, where("rating", "==", 3))),
@@ -191,9 +191,9 @@ export const getReviewStats = async () => {
 		]);
 
 		const total = totalSnapshot.data().count;
-		const published = publishedSnapshot.data().count;
+		const approved = approvedSnapshot.data().count;
 		const pending = pendingSnapshot.data().count;
-		const flagged = flaggedSnapshot.data().count;
+		const refused = refusedSnapshot.data().count;
 
 		const ratingCounts = {
 			5: fiveStarSnapshot.data().count,
@@ -217,9 +217,9 @@ export const getReviewStats = async () => {
 
 		return {
 			total,
-			published,
+			approved,
 			pending,
-			flagged,
+			refused,
 			ratingCounts,
 			averageRating: Math.round(averageRating * 10) / 10,
 		};

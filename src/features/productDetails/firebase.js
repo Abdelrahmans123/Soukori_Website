@@ -182,7 +182,7 @@ export const addReview = async (productId, comment, rating, title, userId) => {
 			title,
 			orderId: orderWithProduct.id,
 			userId: userId,
-			status: "approved",
+			status: "pending",
 			createdAt: new Date(),
 		});
 

@@ -1,16 +1,7 @@
 import {
-	collection,
-	query,
-	orderBy,
-	limit,
-	getDocs,
-	getCountFromServer,
 	doc,
 	getDoc,
-	addDoc,
 	updateDoc,
-	increment,
-	serverTimestamp,
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 import db from "../../config/firebase.js";
 import { auth } from "../../javascripts/Auth/firebase-config.js";

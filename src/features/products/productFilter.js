@@ -1226,6 +1226,13 @@ function addProductEventListeners() {
 			window.location.href = `/src/pages/Product/productDetails.html?id=${productId}`;
 		});
 	});
+	document.querySelectorAll(".quickViewBtn").forEach((btn) => {
+		btn.addEventListener("click", function (e) {
+			e.preventDefault();
+			const productId = this.dataset.productId;
+			window.location.href = `/src/pages/Product/productDetails.html?id=${productId}`;
+		});
+	});
 }
 
 // Make productFilters globally accessible

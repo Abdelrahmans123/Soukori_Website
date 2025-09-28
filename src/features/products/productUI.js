@@ -9,6 +9,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 import db from "../../config/firebase.js";
 
+
 const pageSize = 6;
 const tableName = "products";
 const productPagination = new Pagination(pageSize, tableName);
@@ -222,6 +223,8 @@ function updateBreadcrumbForSearch(searchTerm) {
 
 // Clear search function
 export function clearSearch() {
+
+    window.location.href = '../../pages/Product/product.html';
     isSearchMode = false;
     currentSearchTerm = '';
     searchResultsCount = 0;
@@ -237,31 +240,7 @@ export function clearSearch() {
         clearBtn.remove();
     }
 
-    // Restore normal pagination view
-    const paginationContainer = document.querySelector(".pagination");
-    if (paginationContainer) {
-        paginationContainer.style.display = '';
-    }
 
-    // Restore original breadcrumb
-    const breadcrumb = document.querySelector('.breadcrumb');
-    if (breadcrumb) {
-        breadcrumb.innerHTML = `
-            <li class="breadcrumb-item">
-                <a href="../../index.html">Home</a>
-                <i class="fa-solid fa-chevron-right"></i>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">Shop</li>
-        `;
-    }
-
-    // Reload normal products
-    initializeProducts();
-
-    // Update URL
-    const url = new URL(window.location);
-    url.searchParams.delete('search');
-    window.history.pushState({}, '', url);
 }
 
 // Existing pagination functions
@@ -552,23 +531,16 @@ function generatePageNumbers(currentPage, totalPages) {
 
     return pagesHTML;
 }
+
 function addProductEventListeners() {
     // Add to cart buttons
     document.querySelectorAll(".addToCartBtn").forEach((btn) => {
         btn.addEventListener("click", function (e) {
             e.preventDefault();
             const productId = this.dataset.productId;
-
+            
             // Navigate to product details page
             window.location.href = `./productDetails.html?id=${productId}`;
-
-            // Temporary UI feedback
-            this.innerHTML = '<i class="fas fa-check me-2"></i>Check Options!';
-            this.style.backgroundColor = "#28a745";
-            setTimeout(() => {
-                this.innerHTML = '<i class="fas fa-shopping-cart me-2"></i>Add to Cart';
-                this.style.backgroundColor = "";
-            }, 2000);
         });
     });
 
@@ -596,6 +568,7 @@ function addProductEventListeners() {
         btn.addEventListener("click", function (e) {
             e.preventDefault();
             const productId = this.dataset.productId;
+            
             // Navigate to product details page
             window.location.href = `./productDetails.html?id=${productId}`;
         });

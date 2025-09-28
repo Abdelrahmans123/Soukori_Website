@@ -488,7 +488,11 @@ export class OrdersPage {
 					);
 				} catch (error) {
 					console.error("Error updating order statuses:", error);
-					alert("Failed to update order statuses. Please try again.");
+					Swal.fire({
+						icon: "error",
+						title: "Update Failed",
+						text: "Failed to update order statuses. Please try again.",
+					});
 				} finally {
 					e.target.disabled = false;
 					e.target.value = "";
@@ -500,23 +504,11 @@ export class OrdersPage {
 	}
 
 	showSuccessMessage(message) {
-		const alertDiv = document.createElement("div");
-		alertDiv.className = "alert alert-success alert-dismissible fade show mt-3";
-		alertDiv.innerHTML = `
-            ${message}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        `;
-
-		const container = document.querySelector(".orders-page");
-		if (container) {
-			container.insertBefore(alertDiv, container.firstChild.nextSibling);
-
-			setTimeout(() => {
-				if (alertDiv && alertDiv.parentNode) {
-					alertDiv.remove();
-				}
-			}, 3000);
-		}
+		Swal.fire({
+			icon: "success",
+			title: "Success",
+			text: message,
+		});
 	}
 
 	renderEmptyState() {

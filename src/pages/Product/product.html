@@ -156,8 +156,8 @@
 									<div
 										class="category_filter d-flex justify-content-between align-items-center mt-2"
 									>
-										<div class="category_contenet cat_cont">
-											<p class="mb-0">cat_mens_clothing</p>
+										<div class="category_contenet">
+											<p class="mb-0">T-Shirt</p>
 										</div>
 										<div class="form-check">
 											<input
@@ -171,8 +171,8 @@
 									<div
 										class="category_filter d-flex justify-content-between align-items-center mt-2"
 									>
-										<div class="category_contenet cat_cont">
-											<p class="mb-0">cat_mens_pants</p>
+										<div class="category_contenet">
+											<p class="mb-0">Shorts</p>
 										</div>
 										<div class="form-check">
 											<input
@@ -186,8 +186,8 @@
 									<div
 										class="category_filter d-flex justify-content-between align-items-center mt-2"
 									>
-										<div class="category_contenet cat_cont">
-											<p class="mb-0">cat_mens_shirts</p>
+										<div class="category_contenet">
+											<p class="mb-0">Shirts</p>
 										</div>
 										<div class="form-check">
 											<input
@@ -201,8 +201,23 @@
 									<div
 										class="category_filter d-flex justify-content-between align-items-center mt-2"
 									>
-										<div class="category_contenet cat_cont">
-											<p class="mb-0">cat_running shoes</p>
+										<div class="category_contenet">
+											<p class="mb-0">Hoodie</p>
+										</div>
+										<div class="form-check">
+											<input
+												class="form-check-input"
+												type="radio"
+												name="radioDefault"
+												id="radioDefault1"
+											/>
+										</div>
+									</div>
+									<div
+										class="category_filter d-flex justify-content-between align-items-center mt-2"
+									>
+										<div class="category_contenet">
+											<p class="mb-0">Jeans</p>
 										</div>
 										<div class="form-check">
 											<input
@@ -232,18 +247,18 @@
 											id="range-min"
 											min="0"
 											max="500"
-											value="50"
+											value="0"
 										/>
 										<input
 											type="range"
 											id="range-max"
 											min="0"
 											max="500"
-											value="300"
+											value="500"
 										/>
 
-										<span class="value-label" id="min-label">$50</span>
-										<span class="value-label" id="max-label">$200</span>
+										<span class="value-label" id="min-label"></span>
+										<span class="value-label" id="max-label"></span>
 									</div>
 								</div>
 								<div class="colors_filter">
@@ -259,19 +274,19 @@
 									<div
 										class="colors_content d-flex flex-wrap justify-content-center mt-3 px-3"
 									>
-										<div class="colorOptions">
-											<div class="colorOption green"></div>
-											<div class="colorOption red"></div>
-											<div class="colorOption yellow"></div>
-											<div class="colorOption orange"></div>
-											<div class="colorOption aqua"></div>
-											<div class="colorOption blue">
+										<div class="colorOptions desktopColorOptions">
+											<div class="colorOption green" data-color="green"></div>
+											<div class="colorOption red" data-color="red"></div>
+											<div class="colorOption yellow" data-color="yellow"></div>
+											<div class="colorOption orange" data-color="orange"></div>
+											<div class="colorOption aqua" data-color="aqua"></div>
+											<div class="colorOption blue" data-color="blue">
 												<i class="fa-solid fa-check checkIcon"></i>
 											</div>
-											<div class="colorOption puple"></div>
-											<div class="colorOption pink"></div>
-											<div class="colorOption white"></div>
-											<div class="colorOption black"></div>
+											<div class="colorOption puple" data-color="puple"></div>
+											<div class="colorOption pink" data-color="pink"></div>
+											<div class="colorOption white" data-color="white"></div>
+											<div class="colorOption black" data-color="black"></div>
 										</div>
 									</div>
 								</div>
@@ -317,7 +332,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="brands_Filter">
+								<div class="brands_Filter dressCode_Filter">
 									<div
 										class="topContent d-flex justify-content-between align-items-center px-3 my-3"
 									>
@@ -391,7 +406,7 @@
 									</div>
 								</div>
 								<div class="applyFilterBtn">
-									<button class="btn" id="apply_button">Apply Filters</button>
+									<button class="btn">Apply Filters</button>
 								</div>
 							</div>
 						</div>

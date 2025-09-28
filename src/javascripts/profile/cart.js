@@ -157,7 +157,7 @@ function showItemsFromCart() {
     console.log('index', index);
     console.log('cart.length', cart.length);
 
-    
+
     html += `
       <div class="row align-items-center mb-3 pb-3 ${index === cart.length - 1 ? '' : 'border-bottom border-secondary-subtle'}" data-index="${index}">
         <div class="col-4 text-center">
@@ -187,6 +187,16 @@ function showItemsFromCart() {
   updateSummary();
 }
 
+function updateCartBadge() {
+    const carts = JSON.parse(localStorage.getItem("carts")) || [];
+    const cartBadge = document.querySelector(".badge.rounded-pill.bg-danger");
+    if (carts.length > 0) {
+        cartBadge.textContent = `${carts.length}`; // make sure it's visible
+    } else {
+        cartBadge.textContent = "";
+    }
+}
+
 /* CART EVENTS */
 function attachCartEvents() {
   const cart = getLocalStorageCart();
@@ -202,6 +212,7 @@ function attachCartEvents() {
       cart.splice(index, 1);
       setLocalStorageCart(cart);
       saveLStoFS();
+      updateCartBadge();
       showItemsFromCart();
     });
 
@@ -280,11 +291,8 @@ async function stockCheck(cartLS) {
       checkResult = -1;
     }
   }
-console.log(errors);
-  for (let i = 0 ;i<errors.length;i+=2) {
-    itemMessages(errors[i],errors[i+1])
-    
-    
+  for (let i = 0; i < errors.length; i += 2) {
+    itemMessages(errors[i], errors[i + 1])
   }
 
   return checkResult;
@@ -313,8 +321,8 @@ checkoutBTN.addEventListener('click', async () => {
   checkoutBTN.innerHTML = 'Checking stock...<span class="spinner"><span>';
   // check stock before placing order
   const stockStatus = await stockCheck(getLocalStorageCart());
-  console.log('stockStatus: ',stockStatus);
-  
+  console.log('stockStatus: ', stockStatus);
+
   if (stockStatus === 1) {
     hide_for_checkout.forEach((item) => {
       item.classList.add('d-none');

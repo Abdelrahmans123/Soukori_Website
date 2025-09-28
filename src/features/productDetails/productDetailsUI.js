@@ -35,9 +35,8 @@ const cartBadge = document.querySelector(
 
 function updateCartBadge() {
 	const carts = JSON.parse(localStorage.getItem("carts")) || [];
-
 	if (carts.length > 0) {
-		cartBadge.textContent = `${carts.length + 1}`; // make sure it’s visible
+		cartBadge.textContent = `${carts.length}`; // make sure it’s visible
 	} else {
 		cartBadge.textContent = "";
 	}
@@ -317,7 +316,6 @@ export class ProductPage {
 			this.showNotification("Not enough stock available", "error");
 			return;
 		}
-		updateCartBadge();
 
 		const cartItem = {
 			id: productData.id,
@@ -350,6 +348,7 @@ export class ProductPage {
 
 			console.log("Adding to cart for user:", user.uid);
 			const cartId = localStorage.getItem('cartId');
+			
 			// Add to Firestore cart using the utility function
 			await addCartToFirestore(cartItem, new Date(), cartId);
 
@@ -361,7 +360,7 @@ export class ProductPage {
 				cart.push(cartItem)
 			}
 			localStorage.setItem("carts", JSON.stringify(cart));
-
+			updateCartBadge();
 			this.showNotification("Cart updated successfully!", "success");
 
 			// Update stock locally

@@ -205,7 +205,7 @@ export class ProductPage {
 			sizeOption.dataset.size = sizeInfo.size;
 			sizeOption.dataset.quantity = sizeInfo.quantity;
 
-			if (sizeInfo.quantity > 0) {
+			if (sizeInfo.quantity >= 0) {
 				sizeOption.addEventListener("click", () => this.selectSize(sizeOption));
 			}
 

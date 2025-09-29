@@ -1,211 +1,403 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>SOUKORI - Add Product</title>
-    <link rel="icon" type="image/x-icon" href="../../../assets/image/icon.ico" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link rel="stylesheet" href="../../../styles/Admin/dashboard.css" />
-    <link rel="stylesheet" href="../../../styles/Admin/product.css" />
-     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">    
-</head>
-<body>
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <span class="logo">SOUKORI</span>
-        <nav>
-            <a href="../dashboard.html"><i class="fa-solid fa-table-cells-large"></i> DASHBOARD</a>
-            <a href="all.html"><i class="fa-regular fa-folder"></i> ALL PRODUCTS</a>
-            <a href="#"><i class="fa-regular fa-file-lines"></i> ORDER LIST</a>
-            <a href="#"><i class="fa-solid fa-layer-group"></i> CATEGORIES</a>
-            <a href="#"><i class="fa-solid fa-truck"></i> SHIPMENTS</a>
-        </nav>
-    </div>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>SOUKORI - Add Product</title>
+        <link
+            rel="icon"
+            type="image/x-icon"
+            href="../../../assets/image/icon.ico"
+        />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+        <link rel="stylesheet" href="../../../styles/Admin/dashboard.css" />
+        <link rel="stylesheet" href="../../../styles/Admin/product.css" />
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <link
+            href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
+            rel="stylesheet"
+        />
+    </head>
+    <body>
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <span class="logo">SOUKORI</span>
+            <nav>
+                <a href="./dashboard.html"
+                    ><i class="fa-solid fa-table-cells-large"></i> DASHBOARD</a
+                >
+                <a href="./product/all.html"
+                    ><i class="fa-regular fa-folder"></i>ALL PRODUCTS</a
+                >
+                <a href="./orders.html"
+                    ><i class="fa-regular fa-file-lines"></i> ORDER LIST</a
+                >
+                <a href="./categories.html"
+                    ><i class="fa-solid fa-layer-group"></i> CATEGORIES</a
+                >
+                <a href="./shipments.html"
+                    ><i class="fa-solid fa-truck"></i> SHIPMENTS</a
+                >
+                <a href="./reviews.html"
+                    ><i class="fa-regular fa-star"></i> REVIEWS</a
+                >
+            </nav>
+        </div>
 
-    <!-- Main -->
-    <div class="main">
-        <div class="header-bar d-flex align-items-center gap-3">
-            <button class="btn btn-light d-lg-none" id="toggleSidebar">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="dropdown">
-                <button class="btn btn-light" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fas fa-search"></i>
+        <!-- Main -->
+        <div class="main">
+            <div class="header-bar d-flex align-items-center gap-3">
+                <button class="btn btn-light d-lg-none" id="toggleSidebar">
+                    <i class="fas fa-bars"></i>
                 </button>
-                <div class="dropdown-menu p-3 shadow" style="min-width: 250px;">
-                    <form class="d-flex">
-                        <input type="text" class="form-control me-2" placeholder="Type to search..." />
-                        <button type="submit" class="btn btn-outline-dark">
-                            <i class="fas fa-search"></i>
+                <div class="dropdown">
+                    <button
+                        class="btn btn-light"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                    >
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <div
+                        class="dropdown-menu p-3 shadow"
+                        style="min-width: 250px"
+                    >
+                        <form class="d-flex">
+                            <input
+                                type="text"
+                                class="form-control me-2"
+                                placeholder="Type to search..."
+                            />
+                            <button type="submit" class="btn btn-outline-dark">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button
+                        class="btn btn-light position-relative"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                    >
+                        <i class="fas fa-bell"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow">
+                        <li><h6 class="dropdown-header">Notifications</h6></li>
+                        <li>
+                            <a class="dropdown-item" href="#"
+                                >New order received</a
+                            >
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#"
+                                >You have 2 new messages</a
+                            >
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#"
+                                >Server rebooted</a
+                            >
+                        </li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li>
+                            <a class="dropdown-item text-center" href="#"
+                                >View all</a
+                            >
+                        </li>
+                    </ul>
+                </div>
+                <div class="dropdown">
+                    <button
+                        class="btn btn-outline-dark dropdown-toggle"
+                        id="adminName"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                    ></button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li>
+                            <a class="dropdown-item" id="logoutBtn" href="#"
+                                >Logout</a
+                            >
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Add Product Form -->
+            <div class="container p-3 rounded-3 mb-3 bg-white">
+                <div
+                    class="d-flex justify-content-between align-items-center mt-4 mb-2"
+                >
+                    <div>
+                        <h3>Add New Product</h3>
+                        <small
+                            >Home &gt; All Products &gt; Add New Product</small
+                        >
+                    </div>
+                </div>
+
+                <form id="addProductForm">
+                    <div class="row">
+                        <!-- Left Column -->
+                        <div class="col-md-7">
+                            <!-- Basic Info -->
+                            <div class="mb-3">
+                                <label class="form-label fw-bold"
+                                    >Product Name *</label
+                                >
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="productName"
+                                    name="name"
+                                    required
+                                    placeholder="Enter product name"
+                                />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold"
+                                    >Description *</label
+                                >
+                                <textarea
+                                    class="form-control"
+                                    id="description"
+                                    name="description"
+                                    rows="3"
+                                    required
+                                    placeholder="Enter product description"
+                                ></textarea>
+                            </div>
+
+                            <!-- Brand and Category -->
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold"
+                                        >Brand *</label
+                                    >
+                                    <select
+                                        class="form-select"
+                                        id="brand"
+                                        name="brand"
+                                        required
+                                    >
+                                        <option value="">Select Brand</option>
+                                        <option value="Nike">Nike</option>
+                                        <option value="Adidas">Adidas</option>
+                                        <option value="Puma">Puma</option>
+                                        <option value="Champion">
+                                            Champion
+                                        </option>
+                                        <option value="Levis">Levis</option>
+                                        <option value="HM">H&M</option>
+                                        <option value="Zara">Zara</option>
+                                        <option value="GAP">GAP</option>
+                                        <option value="Tommy Hilfiger">
+                                            Tommy Hilfiger
+                                        </option>
+                                        <option value="Under Armour">
+                                            Under Armour
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold"
+                                        >Category *</label
+                                    >
+                                    <select
+                                        class="form-select"
+                                        id="categoryId"
+                                        name="categoryId"
+                                        required
+                                    >
+                                        <option value="">
+                                            Select Category
+                                        </option>
+                                        <option value="cat_mens_clothing">
+                                            Men's Clothing
+                                        </option>
+                                        <option value="cat_womens_clothing">
+                                            Women's Clothing
+                                        </option>
+                                        <option value="cat_shoes">Shoes</option>
+                                        <option value="cat_accessories">
+                                            Accessories
+                                        </option>
+                                        <option value="cat_sports">
+                                            Sports
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Base Price and Discount -->
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold"
+                                        >Base Price *</label
+                                    >
+                                    <input
+                                        type="number"
+                                        step="0.01"
+                                        class="form-control"
+                                        id="price"
+                                        name="price"
+                                        required
+                                        min="0"
+                                        placeholder="0.00"
+                                    />
+                                    <small class="text-muted"
+                                        >This will be used as default for
+                                        variants</small
+                                    >
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold"
+                                        >Discount</label
+                                    >
+                                    <input
+                                        type="number"
+                                        step="0.01"
+                                        class="form-control"
+                                        id="discount"
+                                        name="discount"
+                                        min="0"
+                                        max="1"
+                                        placeholder="0.00"
+                                    />
+                                </div>
+                            </div>
+
+                            <!-- Status and Style -->
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold"
+                                        >Status *</label
+                                    >
+                                    <select
+                                        class="form-select"
+                                        id="status"
+                                        name="status"
+                                        required
+                                    >
+                                        <option value="available">
+                                            Available
+                                        </option>
+                                        <option value="unavailable">
+                                            Unavailable
+                                        </option>
+                                        <option value="out_of_stock">
+                                            Out of Stock
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-bold"
+                                        >Style</label
+                                    >
+                                    <select
+                                        class="form-select"
+                                        id="style"
+                                        name="style"
+                                    >
+                                        <option value="">Select Style</option>
+                                        <option value="Casual">Casual</option>
+                                        <option value="Formal">Formal</option>
+                                        <option value="Athletic">
+                                            Athletic
+                                        </option>
+                                        <option value="Vintage">Vintage</option>
+                                        <option value="Modern">Modern</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Product Variants Section -->
+                            <div class="mb-3">
+                                <div
+                                    class="d-flex justify-content-between align-items-center mb-3"
+                                >
+                                    <label class="form-label fw-bold"
+                                        >Product Variants</label
+                                    >
+                                    <button
+                                        type="button"
+                                        class="btn btn-outline-primary btn-sm"
+                                        id="addVariantBtn"
+                                    >
+                                        <i class="fas fa-plus"></i> Add Variant
+                                    </button>
+                                </div>
+
+                                <div id="variantsContainer">
+                                    <!-- Initial Variant will be added by JS -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Column - Additional Images -->
+                        <div class="col-md-5">
+                            <!-- Additional Images -->
+                            <div class="mb-3">
+                                <label class="form-label fw-bold"
+                                    >Additional Product Images</label
+                                >
+                                <div
+                                    class="product-gallery-dropzone"
+                                    id="galleryDropzone"
+                                    onclick="document.getElementById('galleryInput').click()"
+                                >
+                                    <span class="fs-1 d-block mb-2 text-muted"
+                                        ><i class="fa fa-image"></i
+                                    ></span>
+                                    Drop additional images here, or browse<br />
+                                    <small>Jpeg, png are allowed</small>
+                                </div>
+                                <input
+                                    type="file"
+                                    id="galleryInput"
+                                    accept="image/*"
+                                    multiple
+                                    class="d-none"
+                                />
+                            </div>
+
+                            <!-- Image Previews -->
+                            <div id="imagePreviewContainer"></div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="d-flex justify-content-end mt-4 gap-2">
+                        <button type="submit" class="btn btn-success px-4">
+                            <i class="fas fa-save"></i> SAVE PRODUCT
                         </button>
-                    </form>
-                </div>
-            </div>
-            <div class="dropdown">
-                <button class="btn btn-light position-relative" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fas fa-bell"></i>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end shadow">
-                    <li><h6 class="dropdown-header">Notifications</h6></li>
-                    <li><a class="dropdown-item" href="#">New order received</a></li>
-                    <li><a class="dropdown-item" href="#">You have 2 new messages</a></li>
-                    <li><a class="dropdown-item" href="#">Server rebooted</a></li>
-                    <li><hr class="dropdown-divider" /></li>
-                    <li><a class="dropdown-item text-center" href="#">View all</a></li>
-                </ul>
-            </div>
-            <div class="dropdown">
-                <button class="btn btn-outline-dark dropdown-toggle" id="adminName" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Profile</a></li>
-                     <li><a class="dropdown-item" id="logoutBtn" href="#">Logout</a></li>
-                </ul>
+                        <button
+                            type="button"
+                            class="btn btn-secondary px-4"
+                            onclick="window.location.href='all.html'"
+                        >
+                            <i class="fas fa-times"></i> CANCEL
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
 
-        <!-- Add Product Form -->
-        <div class="container p-3 rounded-3 mb-3 bg-white">
-            <div class="d-flex justify-content-between align-items-center mt-4 mb-2">
-                <div>
-                    <h3>Add New Product</h3>
-                    <small>Home &gt; All Products &gt; Add New Product</small>
-                </div>
-            </div>
-
-            <form id="addProductForm">
-                <div class="row">
-                    <!-- Left Column -->
-                    <div class="col-md-7">
-                        <!-- Basic Info -->
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Product Name *</label>
-                            <input type="text" class="form-control" id="productName" name="name" required placeholder="Enter product name">
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Description *</label>
-                            <textarea class="form-control" id="description" name="description" rows="3" required placeholder="Enter product description"></textarea>
-                        </div>
-
-                        <!-- Brand and Category -->
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">Brand *</label>
-                                <select class="form-select" id="brand" name="brand" required>
-                                    <option value="">Select Brand</option>
-                                    <option value="Nike">Nike</option>
-                                    <option value="Adidas">Adidas</option>
-                                    <option value="Puma">Puma</option>
-                                    <option value="Champion">Champion</option>
-                                    <option value="Levis">Levis</option>
-                                    <option value="HM">H&M</option>
-                                    <option value="Zara">Zara</option>
-                                    <option value="GAP">GAP</option>
-                                    <option value="Tommy Hilfiger">Tommy Hilfiger</option>
-                                    <option value="Under Armour">Under Armour</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">Category *</label>
-                                <select class="form-select" id="categoryId" name="categoryId" required>
-                                    <option value="">Select Category</option>
-                                    <option value="cat_mens_clothing">Men's Clothing</option>
-                                    <option value="cat_womens_clothing">Women's Clothing</option>
-                                    <option value="cat_shoes">Shoes</option>
-                                    <option value="cat_accessories">Accessories</option>
-                                    <option value="cat_sports">Sports</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Base Price and Discount -->
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">Base Price *</label>
-                                <input type="number" step="0.01" class="form-control" id="price" name="price" required min="0" placeholder="0.00">
-                                <small class="text-muted">This will be used as default for variants</small>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">Discount</label>
-                                <input type="number" step="0.01" class="form-control" id="discount" name="discount" min="0" max="1" placeholder="0.00">
-                            </div>
-                        </div>
-
-                        <!-- Status and Style -->
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">Status *</label>
-                                <select class="form-select" id="status" name="status" required>
-                                    <option value="available">Available</option>
-                                    <option value="unavailable">Unavailable</option>
-                                    <option value="out_of_stock">Out of Stock</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">Style</label>
-                                <select class="form-select" id="style" name="style">
-                                    <option value="">Select Style</option>
-                                    <option value="Casual">Casual</option>
-                                    <option value="Formal">Formal</option>
-                                    <option value="Athletic">Athletic</option>
-                                    <option value="Vintage">Vintage</option>
-                                    <option value="Modern">Modern</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Product Variants Section -->
-                        <div class="mb-3">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <label class="form-label fw-bold">Product Variants</label>
-                                <button type="button" class="btn btn-outline-primary btn-sm" id="addVariantBtn">
-                                    <i class="fas fa-plus"></i> Add Variant
-                                </button>
-                            </div>
-                            
-                            <div id="variantsContainer">
-                                <!-- Initial Variant will be added by JS -->
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Right Column - Additional Images -->
-                    <div class="col-md-5">
-                        <!-- Additional Images -->
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Additional Product Images</label>
-                            <div class="product-gallery-dropzone" id="galleryDropzone" onclick="document.getElementById('galleryInput').click()">
-                                <span class="fs-1 d-block mb-2 text-muted"><i class="fa fa-image"></i></span>
-                                Drop additional images here, or browse<br>
-                                <small>Jpeg, png are allowed</small>
-                            </div>
-                            <input type="file" id="galleryInput" accept="image/*" multiple class="d-none">
-                        </div>
-
-                        <!-- Image Previews -->
-                        <div id="imagePreviewContainer"></div>
-                    </div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="d-flex justify-content-end mt-4 gap-2">
-                    <button type="submit" class="btn btn-success px-4">
-                        <i class="fas fa-save"></i> SAVE PRODUCT
-                    </button>
-                    <button type="button" class="btn btn-secondary px-4" onclick="window.location.href='all.html'">
-                        <i class="fas fa-times"></i> CANCEL
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../../javascripts/admin/products/addProduct.js" type="module"></script>
-</body>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        <script
+            src="../../../javascripts/admin/products/addProduct.js"
+            type="module"
+        ></script>
+    </body>
 </html>

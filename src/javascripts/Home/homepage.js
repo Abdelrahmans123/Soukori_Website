@@ -428,11 +428,11 @@ class HomepageManager {
 
 	// Navigation methods
 	navigateToProduct(productId) {
-		window.location.href = `/src/pages/Product/productDetails.html?id=${productId}`;
+		window.location.href = `./pages/Product/productDetails.html?id=${productId}`;
 	}
 
 	navigateToShop() {
-		window.location.href = "/src/pages/Product/product.html";
+		window.location.href = "./pages/Product/product.html";
 	}
 
 	// Utility methods

@@ -25,6 +25,8 @@ const cartBadge = document.querySelector(
 );
 
 function updateCartBadge() {
+	console.log('cartBadge: ',cartBadge);
+	
 	const carts = JSON.parse(localStorage.getItem("carts")) || [];
 	if (carts.length > 0) {
 		cartBadge.textContent = `${carts.length}`; // make sure it’s visible

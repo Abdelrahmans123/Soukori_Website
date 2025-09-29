@@ -335,6 +335,7 @@ export class ProductPage {
 					cart.push(cartItem)
 				}
 				localStorage.setItem("carts", JSON.stringify(cart));
+				updateCartBadge();
 				this.showNotification("Added to cart", "success");
 				return;
 			}
@@ -354,6 +355,7 @@ export class ProductPage {
 			}
 			localStorage.setItem("carts", JSON.stringify(cart));
 			updateCartBadge();
+			
 			this.showNotification("Cart updated successfully!", "success");
 
 			// Update stock locally

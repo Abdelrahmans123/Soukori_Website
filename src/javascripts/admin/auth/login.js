@@ -37,7 +37,7 @@ onAuthStateChanged(auth, async (user) => {
 				}
 			} else {
 				console.log("User is not an admin or document not found");
-				window.location.href = "/src/index.html";
+				window.location.href = "../../../index.html";
 			}
 		} catch (error) {
 			console.error("Error checking admin status:", error);
@@ -50,7 +50,7 @@ onAuthStateChanged(auth, async (user) => {
 			!window.location.pathname.includes("login.html") &&
 			!window.location.pathname.includes("register.html")
 		) {
-			window.location.href = "/src/pages/admin/auth/login.html";
+			window.location.href = "../../auth/login.html";
 		}
 	}
 });
@@ -169,7 +169,7 @@ async function logout() {
 		localStorage.removeItem("userRole");
 		localStorage.removeItem("userName");
 		console.log("User logged out successfully");
-		window.location.href = "/src/pages/Auth/login.html";
+		window.location.href = "../../Auth/login.html";
 	} catch (error) {
 		console.error("Logout error:", error);
 		showError("Logout failed: " + error.message);
